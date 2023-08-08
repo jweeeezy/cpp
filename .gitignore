@@ -1,0 +1,10 @@
+# compilation files
+*.o
+
+# logfiles
+*.txt
+
+# executables
+megaphone
+phonebook
+

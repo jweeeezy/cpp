@@ -1,7 +1,6 @@
 NAME		= phonebook
 LOG_FILE	= logfile.txt
-SRC_FILES	= main.cpp \
-			  class.contact.cpp
+SRC_FILES	= main.cpp
 OBJ_FILES	= $(SRC_FILES:.cpp=.o)
 CC			= c++
 DEBUG_FLAG  = $(shell echo $$DEBUG_FLAG)
@@ -21,6 +20,5 @@ fclean:		clean
 				rm -rf $(NAME)
 re:			fclean
 				$(MAKE)
-
 run:		all
 			@./$(NAME) 2>$(LOG_FILE)
