@@ -1,10 +1,12 @@
-NAME		= phonebook
-LOG_FILE	= logfile.txt
-SRC_FILES	= main.cpp
-OBJ_FILES	= $(SRC_FILES:.cpp=.o)
-CC			= c++
-DEBUG_FLAG  = $(shell echo $$DEBUG_FLAG)
-CFLAGS		= -std=c++98 -Wall -Wextra -Werror $(DEBUG_FLAG)
+NAME		= 	phonebook
+LOG_FILE	=	logfile.txt
+SRC_FILES	=	main.cpp \
+				class.contact.cpp \
+				class.phonebook.cpp
+OBJ_FILES	= 	$(SRC_FILES:.cpp=.o)
+CC			= 	c++
+DEBUG_FLAG  = 	$(shell echo $$DEBUG_FLAG)
+CFLAGS		= 	-std=c++98 -Wall -Wextra -Werror $(DEBUG_FLAG)
 
 .PHONY:		all clean fclean re run
 
