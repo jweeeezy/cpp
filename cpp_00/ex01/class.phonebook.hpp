@@ -13,7 +13,7 @@ class Phonebook
 		std::array<Contact, 8> contact_list;
 
 		void	display_all(void);
-		//void	display_member(int index);
+		void	display_contact(int index);
 		//void	add();
 		//void	remove();???
 		//void	shift();????

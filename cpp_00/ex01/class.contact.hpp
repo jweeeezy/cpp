@@ -1,4 +1,9 @@
 
+#ifndef CLASS_CONTACT_H
+# define CLASS_CONTACT_H
+
+
+
 #include <string>
 
 class Contact
@@ -14,5 +19,7 @@ class Contact
 		Contact(void);
 		~Contact(void);
 };
+
+#endif // CLASS_CONTACT_H
 
 /* ************************************************************************** */
