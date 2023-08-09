@@ -7,6 +7,7 @@
 		/* use private instead of public if possible */
 		/* should exit work in any state? */
 		/* initialisation lists instead of hard coded assignments */
+		/* Handling of ctrl+d (loops in loops or the way it is currently)
 
 // ADD
 //	one field at a time, no empty fields!

@@ -2,8 +2,8 @@
 #include "class.phonebook.hpp"	// needed for Phonebook
 #include "phonebook.hpp"		// needed for MACROS
 #include <iostream>				// needed for cin, cout, cerr
-#include <cstdlib>				// needed for atoi()
-
+//#include <cstdlib>				// needed for atoi()
+#include <cctype>
 
 void	debug_log(std::string message)
 {
@@ -35,6 +35,22 @@ static bool	isnumber(std::string str_to_check)
 	debug_log("isnumber() returned true");
 	return (true);
 }
+
+
+static bool isalpha_string(std::string str_to_check)
+{
+	for (std::string::iterator itr = str_to_check.begin() ;
+			itr != str_to_check.end();
+			++itr)
+	{
+		if (isalpha(*itr) == false)
+			return (false);
+	}
+	return (true);
+}
+
+
+
 
 inline static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 {
@@ -69,10 +85,37 @@ inline static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 		loop_mode_search(phonebook, true);
 }
 
-inline static int	loop_mode_add(void)
+
+
+
+
+inline static void	loop_mode_add(Phonebook *phonebook)
 {
 	debug_log("ADD called");
-	return (EXIT_SUCCESS);
+	(void) phonebook;
+
+
+	std::string	buffer[5];
+
+	//firstname
+	std::cout << "Please enter the < first name >:" << std::endl;
+
+	std::cin >> buffer[1];
+
+	std::cout << "This is what you entered: " << buffer[1] << std::endl;
+
+	// @todo check with ifalpha_string
+
+
+
+	//lastname
+
+	//nickname
+
+	//phone number
+
+	//darkest secret
+	return ;
 }
 
 int	main_loop(void)
@@ -86,7 +129,7 @@ int	main_loop(void)
 		std::cin >> user_input;
 		if (user_input.compare("ADD") == 0)
 		{
-			loop_mode_add();
+			loop_mode_add(&phonebook);
 		}
 		else if(user_input.compare("SEARCH") == 0)
 		{
