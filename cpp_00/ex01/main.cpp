@@ -97,24 +97,26 @@ inline static void	loop_mode_add(Phonebook *phonebook)
 
 	std::string	buffer[5];
 
-	//firstname
+	//firstname with buffer[0]
 	std::cout << "Please enter the < first name >:" << std::endl;
 
-	std::cin >> buffer[1];
+	std::cin >> buffer[0];
 
-	std::cout << "This is what you entered: " << buffer[1] << std::endl;
+	std::cout << "This is what you entered: " << buffer[0] << std::endl;
 
 	// @todo check with ifalpha_string
+	// @todo if added, print an updated version of all data inputted
+	//lastname with buffer[1]
+
+	//nickname with buffer[2]
+
+	//phone number with buffer[3]
+
+	//darkest secret with buffer[4]
 
 
 
-	//lastname
-
-	//nickname
-
-	//phone number
-
-	//darkest secret
+	// @todo save into phonebook
 	return ;
 }
 
