@@ -19,7 +19,7 @@ void	debug_log(std::string message, int exit_status)
 
 int	main_loop(void)
 {
-	while (1)
+	while (std::cin.eof() == false)
 	{
 		Phonebook	pb;
 		std::string	user_input;
@@ -32,6 +32,7 @@ int	main_loop(void)
 		}
 		else if(user_input.compare("SEARCH") == 0)
 		{
+			//@note new loop?
 			std::string	index;
 
 			debug_log("SEARCH called");
@@ -39,7 +40,6 @@ int	main_loop(void)
 			// @todo pb.display();
 			std::cout << MESSAGE_SEARCH << std::endl;
 			std::cin >> index;
-
 			// @todo uncaught exception!!
 			if (std::stoi(index) < 0 || std::stoi(index) >= 9)
 			{
