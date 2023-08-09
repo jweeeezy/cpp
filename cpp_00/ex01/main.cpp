@@ -2,7 +2,7 @@
 #include "class.phonebook.hpp"	// needed for Phonebook
 #include "phonebook.hpp"		// needed for MACROS
 #include <iostream>				// needed for cin, cout, cerr
-//#include <cstdlib>				// needed for atoi()
+#include <cstdlib>				// needed for atoi(), MACROS
 #include <cctype>
 
 void	debug_log(std::string message)
@@ -19,23 +19,22 @@ void	debug_log(std::string message, int exit_status)
 	return ;
 }
 
-static bool	isnumber(std::string str_to_check)
+static bool	is_number_string(std::string str_to_check)
 {
-	debug_log("isnumber() called");
+	debug_log("is_number_string() called");
 	for (std::string::iterator itr = str_to_check.begin();
 			itr != str_to_check.end();
 			++itr)
 	{
 		if (isdigit(*itr) == 0)
 		{
-			debug_log("isnumber() returned false");
+			debug_log("is_number_string() returned false");
 			return(false);
 		}
 	}
-	debug_log("isnumber() returned true");
+	debug_log("is_number_string() returned true");
 	return (true);
 }
-
 
 static bool isalpha_string(std::string str_to_check)
 {
@@ -49,15 +48,12 @@ static bool isalpha_string(std::string str_to_check)
 	return (true);
 }
 
-
-
-
 inline static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 {
 	char	index[128];
 
 	//@todo clean up this code!
-	debug_log("SEARCH called");
+	debug_log("loop_mode_search() started");
 
 	if (is_looped == false)
 	{
@@ -70,7 +66,7 @@ inline static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 		std::cout << MESSAGE_SEARCH_BAD << std::endl;
 		std::cin >> index;
 	}
-	if (isnumber(index) == true && std::cin.eof() == false)
+	if (is_number_string(index) == true && std::cin.eof() == false)
 	{
 		int tmp;
 
@@ -85,39 +81,44 @@ inline static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 		loop_mode_search(phonebook, true);
 }
 
+inline static void add_next_field(	std::string field,
+									std::string *buffer,
+									int index,
+									bool is_looped)
+{
+		debug_log("add_next_field() started");
+		std::clog << is_looped << std::endl;
 
-
-
+		if (is_looped == true && index <= 2)
+			std::cout << MESSAGE_ADD_BAD_NAME << std::endl;
+		else if (is_looped == true && index == 3)
+			std::cout << MESSAGE_ADD_BAD_NUMBER << std::endl;
+		std::cout << "Please enter the " << field << ": ";
+		std::cin >> buffer[index];
+		//@todo check for ctrl+d
+		if ((isalpha_string(buffer[index]) == false && index != 3)
+			|| (is_number_string(buffer[index]) == false && index == 3))
+			add_next_field(field, buffer, index, true);
+		//@todo display new result
+}
 
 inline static void	loop_mode_add(Phonebook *phonebook)
 {
-	debug_log("ADD called");
+	debug_log("loop_mode_add() started");
 	(void) phonebook;
 
-
 	std::string	buffer[5];
-
-	//firstname with buffer[0]
-	std::cout << "Please enter the < first name >:" << std::endl;
-
-	std::cin >> buffer[0];
-
-	std::cout << "This is what you entered: " << buffer[0] << std::endl;
-
-	// @todo check with ifalpha_string
-	// @todo if added, print an updated version of all data inputted
-	//lastname with buffer[1]
-
-	//nickname with buffer[2]
-
-	//phone number with buffer[3]
-
-	//darkest secret with buffer[4]
-
-
-
+	std::string fields[] =
+	{	"first name", 
+		"last name", 
+		"nickname",
+		"phone number",
+		"darkest secret"};
+	for (size_t i = 0; i < 5; ++i)
+	{
+		add_next_field(fields[i], buffer, i, false);
+	}
 	// @todo save into phonebook
-	return ;
 }
 
 int	main_loop(void)
@@ -139,7 +140,7 @@ int	main_loop(void)
 		}
 		else if(user_input.compare("EXIT") == 0)
 		{
-			debug_log("EXIT called");
+			debug_log("loop_mode_exit started");
 			break ;
 		}
 	}
