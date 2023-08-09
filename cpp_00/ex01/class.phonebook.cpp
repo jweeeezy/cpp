@@ -20,18 +20,9 @@ void	Phonebook::display_all(void)
 	return ;
 }
 
-
 void	Phonebook::display_contact(int index)
 {
-	Contact	contact;
-
-	//@todo format!
-	contact = this->contact_list[index];
-	std::cout << contact.first_name << std::endl;
-	std::cout << contact.last_name << std::endl;
-	std::cout << contact.nickname << std::endl;
-	std::cout << contact.phone_number<< std::endl;
-	std::cout << contact.darkest_secret << std::endl;
+	this->contact_list[index].display();
 	return ;
 }
 
