@@ -14,7 +14,6 @@ class Phonebook
 		/*	---		functions		---	*/
 		void	display_all(void);
 		void	display_contact(int index);
-		//void	add();
 		//void	shift();????
 
 		/*	---		construction	---	*/

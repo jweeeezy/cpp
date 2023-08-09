@@ -6,6 +6,7 @@
 //	cleaning up in separate functions and less files mb?
 		/* use private instead of public if possible */
 		/* should exit work in any state? */
+		/* initialisation lists instead of hard coded assignments */
 
 // ADD
 //	one field at a time, no empty fields!

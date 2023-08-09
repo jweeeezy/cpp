@@ -19,7 +19,6 @@ void	debug_log(std::string message, int exit_status)
 	return ;
 }
 
-
 static bool	isnumber(std::string str_to_check)
 {
 	debug_log("isnumber() called");
@@ -37,40 +36,61 @@ static bool	isnumber(std::string str_to_check)
 	return (true);
 }
 
+inline static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
+{
+	char	index[128];
+
+	//@todo clean up this code!
+	debug_log("SEARCH called");
+
+	if (is_looped == false)
+	{
+		phonebook->display_all();
+		std::cout << MESSAGE_SEARCH << std::endl;
+		std::cin >> index;
+	}
+	else
+	{
+		std::cout << MESSAGE_SEARCH_BAD << std::endl;
+		std::cin >> index;
+	}
+	if (isnumber(index) == true && std::cin.eof() == false)
+	{
+		int tmp;
+
+		tmp = atoi(index);
+		if (tmp >= 0 && tmp <= 8)
+		{
+			std::cout << "You entered index = " << index << std::endl;
+			return ;
+		}
+	}
+	if (std::cin.eof() == false)
+		loop_mode_search(phonebook, true);
+}
+
+inline static int	loop_mode_add(void)
+{
+	debug_log("ADD called");
+	return (EXIT_SUCCESS);
+}
+
 int	main_loop(void)
 {
 	while (std::cin.eof() == false)
 	{
-		Phonebook	pb;
+		Phonebook	phonebook;
 		std::string	user_input;
 
 		std::cout << MESSAGE_WELCOME << std::endl;
 		std::cin >> user_input;
 		if (user_input.compare("ADD") == 0)
 		{
-			debug_log("ADD called");
+			loop_mode_add();
 		}
 		else if(user_input.compare("SEARCH") == 0)
 		{
-			//@note new loop?
-			char	index[128];
-
-			debug_log("SEARCH called");
-			pb.display_all();
-			std::cout << MESSAGE_SEARCH << std::endl;
-			std::cin >> index;
-
-			if (isnumber(index) == true)
-			{
-				int tmp;
-
-				tmp = atoi(index);
-				std::clog << tmp << std::endl;
-				if (tmp < 0 || tmp >= 9)
-				{
-					std::cout << MESSAGE_SEARCH_BAD << std::endl;
-				}
-			}
+			loop_mode_search(&phonebook, false);
 		}
 		else if(user_input.compare("EXIT") == 0)
 		{
