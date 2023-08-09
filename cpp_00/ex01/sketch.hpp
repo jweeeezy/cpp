@@ -1,6 +1,8 @@
 
 // General
 //	user input only: [ADD], [SEARCH], [EXIT]
+//	NO CONTAINERS!! (STD::STRING and STD::ARRAY are considered
+//		Containers!!
 //	cleaning up in separate functions and less files mb?
 		/* use private instead of public if possible */
 		/* should exit work in any state? */
@@ -36,3 +38,4 @@
 //		phone number
 //		darkest secret
 //	no empty fields!
+

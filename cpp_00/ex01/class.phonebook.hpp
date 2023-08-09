@@ -1,23 +1,23 @@
 
-
 #ifndef CLASS_PHONEBOOK_H
 # define CLASS_PHONEBOOK_H
 
-#include <array>
 #include "class.contact.hpp"
 
 class Phonebook
 {
 	public:
 
-		std::array<Contact, 8> contact_list;
+		/*	---		member	---	*/
+		Contact	contacts[8];
 
+		/*	---		functions		---	*/
 		void	display_all(void);
 		void	display_contact(int index);
 		//void	add();
-		//void	remove();???
 		//void	shift();????
 
+		/*	---		construction	---	*/
 		Phonebook( void );
 		~Phonebook( void );
 };

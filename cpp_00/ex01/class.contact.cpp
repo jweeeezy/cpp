@@ -5,6 +5,7 @@
 
 void	Contact::display(void)
 {
+	debug_log("Contact: display() called");
 	std::cout << this->first_name << std::endl;
 	std::cout << this->last_name << std::endl;
 	std::cout << this->nickname << std::endl;

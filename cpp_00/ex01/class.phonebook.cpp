@@ -17,12 +17,17 @@ void	Phonebook::display_all(void)
 				<< "|"
 				<< std::setw(10) << "nickname"
 				<< std::endl;
+	// for (size_t i = 0; i < 9; ++i)
+	// {
+	// 	this->display_contact(i);
+	// }
 	return ;
 }
 
 void	Phonebook::display_contact(int index)
 {
-	this->contact_list[index].display();
+	debug_log("Phonebook: display_contact() called");
+	this->contacts[index].display();
 	return ;
 }
 

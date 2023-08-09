@@ -1,7 +1,9 @@
 
-#include <iostream>				// needed for cin, cout, cerr
-#include "phonebook.hpp"		// needed for MACROS
 #include "class.phonebook.hpp"	// needed for Phonebook
+#include "phonebook.hpp"		// needed for MACROS
+#include <iostream>				// needed for cin, cout, cerr
+#include <cstdlib>				// needed for atoi()
+
 
 void	debug_log(std::string message)
 {
@@ -15,6 +17,24 @@ void	debug_log(std::string message, int exit_status)
 	if (DEBUG == true)
 		std::clog << "log: " << message << exit_status << std::endl;
 	return ;
+}
+
+
+static bool	isnumber(std::string str_to_check)
+{
+	debug_log("isnumber() called");
+	for (std::string::iterator itr = str_to_check.begin();
+			itr != str_to_check.end();
+			++itr)
+	{
+		if (isdigit(*itr) == 0)
+		{
+			debug_log("isnumber() returned false");
+			return(false);
+		}
+	}
+	debug_log("isnumber() returned true");
+	return (true);
 }
 
 int	main_loop(void)
@@ -33,18 +53,23 @@ int	main_loop(void)
 		else if(user_input.compare("SEARCH") == 0)
 		{
 			//@note new loop?
-			std::string	index;
+			char	index[128];
 
 			debug_log("SEARCH called");
 			pb.display_all();
-			// @todo pb.display();
 			std::cout << MESSAGE_SEARCH << std::endl;
 			std::cin >> index;
-			// @todo uncaught exception!!
-			if (std::stoi(index) < 0 || std::stoi(index) >= 9)
+
+			if (isnumber(index) == true)
 			{
-				std::cout << MESSAGE_SEARCH_BAD << std::endl;
-				// @todo reloop!
+				int tmp;
+
+				tmp = atoi(index);
+				std::clog << tmp << std::endl;
+				if (tmp < 0 || tmp >= 9)
+				{
+					std::cout << MESSAGE_SEARCH_BAD << std::endl;
+				}
 			}
 		}
 		else if(user_input.compare("EXIT") == 0)
