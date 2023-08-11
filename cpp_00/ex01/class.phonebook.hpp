@@ -10,11 +10,14 @@ class Phonebook
 
 		/*	---		member	---	*/
 		Contact	contacts[8];
+		size_t	index_add;
 
 		/*	---		functions		---	*/
 		void	display_all(void);
 		void	display_contact(int index);
-		//void	shift();????
+		void	display_headers_info(void);
+		void	display_headers_all(void);
+		void	add_contact(std::string *buffer);
 
 		/*	---		construction	---	*/
 		Phonebook( void );
