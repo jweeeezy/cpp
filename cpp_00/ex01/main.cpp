@@ -9,6 +9,11 @@
 #include <chrono>				// needed for seconds()
 #include <thread>				// needed for sleep_for()
 
+static inline void	sleep_for(long long duration)
+{
+	std::this_thread::sleep_for(std::chrono::seconds(duration));
+}
+
 void	debug_log(std::string message)
 {
 	if (DEBUG == true)
@@ -62,7 +67,7 @@ inline static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 	if (phonebook->isempty == true)
 	{
 		std::cout << MESSAGE_EMPTY_PHONEBOOK << std::endl;
-		std::this_thread::sleep_for(std::chrono::seconds(2));
+		sleep_for(WAIT_DURATION);
 		return ;
 	}
 
@@ -109,15 +114,12 @@ inline static void add_next_field(	Phonebook *phonebook,
 
 
 
-		// abstract this code so it only displays when needed
+		// @todo abstract this code so it only displays when needed
 		phonebook->display_headers_all();
 		for (size_t i = 0; i < index; ++i)
 		{
 			std::cout << std::right << std::setw(10) << buffer[i] << " ";
 		}
-		//std::cout << "\n" << std::endl;
-		// <--
-
 
 
 		if (std::cin.eof() == false)
@@ -156,13 +158,9 @@ inline static void	loop_mode_add(Phonebook *phonebook)
 	}
 
 
-
+	// @todo save into phonebook @note i think it works?
 	phonebook->add_contact(buffer);
-	//	shifts new contacts
 
-
-
-		// @todo save into phonebook
 }
 
 int	main_loop(void)
@@ -170,23 +168,33 @@ int	main_loop(void)
 	// while (std::cin.eof() == false)	//@todo break ctrl+d in steps
 	Phonebook	phonebook;
 
+	std::cout << MESSAGE_WELCOME << std::endl;
+	sleep_for(WAIT_DURATION);
+
+
 	while (std::cin.eof() == false)
 	{
 		std::string	user_input;
 
-		std::cout << MESSAGE_WELCOME << std::endl;
+		std::cout << "\n" << MESSAGE_MAIN << std::endl;
+		std::cout << "\n" << MESSAGE_MAIN_HINT << "\n" << std::endl;
+		std::cout << "$: ";
 		std::cin >> user_input;
 		if (user_input.compare("ADD") == 0)
 		{
+			std::cout << "\n" << MESSAGE_ADD << "\n" << std::endl;
 			loop_mode_add(&phonebook);
 		}
 		else if(user_input.compare("SEARCH") == 0)
 		{
+			std::cout << "\n" << MESSAGE_SEARCH << "\n" << std::endl;
 			loop_mode_search(&phonebook, false);
 		}
 		else if(user_input.compare("EXIT") == 0)
 		{
 			debug_log("loop_mode_exit started");
+			std::cout << "\n" << MESSAGE_EXIT << "\n" << std::endl;
+			sleep_for(WAIT_DURATION);
 			break ;
 		}
 	}
