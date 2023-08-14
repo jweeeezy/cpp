@@ -8,6 +8,10 @@
 # define DEBUG 0
 #endif // DEBUG
 
+
+#define TEST_MODE 1
+#define NORMAL_MODE 0
+
 # define MESSAGE_WELCOME "Welcome to the *phonebook* application!"
 # define MESSAGE_MAIN "< You are in the main menu >"
 # define MESSAGE_MAIN_HINT "Hint: Please enter one of the following commands:" \

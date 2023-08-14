@@ -207,17 +207,18 @@ int	main_loop(bool test_mode)
 int	main(int argc, char **argv)
 {
 	int		exit_status;
-	bool	test_mode;
 
 	exit_status = EXIT_SUCCESS;
-	test_mode = false;
-	(void) argc;
-	if (strcmp(argv[1], "test") == 0 || strcmp(argv[1], "TEST"))
+	if (argc > 2 && (strcmp(argv[1], "test") == 0 || strcmp(argv[1], "TEST")))
 	{
-		test_mode = true;
+		debug_log("program started in TEST_MODE");
+		exit_status = main_loop(TEST_MODE);
 	}
-	debug_log("program started");
-	exit_status = main_loop(test_mode);
+	else
+	{
+		debug_log("program started in NORMAL_MODE");
+		exit_status = main_loop(NORMAL_MODE);
+	}
 	debug_log("program exited with exit_status = ", exit_status);
 	return (exit_status);
 }
