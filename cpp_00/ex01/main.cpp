@@ -121,7 +121,7 @@ inline static void add_next_field(	Phonebook *phonebook,
 			std::cout << std::right << std::setw(10) << buffer[i] << " ";
 		}
 
-
+		// @todo restrict phone number to 15 digits
 		if (std::cin.eof() == false)
 		{
 			if ((isalpha_string(buffer[index]) == false && index != 3)
@@ -163,7 +163,7 @@ inline static void	loop_mode_add(Phonebook *phonebook)
 
 }
 
-int	main_loop(void)
+int	main_loop(bool test_mode)
 {
 	// while (std::cin.eof() == false)	//@todo break ctrl+d in steps
 	Phonebook	phonebook;
@@ -171,7 +171,10 @@ int	main_loop(void)
 	std::cout << MESSAGE_WELCOME << std::endl;
 	sleep_for(WAIT_DURATION);
 
-
+	if (test_mode == true)
+	{
+		phonebook.populate();
+	}
 	while (std::cin.eof() == false)
 	{
 		std::string	user_input;
@@ -201,13 +204,20 @@ int	main_loop(void)
 	return (EXIT_SUCCESS);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	int	exit_status;
+	int		exit_status;
+	bool	test_mode;
 
 	exit_status = EXIT_SUCCESS;
+	test_mode = false;
+	(void) argc;
+	if (strcmp(argv[1], "test") == 0 || strcmp(argv[1], "TEST"))
+	{
+		test_mode = true;
+	}
 	debug_log("program started");
-	exit_status = main_loop();
+	exit_status = main_loop(test_mode);
 	debug_log("program exited with exit_status = ", exit_status);
 	return (exit_status);
 }

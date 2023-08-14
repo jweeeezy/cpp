@@ -6,7 +6,28 @@
 #include <iomanip>	// needed for setw
 
 
-void	Phonebook::add_contact(std::string *buffer)
+void	Phonebook::populate()
+{
+	debug_log("phonebook: populate() called");
+
+    std::string contact_information[][5] =
+	{
+        {"Jakob", "Willert", "bubu", "1234567890123", "not funny"},
+        {"Alice", "Johnson", "ally", "5678912345678", "afraid of heights"},
+        {"Bob", "Smith", "bobby", "9012345678901", "loves romantic movies"},
+        {"Charlie", "Brown", "chuckles", "2345678901234", "scared of dogs"},
+        {"Daisy", "Miller", "day", "3456789012345", "has a twin"},
+        {"Edward", "Norton", "eddie", "4567890123456", "hates pickles"},
+        {"Fiona", "Shrek", "fifi", "5678901234567", "actually a princess"},
+        {"George", "Owen", "georgie", "6789012345678", "loves to sing in the shower"},
+    };
+	for (size_t i = 0; i < 8; ++i)
+	{
+		this->add_contact(contact_information[i]);
+	}
+}
+
+void	Phonebook::add_contact(std::string *info)
 {
 	debug_log("phonebook: add_contact() called");
 	this->isempty = false;
@@ -18,15 +39,16 @@ void	Phonebook::add_contact(std::string *buffer)
 	this->contacts[3] = this->contacts[2];
 	this->contacts[2] = this->contacts[1];
 	this->contacts[1] = this->contacts[0];
-	this->contacts[0] = Contact(buffer[0],
-								buffer[1],
-								buffer[2],
-								buffer[3],
-								buffer[4]);
+	this->contacts[0] = Contact(info[0],
+								info[1],
+								info[2],
+								info[3],
+								info[4]);
 }
 
 void	Phonebook::display_headers_info(void)
 {
+	debug_log("phonebook: display_headers_info() called");
 	std::cout 	<< std::right
 				<< std::setw(10) << "index"
 				<< "|"
@@ -42,6 +64,7 @@ void	Phonebook::display_headers_info(void)
 
 void	Phonebook::display_headers_all(void)
 {
+	debug_log("phonebook: display_headers_all() called");
 	std::cout 	<< std::right
 				<< std::setw(10) << "first name"
 				<< "|"

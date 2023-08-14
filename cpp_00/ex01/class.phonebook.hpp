@@ -19,6 +19,7 @@ class Phonebook
 		void	display_headers_info(void);
 		void	display_headers_all(void);
 		void	add_contact(std::string *buffer);
+		void	populate(void);
 
 		/*	---		construction	---	*/
 		Phonebook( void );
