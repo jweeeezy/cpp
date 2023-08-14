@@ -79,15 +79,14 @@ static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 
 	if (phonebook->isempty == true)
 	{
-		std::cout << MESSAGE_EMPTY_PHONEBOOK << std::endl;
+		std::cout << MESSAGE_SEARCH_EMPTY << std::endl;
 		sleep_for(WAIT_DURATION);
 		return ;
 	}
 
 	if (is_looped == false)
 	{
-		phonebook->display_headers_short();
-		phonebook->display_contacts_short();
+		phonebook->display_short();
 		std::cout << MESSAGE_SEARCH << std::endl;
 		std::cin >> index;
 	}
@@ -127,7 +126,7 @@ static void add_next_field(	Phonebook *phonebook,
 		std::cout << "\n" << std::endl;
 
 		// @todo abstract this code so it only displays when needed
-		phonebook->display_headers_full();
+		phonebook->display_full();
 		for (size_t i = 0; i < index; ++i)
 		{
 			std::cout << std::right << std::setw(10) << buffer[i] << " ";

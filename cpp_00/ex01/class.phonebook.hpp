@@ -15,12 +15,8 @@ class Phonebook
 
 		/*	---		functions		---	*/
 
-		void	display_headers_short(void);
-		void	display_contacts_short(void);
-
-		void	display_contacts_full(void);
-		void	display_headers_full(void);
-
+		void	display_short(void);
+		void	display_full(void);
 		void	add_contact(std::string *buffer);
 		void	populate(void);
 

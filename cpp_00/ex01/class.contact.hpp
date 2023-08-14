@@ -8,16 +8,19 @@ class Contact
 {
 	public:
 
+		/*	---		member	---	*/
 		std::string	first_name;
 		std::string	last_name;
 		std::string	nick_name;
 		std::string	phone_number;
 		std::string	darkest_secret;
 
+		/*	---		functions		---	*/
 		void	display_full(void);
 		void	display_short(int index);
 		void	clear(void);
 
+		/*	---		construction	---	*/
 		Contact(std::string fn,
 				std::string ln,
 				std::string nn,
