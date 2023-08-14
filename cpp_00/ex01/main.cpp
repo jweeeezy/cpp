@@ -5,7 +5,6 @@
 #include <cstdlib>				// needed for atoi(), MACROS
 #include <cctype>
 #include <iomanip>
-
 #include <chrono>				// needed for seconds()
 #include <thread>				// needed for sleep_for()
 
@@ -112,8 +111,6 @@ inline static void add_next_field(	Phonebook *phonebook,
 		std::cin >> buffer[index];
 		std::cout << "\n" << std::endl;
 
-
-
 		// @todo abstract this code so it only displays when needed
 		phonebook->display_headers_all();
 		for (size_t i = 0; i < index; ++i)
@@ -145,22 +142,20 @@ inline static void	loop_mode_add(Phonebook *phonebook)
 	debug_log("loop_mode_add() started");
 	std::string	buffer[5];
 	std::string fields[] =
-	{	"first name",
+	{
+		"first name",
 		"last name",
 		"nickname",
 		"phone number",
-		"darkest secret"};
+		"darkest secret"
+	};
 	for (size_t i = 0; i < 5; ++i)
 	{
 		add_next_field(phonebook, fields[i], buffer, i, false);
 		if (std::cin.eof() == true)
 			return ;
 	}
-
-
-	// @todo save into phonebook @note i think it works?
 	phonebook->add_contact(buffer);
-
 }
 
 int	main_loop(bool test_mode)
@@ -170,7 +165,6 @@ int	main_loop(bool test_mode)
 
 	std::cout << MESSAGE_WELCOME << std::endl;
 	sleep_for(WAIT_DURATION);
-
 	if (test_mode == true)
 	{
 		phonebook.populate();
@@ -209,7 +203,7 @@ int	main(int argc, char **argv)
 	int		exit_status;
 
 	exit_status = EXIT_SUCCESS;
-	if (argc > 2 && (strcmp(argv[1], "test") == 0 || strcmp(argv[1], "TEST")))
+	if (argc >= 2 && (strcmp(argv[1], "test") == 0 || strcmp(argv[1], "TEST") == 0))
 	{
 		debug_log("program started in TEST_MODE");
 		exit_status = main_loop(TEST_MODE);

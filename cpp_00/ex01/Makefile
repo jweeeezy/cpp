@@ -23,4 +23,4 @@ fclean:		clean
 re:			fclean
 				$(MAKE)
 run:		all
-			@./$(NAME) 2>$(LOG_FILE)
+			@./$(NAME) TEST 2>$(LOG_FILE)
