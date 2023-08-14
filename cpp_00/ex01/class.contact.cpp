@@ -2,15 +2,34 @@
 #include "class.contact.hpp"
 #include "phonebook.hpp"
 #include <iostream>
+#include <iomanip>
 
-void	Contact::display(void)
+void	Contact::display_full(void)
 {
 	debug_log("Contact: display() called");
-	std::cout << this->first_name << std::endl;
-	std::cout << this->last_name << std::endl;
-	std::cout << this->nick_name << std::endl;
-	std::cout << this->phone_number<< std::endl;
-	std::cout << this->darkest_secret << std::endl;
+	std::cout	<< std::right
+				<< this->first_name
+				<< this->last_name
+				<< this->nick_name
+				<< this->phone_number
+				<< this->darkest_secret
+				<< std::endl;
+
+	return ;
+}
+
+void	Contact::display_short(int index)
+{
+	debug_log("Contact: display_short() called");
+	std::cout << std::setw(10) << std::right << index;
+	std::cout << " | ";
+	print_10(this->first_name);
+	std::cout << " | ";
+	print_10(this->last_name);
+	std::cout << " | ";
+	print_10(this->nick_name);
+	std::cout << " | " << std::endl;
+	return ;
 }
 
 Contact::Contact(	std::string fn,

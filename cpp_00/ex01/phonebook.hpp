@@ -32,6 +32,7 @@
 
 void	debug_log(std::string message);
 void	debug_log(std::string message, int exit_status);
+void	print_10(std::string str);
 
 #endif // PHONEBOOK_H
 

@@ -8,7 +8,21 @@
 #include <chrono>				// needed for seconds()
 #include <thread>				// needed for sleep_for()
 
-static inline void	sleep_for(long long duration)
+void	print_10(std::string str)
+{
+	if (str.length() >= 9)
+	{
+		//std::cout << std::setw(10) << std::right;
+		std::cout.write(str.c_str(), 9);
+		std::cout << ".";
+	}
+	else
+	{
+		std::cout << std::right << std::setw(10) << str;
+	}
+}
+
+inline static void	sleep_for(long long duration)
 {
 	std::this_thread::sleep_for(std::chrono::seconds(duration));
 }
@@ -56,7 +70,7 @@ static bool isalpha_string(std::string str_to_check)
 	return (true);
 }
 
-inline static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
+static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 {
 	char	index[128]; //@note might change this to a std::string
 
@@ -72,7 +86,8 @@ inline static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 
 	if (is_looped == false)
 	{
-		phonebook->display_all();
+		phonebook->display_headers_short();
+		phonebook->display_contacts_short();
 		std::cout << MESSAGE_SEARCH << std::endl;
 		std::cin >> index;
 	}
@@ -96,7 +111,7 @@ inline static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 		loop_mode_search(phonebook, true);
 }
 
-inline static void add_next_field(	Phonebook *phonebook,
+static void add_next_field(	Phonebook *phonebook,
 									std::string field,
 									std::string *buffer,
 									size_t index,
@@ -112,7 +127,7 @@ inline static void add_next_field(	Phonebook *phonebook,
 		std::cout << "\n" << std::endl;
 
 		// @todo abstract this code so it only displays when needed
-		phonebook->display_headers_all();
+		phonebook->display_headers_full();
 		for (size_t i = 0; i < index; ++i)
 		{
 			std::cout << std::right << std::setw(10) << buffer[i] << " ";
@@ -137,7 +152,7 @@ inline static void add_next_field(	Phonebook *phonebook,
 		//@todo display new result
 }
 
-inline static void	loop_mode_add(Phonebook *phonebook)
+static void	loop_mode_add(Phonebook *phonebook)
 {
 	debug_log("loop_mode_add() started");
 	std::string	buffer[5];

@@ -5,21 +5,27 @@
 #include <iostream>
 #include <iomanip>	// needed for setw
 
-
 void	Phonebook::populate()
 {
 	debug_log("phonebook: populate() called");
-
     std::string contact_information[][5] =
 	{
-        {"Jakob", "Willert", "bubu", "1234567890123", "not funny"},
-        {"Alice", "Johnson", "ally", "5678912345678", "afraid of heights"},
-        {"Bob", "Smith", "bobby", "9012345678901", "loves romantic movies"},
-        {"Charlie", "Brown", "chuckles", "2345678901234", "scared of dogs"},
-        {"Daisy", "Miller", "day", "3456789012345", "has a twin"},
-        {"Edward", "Norton", "eddie", "4567890123456", "hates pickles"},
-        {"Fiona", "Shrek", "fifi", "5678901234567", "actually a princess"},
-        {"George", "Owen", "georgie", "6789012345678", "loves to sing in the shower"},
+        {"Jakob", "Willert", "bubu", "1234567890123",
+			"not funny"},
+        {"Alice", "Johnson", "ally", "5678912345678",
+			"afraid of small heights"},
+        {"Bob", "Smith", "bobby", "9012345678901",
+			"loves romantic horror movies"},
+        {"Charlie", "Brown", "chuckles", "2345678901234",
+			"scared of tiny dogs"},
+        {"Daisy", "Miller", "day", "3456789012345",
+			"has a dead twin"},
+        {"Edward", "Norton", "eddie", "4567890123456",
+			"hates faces without pickles"},
+        {"Fiona", "Shrek", "fifi", "5678901234567",
+			"actually an ogre princess"},
+        {"Veryyyyyloooooongnaaaame", "Owen", "georgie", "6789012345678",
+			"loves to sing when someone is in the shower"},
     };
 	for (size_t i = 0; i < 8; ++i)
 	{
@@ -46,57 +52,71 @@ void	Phonebook::add_contact(std::string *info)
 								info[4]);
 }
 
-void	Phonebook::display_headers_info(void)
+void	Phonebook::display_headers_short(void)
 {
-	debug_log("phonebook: display_headers_info() called");
-	std::cout 	<< std::right
-				<< std::setw(10) << "index"
-				<< "|"
-				<< std::setw(10) << "first name"
-				<< "|"
-				<< std::setw(10) << "last name"
-				<< "|"
-				<< std::setw(10) << "nickname"
-				<< "\n"
-				<< std::endl;
+	debug_log("Phonebook: display_headers_info() called");
+	std::string	headers[] =
+	{
+		"index",
+		"first_name",
+		"last_name",
+		"nick_name",
+	};
+	for (size_t i = 0; i < 4; ++i)
+	{
+		std::cout	<< std::right
+					<< std::setw(10)
+					<< headers[i]
+					<< " | ";
+	}
+	std::cout << std::endl;
 	return ;
 }
 
-void	Phonebook::display_headers_all(void)
+void	Phonebook::display_headers_full(void)
 {
-	debug_log("phonebook: display_headers_all() called");
-	std::cout 	<< std::right
-				<< std::setw(10) << "first name"
-				<< "|"
-				<< std::setw(10) << "last name"
-				<< "|"
-				<< std::setw(10) << "nickname"
-				<< "|"
-				<< std::setw(10) << "phone number"
-				<< "|"
-				<< std::setw(10) << "darkest secret"
-				<< "|"
-				<< "\n"
-				<< std::endl;
+	debug_log("Phonebook: display_headers_all() called");
+
+	std::string	headers[] =
+	{
+		"index",
+		"first_name",
+		"last_name",
+		"nick_name",
+		"phone_number",
+		"darkest_secret"
+	};
+	for (size_t i = 0; i < 6; ++i)
+	{
+		std::cout	<< std::right
+					<< std::setw(10)
+					<< headers[i]
+					<< " | ";
+	}
+	std::cout 	<< std::endl;
 	return ;
 }
 
-
-void	Phonebook::display_all(void)
+void	Phonebook::display_contacts_short(void)
 {
-	debug_log("Phonebook: display_all() called");
-	Phonebook::display_headers_info();
+	debug_log("Phonebook: display_contacts_short() called");
+
 	for (size_t i = 0; i < 8; ++i)
 	{
-		this->display_contact(i);
+		this->contacts[i].display_short(i);
 	}
+	std::cout << std::endl;
 	return ;
 }
 
-void	Phonebook::display_contact(int index)
+void	Phonebook::display_contacts_full(void)
 {
-	debug_log("Phonebook: display_contact() called");
-	this->contacts[index].display();
+	debug_log("Phonebook: display_contacts_full() called");
+	Phonebook::display_headers_full();
+	for (size_t i = 0; i < 8; ++i)
+	{
+		this->contacts[i].display_full();
+	}
 	return ;
 }
 

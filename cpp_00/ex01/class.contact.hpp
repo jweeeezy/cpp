@@ -14,8 +14,8 @@ class Contact
 		std::string	phone_number;
 		std::string	darkest_secret;
 
-		void	display(void);
-		//void	display_short(void);
+		void	display_full(void);
+		void	display_short(int index);
 		void	clear(void);
 
 		Contact(std::string fn,

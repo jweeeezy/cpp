@@ -14,10 +14,13 @@ class Phonebook
 		bool	isempty;
 
 		/*	---		functions		---	*/
-		void	display_all(void);
-		void	display_contact(int index);
-		void	display_headers_info(void);
-		void	display_headers_all(void);
+
+		void	display_headers_short(void);
+		void	display_contacts_short(void);
+
+		void	display_contacts_full(void);
+		void	display_headers_full(void);
+
 		void	add_contact(std::string *buffer);
 		void	populate(void);
 
