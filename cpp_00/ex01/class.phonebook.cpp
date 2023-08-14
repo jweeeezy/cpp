@@ -53,7 +53,7 @@ void	Phonebook::add_contact(std::string *info)
 }
 
 
-void	Phonebook::display_short(void)
+void	Phonebook::display(void)
 {
 	debug_log("Phonebook: display_short() called");
 	std::string	headers[] =
@@ -79,31 +79,31 @@ void	Phonebook::display_short(void)
 }
 
 
-void	Phonebook::display_full(void)
-{
-	std::string	headers[] =
-	{
-		"index",
-		"first_name",
-		"last_name",
-		"nick_name",
-		"phone_number",
-		"darkest_secret"
-	};
-	for (size_t i = 0; i < 6; ++i)
-	{
-		std::cout	<< std::right
-					<< std::setw(10)
-					<< headers[i]
-					<< " | ";
-	}
-	std::cout << std::endl;
-	for (size_t i = 0; i < 8; ++i)
-	{
-		this->contacts[i].display_full();
-	}
-	std::cout << std::endl;
-}
+// void	Phonebook::display_full(void)
+// {
+// 	std::string	headers[] =
+// 	{
+// 		"index",
+// 		"first_name",
+// 		"last_name",
+// 		"nick_name",
+// 		"phone_number",
+// 		"darkest_secret"
+// 	};
+// 	for (size_t i = 0; i < 6; ++i)
+// 	{
+// 		std::cout	<< std::right
+// 					<< std::setw(10)
+// 					<< headers[i]
+// 					<< " | ";
+// 	}
+// 	std::cout << std::endl;
+// 	for (size_t i = 0; i < 8; ++i)
+// 	{
+// 		this->contacts[i].display_full();
+// 	}
+// 	std::cout << std::endl;
+// }
 
 Phonebook::Phonebook()
 {

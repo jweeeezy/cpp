@@ -16,7 +16,7 @@ class Contact
 		std::string	darkest_secret;
 
 		/*	---		functions		---	*/
-		void	display_full(void);
+		void	display_full(int index);
 		void	display_short(int index);
 		void	clear(void);
 

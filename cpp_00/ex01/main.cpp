@@ -83,16 +83,18 @@ static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 		sleep_for(WAIT_DURATION);
 		return ;
 	}
-
 	if (is_looped == false)
 	{
-		phonebook->display_short();
-		std::cout << MESSAGE_SEARCH << std::endl;
+		phonebook->display();
+		std::cout << MESSAGE_SEARCH_HINT << std::endl;
+		std::cout << MESSAGE_SHELL;
 		std::cin >> index;
 	}
 	else
 	{
-		std::cout << MESSAGE_SEARCH_BAD << std::endl;
+		std::cout << "\n" << MESSAGE_SEARCH_BAD << std::endl;
+		sleep_for(WAIT_DURATION);
+		std::cout << MESSAGE_SHELL;
 		std::cin >> index;
 	}
 	if (isnumber_string(index) == true && std::cin.eof() == false)
@@ -100,9 +102,10 @@ static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 		int tmp;
 
 		tmp = atoi(index);
-		if (tmp >= 0 && tmp <= 8)
+		if (tmp >= 1 && tmp <= 8)
 		{
-			std::cout << "You entered index = " << index << std::endl;
+			phonebook->contacts[tmp - 1].display_full(tmp - 1);
+			sleep_for(WAIT_DURATION);
 			return ;
 		}
 	}
@@ -126,7 +129,7 @@ static void add_next_field(	Phonebook *phonebook,
 		std::cout << "\n" << std::endl;
 
 		// @todo abstract this code so it only displays when needed
-		phonebook->display_full();
+		//phonebook->display_full();
 		for (size_t i = 0; i < index; ++i)
 		{
 			std::cout << std::right << std::setw(10) << buffer[i] << " ";
@@ -188,8 +191,8 @@ int	main_loop(bool test_mode)
 		std::string	user_input;
 
 		std::cout << "\n" << MESSAGE_MAIN << std::endl;
-		std::cout << "\n" << MESSAGE_MAIN_HINT << "\n" << std::endl;
-		std::cout << "$: ";
+		std::cout << "\n" << MESSAGE_MAIN_HINT << std::endl;
+		std::cout << MESSAGE_SHELL;
 		std::cin >> user_input;
 		if (user_input.compare("ADD") == 0)
 		{
