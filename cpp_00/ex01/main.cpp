@@ -6,6 +6,9 @@
 #include <cctype>
 #include <iomanip>
 
+#include <chrono>				// needed for seconds()
+#include <thread>				// needed for sleep_for()
+
 void	debug_log(std::string message)
 {
 	if (DEBUG == true)
@@ -55,6 +58,13 @@ inline static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 
 	//@todo clean up this code!
 	debug_log("loop_mode_search() started");
+
+	if (phonebook->isempty == true)
+	{
+		std::cout << MESSAGE_EMPTY_PHONEBOOK << std::endl;
+		std::this_thread::sleep_for(std::chrono::seconds(2));
+		return ;
+	}
 
 	if (is_looped == false)
 	{

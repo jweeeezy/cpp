@@ -9,6 +9,7 @@
 void	Phonebook::add_contact(std::string *buffer)
 {
 	debug_log("phonebook: add_contact() called");
+	this->isempty = false;
 	this->contacts[7].clear();
 	this->contacts[7] = this->contacts[6];
 	this->contacts[6] = this->contacts[5];
@@ -80,6 +81,7 @@ Phonebook::Phonebook()
 {
 	debug_log("Phonebook: constructor called");
 	this->index_add = 0;
+	this->isempty = true;
 	return ;
 }
 

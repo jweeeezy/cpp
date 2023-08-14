@@ -11,6 +11,7 @@ class Phonebook
 		/*	---		member	---	*/
 		Contact	contacts[8];
 		size_t	index_add;
+		bool	isempty;
 
 		/*	---		functions		---	*/
 		void	display_all(void);
