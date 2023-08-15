@@ -29,11 +29,12 @@
 # define MESSAGE_ADD_BAD_NUMBER "\nWarning: Only digits allowed!\n"
 
 # define MESSAGE_SEARCH "\n< You are in the SEARCH section >\n"
-# define MESSAGE_SEARCH_BAD "\nWarning: The index must be between 1 - 8!\n"
+# define MESSAGE_SEARCH_BAD "\nWarning: The index must be a number " \
+							"between 1 - 8!\n"
 # define MESSAGE_SEARCH_EMPTY "\nWarning: Phonebook is currently empty." \
 						" Please use ADD to add new contacts to the list!\n"
 # define MESSAGE_SEARCH_HINT "\nHint: Please enter the index of the entry " \
-						"you want to be displayed...\n"
+						"you want to be displayed or type BACK...\n"
 # define WAIT_DURATION 1
 
 /*	---		utils	---	*/
