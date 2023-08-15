@@ -4,17 +4,31 @@
 #include <iomanip>			// needed for std::setw(), std::right
 #include <thread>			// needed for std::this_thread::sleep_for()
 
+std::string	take_input(std::string cmd_line)
+{
+	std::string buffer;
+
+	std::cout << cmd_line;
+	std::cin >> buffer;
+	std::cout << std::endl;
+	return (buffer);
+}
+
 void	debug_log(std::string message)
 {
 	if (DEBUG == true)
+	{
 		std::clog << "log: " << message << std::endl;
+	}
 	return ;
 }
 
 void	debug_log(std::string message, int exit_status)
 {
 	if (DEBUG == true)
+	{
 		std::clog << "log: " << message << exit_status << std::endl;
+	}
 	return ;
 }
 
@@ -42,9 +56,20 @@ bool isalpha_string(std::string str_to_check)
 			++itr)
 	{
 		if (isalpha(*itr) == false)
+		{
 			return (false);
+		}
 	}
 	return (true);
+}
+
+void	print_message(std::string message, bool delay)
+{
+	std::cout << message << std::endl;
+	if (delay == true)
+	{
+		sleep_for(WAIT_DURATION);
+	}
 }
 
 void	print_short(std::string str)

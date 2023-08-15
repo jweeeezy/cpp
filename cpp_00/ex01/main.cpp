@@ -3,47 +3,41 @@
 #include "phonebook.hpp"		// needed for MACROS, utils
 #include <iostream>				// needed for std::cout, std::cin, std::endl
 #include <cstdlib>				// needed for atoi(), MACROS
-//#include <cctype>
+//#include <cctype>				// needed for LINUX
 #include <iomanip>				// needed for std::setw(), std::right
 
 static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 {
-	char	index[128]; //@note might change this to a std::string
+	std::string	user_input;
 
-	//@todo clean up this code!
 	debug_log("loop_mode_search() started");
 
-	if (phonebook->isempty == true)
+	if (phonebook->is_empty == true)
 	{
-		std::cout << MESSAGE_SEARCH_EMPTY << std::endl;
-		sleep_for(WAIT_DURATION);
+		print_message(MESSAGE_SEARCH_EMPTY, DELAY);
 		return ;
 	}
+
+	// @todo make this a loop --> easier readable
 	if (is_looped == false)
 	{
 		phonebook->display();
-		std::cout << MESSAGE_SEARCH_HINT << std::endl;
-		sleep_for(WAIT_DURATION);
-		std::cout << MESSAGE_SHELL;
-		std::cin >> index;
-		std::cout << std::endl;
+		print_message(MESSAGE_SEARCH_HINT, DELAY);
+		user_input = take_input(MESSAGE_CMD_LINE);
 	}
 	else
 	{
-		std::cout << MESSAGE_SEARCH_BAD << std::endl;
-		sleep_for(WAIT_DURATION);
-		std::cout << MESSAGE_SHELL;
-		std::cin >> index;
-		std::cout << std::endl;
+		print_message(MESSAGE_SEARCH_BAD, DELAY);
+		user_input = take_input(MESSAGE_CMD_LINE);
 	}
-	if (isnumber_string(index) == true && std::cin.eof() == false)
+	if (isnumber_string(user_input) == true && std::cin.eof() == false)
 	{
-		int tmp;
+		int index;
 
-		tmp = atoi(index);
-		if (tmp >= 1 && tmp <= 8)
+		index = atoi(user_input.c_str());
+		if (index >= 1 && index <= 8)
 		{
-			phonebook->contacts[tmp - 1].display_full(tmp - 1);
+			phonebook->contacts[index - 1].display_full(index - 1);
 			sleep_for(WAIT_DURATION);
 			return ;
 		}
@@ -60,15 +54,22 @@ static void add_next_field(	Phonebook *phonebook,
 {
 		debug_log("add_next_field() started");
 		if (is_looped == true && index <= 2)
+		{
 			std::cout << MESSAGE_ADD_BAD_NAME << std::endl;
+		}
 		else if (is_looped == true && index == 3)
+		{
 			std::cout << MESSAGE_ADD_BAD_NUMBER << std::endl;
+		}
+
+
 		std::cout << "Please enter the " << field << ": ";
 		std::cin >> buffer[index];
 		std::cout << "\n" << std::endl;
 
+
+
 		// @todo abstract this code so it only displays when needed
-		//phonebook->display_full();
 		for (size_t i = 0; i < index; ++i)
 		{
 			std::cout << std::right << std::setw(10) << buffer[i] << " ";
@@ -109,53 +110,53 @@ static void	loop_mode_add(Phonebook *phonebook)
 	{
 		add_next_field(phonebook, fields[i], buffer, i, false);
 		if (std::cin.eof() == true)
+		{
 			return ;
+		}
 	}
 	phonebook->add_contact(buffer);
 }
 
 int	main_loop(bool test_mode)
 {
-	// while (std::cin.eof() == false)	//@todo break ctrl+d in steps
 	Phonebook	phonebook;
 
-	std::cout << MESSAGE_WELCOME << std::endl;
-	sleep_for(WAIT_DURATION);
 	if (test_mode == true)
 	{
 		phonebook.populate();
 	}
+
+	print_message(MESSAGE_WELCOME, DELAY);
+
 	while (std::cin.eof() == false)
 	{
 		std::string	user_input;
 
-		std::cout << MESSAGE_MAIN << std::endl;
-		std::cout << MESSAGE_MAIN_HINT << std::endl;
-		std::cout << MESSAGE_SHELL;
-		std::cin >> user_input;
-		std::cout << std::endl;
+		print_message(MESSAGE_MAIN, NO_DELAY);
+		print_message(MESSAGE_MAIN_HINT, NO_DELAY);
+
+		user_input = take_input(MESSAGE_CMD_LINE);
+
 		if (user_input.compare("ADD") == 0)
 		{
-			std::cout << MESSAGE_ADD << std::endl;
+			print_message(MESSAGE_ADD, NO_DELAY);
 			loop_mode_add(&phonebook);
 		}
 		else if(user_input.compare("SEARCH") == 0)
 		{
-			std::cout << MESSAGE_SEARCH << std::endl;
+			print_message(MESSAGE_SEARCH, NO_DELAY);
 			loop_mode_search(&phonebook, false);
 		}
 		else if(user_input.compare("EXIT") == 0)
 		{
 			debug_log("loop_mode_exit started");
-			std::cout << MESSAGE_EXIT << std::endl;
-			sleep_for(WAIT_DURATION);
+			print_message(MESSAGE_EXIT, DELAY);
 			break ;
 		}
 		else
 		{
 			debug_log("no viable command entered");
-			std::cout << MESSAGE_MAIN_BAD << std::endl;
-			sleep_for(WAIT_DURATION);
+			print_message(MESSAGE_MAIN_BAD, DELAY);
 		}
 	}
 	return (EXIT_SUCCESS);

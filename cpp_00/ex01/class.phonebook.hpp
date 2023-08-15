@@ -11,7 +11,7 @@ class Phonebook
 		/*	---		member			---	*/
 		Contact	contacts[8];
 		size_t	index_add;
-		bool	isempty;
+		bool	is_empty;
 
 		/*	---		functions		---	*/
 		void	add_contact(std::string *buffer);

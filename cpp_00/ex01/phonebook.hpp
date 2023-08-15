@@ -12,10 +12,14 @@
 /*	---		macros	---	*/
 # define TEST_MODE true
 # define NORMAL_MODE false
+
+# define DELAY true
+# define NO_DELAY false
+
 # define MESSAGE_WELCOME "\nWelcome to the *phonebook* application!\n"
 # define MESSAGE_EXIT "\n< You decided to exit the *phonebook* " \
 						"application. Goodbye!\n\n"
-# define MESSAGE_SHELL "\n$: "
+# define MESSAGE_CMD_LINE "\n$: "
 # define MESSAGE_MAIN "\n< You are in the main menu >\n"
 # define MESSAGE_MAIN_HINT "\nHint: Please enter one of the following " \
 						"commands: ADD, SEARCH, EXIT...\n"
@@ -37,8 +41,10 @@ void		debug_log(std::string message);
 void		debug_log(std::string message, int exit_status);
 bool		isalpha_string(std::string str_to_check);
 bool		isnumber_string(std::string str_to_check);
+void		print_message(std::string message, bool delay);
 void		print_short(std::string str);
 void		sleep_for(long long duration);
+std::string take_input(std::string cmd_line);
 
 #endif // PHONEBOOK_H
 
