@@ -18,9 +18,18 @@ void	Contact::display_full(int index)
 		<< this->nick_name << std::endl;
 	std::cout << std::setw(20) << "phone_number | "
 		<< this->phone_number << std::endl;
-	std::cout << std::setw(20) << "darkest secret | "
+	std::cout << std::setw(20) << "darkest_secret | "
 		<< this->darkest_secret << std::endl;
 	return ;
+}
+
+void	Contact::clear(void)
+{
+	this->first_name.clear();
+	this->last_name.clear();
+	this->nick_name.clear();
+	this->phone_number.clear();
+	this->darkest_secret.clear();
 }
 
 void	Contact::display_short(int index)
@@ -51,15 +60,6 @@ Contact::Contact(	std::string fn,
 	return ;
 }
 
-void	Contact::clear(void)
-{
-	this->first_name.clear();
-	this->last_name.clear();
-	this->nick_name.clear();
-	this->phone_number.clear();
-	this->darkest_secret.clear();
-}
-
 Contact::Contact(void)
 {
 	debug_log("Contact: constructor called");
@@ -69,6 +69,7 @@ Contact::Contact(void)
 Contact::~Contact(void)
 {
 	debug_log("Contact: destructor called");
+	this->clear();
 	return ;
 }
 

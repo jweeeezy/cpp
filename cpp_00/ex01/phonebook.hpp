@@ -13,7 +13,7 @@
 
 
 
-# define MESSAGE_WELCOME "Welcome to the *phonebook* application!"
+# define MESSAGE_WELCOME "\nWelcome to the *phonebook* application!"
 # define MESSAGE_EXIT "< You decided to exit the *phonebook* application. Goodbye!"
 # define MESSAGE_SHELL "\n$: "
 

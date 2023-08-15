@@ -87,6 +87,7 @@ static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 	{
 		phonebook->display();
 		std::cout << MESSAGE_SEARCH_HINT << std::endl;
+		sleep_for(WAIT_DURATION);
 		std::cout << MESSAGE_SHELL;
 		std::cin >> index;
 	}
