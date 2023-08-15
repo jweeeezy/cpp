@@ -2,21 +2,20 @@
 #ifndef CLASS_PHONEBOOK_H
 # define CLASS_PHONEBOOK_H
 
-#include "class.contact.hpp"
+#include "class.contact.hpp" // needed for Contact
 
 class Phonebook
 {
 	public:
 
-		/*	---		member	---	*/
+		/*	---		member			---	*/
 		Contact	contacts[8];
 		size_t	index_add;
 		bool	isempty;
 
 		/*	---		functions		---	*/
-
-		void	display(void);
 		void	add_contact(std::string *buffer);
+		void	display(void);
 		void	populate(void);
 
 		/*	---		construction	---	*/

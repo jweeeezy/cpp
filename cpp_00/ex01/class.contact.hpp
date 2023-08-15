@@ -2,23 +2,26 @@
 #ifndef CLASS_CONTACT_H
 # define CLASS_CONTACT_H
 
-#include <string>
+#include <string>	// needed for std::string
 
 class Contact
 {
-	public:
+	private:
 
-		/*	---		member	---	*/
-		std::string	first_name;
-		std::string	last_name;
-		std::string	nick_name;
 		std::string	phone_number;
 		std::string	darkest_secret;
 
+	public:
+
+		/*	---		member			---	*/
+		std::string	first_name;
+		std::string	last_name;
+		std::string	nick_name;
+
 		/*	---		functions		---	*/
+		void	clear(void);
 		void	display_full(int index);
 		void	display_short(int index);
-		void	clear(void);
 
 		/*	---		construction	---	*/
 		Contact(std::string fn,
@@ -26,7 +29,6 @@ class Contact
 				std::string nn,
 				std::string pn,
 				std::string ds);
-
 		Contact(void);
 		~Contact(void);
 };

@@ -1,74 +1,10 @@
 
 #include "class.phonebook.hpp"	// needed for Phonebook
-#include "phonebook.hpp"		// needed for MACROS
-#include <iostream>				// needed for cin, cout, cerr
+#include "phonebook.hpp"		// needed for MACROS, utils
+#include <iostream>				// needed for std::cout, std::cin, std::endl
 #include <cstdlib>				// needed for atoi(), MACROS
-#include <cctype>
-#include <iomanip>
-#include <chrono>				// needed for seconds()
-#include <thread>				// needed for sleep_for()
-
-void	print_10(std::string str)
-{
-	if (str.length() >= 9)
-	{
-		//std::cout << std::setw(10) << std::right;
-		std::cout.write(str.c_str(), 9);
-		std::cout << ".";
-	}
-	else
-	{
-		std::cout << std::right << std::setw(10) << str;
-	}
-}
-
-inline static void	sleep_for(long long duration)
-{
-	std::this_thread::sleep_for(std::chrono::seconds(duration));
-}
-
-void	debug_log(std::string message)
-{
-	if (DEBUG == true)
-		std::clog << "log: " << message << std::endl;
-	return ;
-}
-
-void	debug_log(std::string message, int exit_status)
-{
-	if (DEBUG == true)
-		std::clog << "log: " << message << exit_status << std::endl;
-	return ;
-}
-
-static bool	isnumber_string(std::string str_to_check)
-{
-	debug_log("isnumber_string() called");
-	for (std::string::iterator itr = str_to_check.begin();
-			itr != str_to_check.end();
-			++itr)
-	{
-		if (isdigit(*itr) == 0)
-		{
-			debug_log("isnumber_string() returned false");
-			return(false);
-		}
-	}
-	debug_log("isnumber_string() returned true");
-	return (true);
-}
-
-static bool isalpha_string(std::string str_to_check)
-{
-	for (std::string::iterator itr = str_to_check.begin() ;
-			itr != str_to_check.end();
-			++itr)
-	{
-		if (isalpha(*itr) == false)
-			return (false);
-	}
-	return (true);
-}
+//#include <cctype>
+#include <iomanip>				// needed for std::setw(), std::right
 
 static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 {
@@ -93,7 +29,7 @@ static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 	}
 	else
 	{
-		std::cout << "\n" << MESSAGE_SEARCH_BAD << std::endl;
+		std::cout << MESSAGE_SEARCH_BAD << std::endl;
 		sleep_for(WAIT_DURATION);
 		std::cout << MESSAGE_SHELL;
 		std::cin >> index;
@@ -161,11 +97,11 @@ static void	loop_mode_add(Phonebook *phonebook)
 	std::string	buffer[5];
 	std::string fields[] =
 	{
-		"first name",
-		"last name",
-		"nickname",
-		"phone number",
-		"darkest secret"
+		"first_name",
+		"last_name",
+		"nick_name",
+		"phone_number",
+		"darkest_secret"
 	};
 	for (size_t i = 0; i < 5; ++i)
 	{
@@ -191,26 +127,32 @@ int	main_loop(bool test_mode)
 	{
 		std::string	user_input;
 
-		std::cout << "\n" << MESSAGE_MAIN << std::endl;
-		std::cout << "\n" << MESSAGE_MAIN_HINT << std::endl;
+		std::cout << MESSAGE_MAIN << std::endl;
+		std::cout << MESSAGE_MAIN_HINT << std::endl;
 		std::cout << MESSAGE_SHELL;
 		std::cin >> user_input;
 		if (user_input.compare("ADD") == 0)
 		{
-			std::cout << "\n" << MESSAGE_ADD << "\n" << std::endl;
+			std::cout << MESSAGE_ADD << std::endl;
 			loop_mode_add(&phonebook);
 		}
 		else if(user_input.compare("SEARCH") == 0)
 		{
-			std::cout << "\n" << MESSAGE_SEARCH << "\n" << std::endl;
+			std::cout << MESSAGE_SEARCH << std::endl;
 			loop_mode_search(&phonebook, false);
 		}
 		else if(user_input.compare("EXIT") == 0)
 		{
 			debug_log("loop_mode_exit started");
-			std::cout << "\n" << MESSAGE_EXIT << "\n" << std::endl;
+			std::cout << MESSAGE_EXIT << std::endl;
 			sleep_for(WAIT_DURATION);
 			break ;
+		}
+		else
+		{
+			debug_log("no viable command entered");
+			std::cout << MESSAGE_MAIN_BAD << std::endl;
+			sleep_for(WAIT_DURATION);
 		}
 	}
 	return (EXIT_SUCCESS);
