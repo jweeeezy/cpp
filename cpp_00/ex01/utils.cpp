@@ -4,16 +4,6 @@
 #include <iomanip>			// needed for std::setw(), std::right
 #include <thread>			// needed for std::this_thread::sleep_for()
 
-std::string	take_input(std::string cmd_line)
-{
-	std::string buffer;
-
-	std::cout << cmd_line;
-	std::cin >> buffer;
-	std::cout << std::endl;
-	return (buffer);
-}
-
 void	debug_log(std::string message)
 {
 	if (DEBUG == true)
@@ -88,6 +78,16 @@ void	print_short(std::string str)
 void	sleep_for(long long duration)
 {
 	std::this_thread::sleep_for(std::chrono::seconds(duration));
+}
+
+std::string	take_input(std::string cmd_line)
+{
+	std::string buffer;
+
+	std::cout << cmd_line;
+	std::cin >> buffer;
+	std::cout << std::endl;
+	return (buffer);
 }
 
 /* ************************************************************************** */

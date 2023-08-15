@@ -6,6 +6,7 @@
 
 void	Contact::clear(void)
 {
+	debug_log("Contact: clear() called");
 	this->first_name.clear();
 	this->last_name.clear();
 	this->nick_name.clear();
@@ -57,6 +58,7 @@ Contact::Contact(	std::string fn,
 					last_name(ln),
 					nick_name(nn)
 {
+	debug_log("Contact: constructor called");
 	return ;
 }
 

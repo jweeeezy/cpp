@@ -6,9 +6,64 @@
 //#include <cctype>				// needed for LINUX
 #include <iomanip>				// needed for std::setw(), std::right
 
+static void add_next_field(	std::string field,
+							std::string *buffer,
+							size_t index)
+{
+		debug_log("add_next_field() called");
+
+		while (std::cin.eof() == false)
+		{
+			buffer[index] = take_input("\nPlease enter the " + field + ": ");
+
+			if (index != 3 && isalpha_string(buffer[index]) == false)
+			{
+				buffer[index].clear();
+				print_message(MESSAGE_ADD_BAD_NAME, DELAY);
+			}
+			else if (index == 3 && isnumber_string(buffer[index]) == false)
+			{
+				buffer[index].clear();
+				print_message(MESSAGE_ADD_BAD_NUMBER, DELAY);
+			}
+			else
+			{
+				break ;
+			}
+		}
+}
+
+static void	loop_mode_add(Phonebook *phonebook)
+{
+	debug_log("loop_mode_add() called");
+
+	std::string	buffer[5];
+	std::string fields[] =
+	{
+		"first_name",
+		"last_name",
+		"nick_name",
+		"phone_number",
+		"darkest_secret"
+	};
+
+	for (size_t i = 0; i < 5; ++i)
+	{
+		add_next_field(fields[i], buffer, i);
+		if (std::cin.eof() == true)
+		{
+			return ;
+		}
+	}
+
+	phonebook->add_contact(buffer);
+	phonebook->contacts[0].display_full(0);
+	sleep_for(WAIT_DURATION);
+}
+
 static void	loop_mode_search(Phonebook *phonebook)
 {
-	debug_log("loop_mode_search() started");
+	debug_log("loop_mode_search() called");
 
 	if (phonebook->is_empty == true)
 	{
@@ -35,83 +90,12 @@ static void	loop_mode_search(Phonebook *phonebook)
 				sleep_for(WAIT_DURATION);
 				break ;
 			}
-			else if (std::cin.eof() == false)
-			{
-				print_message(MESSAGE_SEARCH_BAD, DELAY);
-			}
 		}
-	}
-}
-
-static void add_next_field(	Phonebook *phonebook,
-									std::string field,
-									std::string *buffer,
-									size_t index,
-									bool is_looped)
-{
-		debug_log("add_next_field() started");
-		if (is_looped == true && index <= 2)
-		{
-			std::cout << MESSAGE_ADD_BAD_NAME << std::endl;
-		}
-		else if (is_looped == true && index == 3)
-		{
-			std::cout << MESSAGE_ADD_BAD_NUMBER << std::endl;
-		}
-
-
-		std::cout << "Please enter the " << field << ": ";
-		std::cin >> buffer[index];
-		std::cout << "\n" << std::endl;
-
-
-
-		// @todo abstract this code so it only displays when needed
-		for (size_t i = 0; i < index; ++i)
-		{
-			std::cout << std::right << std::setw(10) << buffer[i] << " ";
-		}
-
-		// @todo restrict phone number to 15 digits
 		if (std::cin.eof() == false)
 		{
-			if ((isalpha_string(buffer[index]) == false && index != 3)
-				|| (isnumber_string(buffer[index]) == false && index == 3))
-			{
-				buffer[index].clear();
-				std::cout << std::endl;
-				add_next_field(phonebook, field, buffer, index, true);
-			}
-			else
-			{
-				std::cout << std::right << std::setw(10) << buffer[index] << std::endl;
-				// display
-			}
-		}
-		//@todo display new result
-}
-
-static void	loop_mode_add(Phonebook *phonebook)
-{
-	debug_log("loop_mode_add() started");
-	std::string	buffer[5];
-	std::string fields[] =
-	{
-		"first_name",
-		"last_name",
-		"nick_name",
-		"phone_number",
-		"darkest_secret"
-	};
-	for (size_t i = 0; i < 5; ++i)
-	{
-		add_next_field(phonebook, fields[i], buffer, i, false);
-		if (std::cin.eof() == true)
-		{
-			return ;
+			print_message(MESSAGE_SEARCH_BAD, DELAY);
 		}
 	}
-	phonebook->add_contact(buffer);
 }
 
 int	main_loop(bool test_mode)
@@ -164,7 +148,9 @@ int	main(int argc, char **argv)
 	int		exit_status;
 
 	exit_status = EXIT_SUCCESS;
-	if (argc >= 2 && (strcmp(argv[1], "test") == 0 || strcmp(argv[1], "TEST") == 0))
+	if (argc >= 2
+		&& (strcmp(argv[1], "test") == 0
+		|| strcmp(argv[1], "TEST") == 0))
 	{
 		debug_log("program started in TEST_MODE");
 		exit_status = main_loop(TEST_MODE);
