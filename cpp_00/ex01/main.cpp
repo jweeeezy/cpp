@@ -94,6 +94,7 @@ static void	loop_mode_search(Phonebook *phonebook)
 		}
 		else if (user_input.compare("BACK") == 0)
 		{
+			sleep_for(WAIT_DURATION);
 			break ;
 		}
 		if (std::cin.eof() == false)
