@@ -14,8 +14,8 @@
 # define NORMAL_MODE false
 # define MESSAGE_WELCOME "\nWelcome to the *phonebook* application!\n"
 # define MESSAGE_EXIT "\n< You decided to exit the *phonebook* " \
-						"application. Goodbye!\n"
-# define MESSAGE_SHELL "$: "
+						"application. Goodbye!\n\n"
+# define MESSAGE_SHELL "\n$: "
 # define MESSAGE_MAIN "\n< You are in the main menu >\n"
 # define MESSAGE_MAIN_HINT "\nHint: Please enter one of the following " \
 						"commands: ADD, SEARCH, EXIT...\n"

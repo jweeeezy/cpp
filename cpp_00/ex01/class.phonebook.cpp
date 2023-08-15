@@ -33,6 +33,7 @@ void	Phonebook::display(void)
 		"last_name",
 		"nick_name",
 	};
+	std::cout << std::endl;
 	for (size_t i = 0; i < 4; ++i)
 	{
 		std::cout	<< std::right

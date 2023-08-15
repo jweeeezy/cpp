@@ -16,7 +16,7 @@ void	Contact::clear(void)
 void	Contact::display_full(int index)
 {
 	debug_log("Contact: display_full() called");
-	std::cout << "\n";
+	std::cout << std::endl;
 	std::cout << std::setw(20) <<
 		"index | " << index + 1 << std::endl;
 	std::cout << std::setw(20) << "first_name | "
@@ -28,7 +28,7 @@ void	Contact::display_full(int index)
 	std::cout << std::setw(20) << "phone_number | "
 		<< this->phone_number << std::endl;
 	std::cout << std::setw(20) << "darkest_secret | "
-		<< this->darkest_secret << std::endl;
+		<< this->darkest_secret << "\n" << std::endl;
 	return ;
 }
 

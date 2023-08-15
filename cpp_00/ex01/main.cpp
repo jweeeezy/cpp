@@ -26,6 +26,7 @@ static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 		sleep_for(WAIT_DURATION);
 		std::cout << MESSAGE_SHELL;
 		std::cin >> index;
+		std::cout << std::endl;
 	}
 	else
 	{
@@ -33,6 +34,7 @@ static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 		sleep_for(WAIT_DURATION);
 		std::cout << MESSAGE_SHELL;
 		std::cin >> index;
+		std::cout << std::endl;
 	}
 	if (isnumber_string(index) == true && std::cin.eof() == false)
 	{
@@ -131,6 +133,7 @@ int	main_loop(bool test_mode)
 		std::cout << MESSAGE_MAIN_HINT << std::endl;
 		std::cout << MESSAGE_SHELL;
 		std::cin >> user_input;
+		std::cout << std::endl;
 		if (user_input.compare("ADD") == 0)
 		{
 			std::cout << MESSAGE_ADD << std::endl;
