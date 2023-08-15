@@ -4,6 +4,7 @@
 #include <iostream>				// needed for std::cout, std::cin, std::endl
 #include <cstdlib>				// needed for atoi(), MACROS
 //#include <cctype>				// needed for LINUX
+#include <cstring>				// needed for strcmp()
 #include <iomanip>				// needed for std::setw(), std::right
 
 static void add_next_field(	std::string field,
