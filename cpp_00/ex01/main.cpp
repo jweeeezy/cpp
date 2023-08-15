@@ -6,10 +6,8 @@
 //#include <cctype>				// needed for LINUX
 #include <iomanip>				// needed for std::setw(), std::right
 
-static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
+static void	loop_mode_search(Phonebook *phonebook)
 {
-	std::string	user_input;
-
 	debug_log("loop_mode_search() started");
 
 	if (phonebook->is_empty == true)
@@ -18,32 +16,31 @@ static void	loop_mode_search(Phonebook *phonebook, bool is_looped)
 		return ;
 	}
 
-	// @todo make this a loop --> easier readable
-	if (is_looped == false)
-	{
-		phonebook->display();
-		print_message(MESSAGE_SEARCH_HINT, DELAY);
-		user_input = take_input(MESSAGE_CMD_LINE);
-	}
-	else
-	{
-		print_message(MESSAGE_SEARCH_BAD, DELAY);
-		user_input = take_input(MESSAGE_CMD_LINE);
-	}
-	if (isnumber_string(user_input) == true && std::cin.eof() == false)
-	{
-		int index;
+	phonebook->display();
+	print_message(MESSAGE_SEARCH_HINT, DELAY);
 
-		index = atoi(user_input.c_str());
-		if (index >= 1 && index <= 8)
+	while (std::cin.eof() == false)
+	{
+		std::string	user_input;
+
+		user_input = take_input(MESSAGE_CMD_LINE);
+		if (isnumber_string(user_input) == true)
 		{
-			phonebook->contacts[index - 1].display_full(index - 1);
-			sleep_for(WAIT_DURATION);
-			return ;
+			int	index;
+
+			index = atoi(user_input.c_str());
+			if (index >= 1 && index <= 8)
+			{
+				phonebook->contacts[index - 1].display_full(index - 1);
+				sleep_for(WAIT_DURATION);
+				break ;
+			}
+			else if (std::cin.eof() == false)
+			{
+				print_message(MESSAGE_SEARCH_BAD, DELAY);
+			}
 		}
 	}
-	if (std::cin.eof() == false)
-		loop_mode_search(phonebook, true);
 }
 
 static void add_next_field(	Phonebook *phonebook,
@@ -145,7 +142,7 @@ int	main_loop(bool test_mode)
 		else if(user_input.compare("SEARCH") == 0)
 		{
 			print_message(MESSAGE_SEARCH, NO_DELAY);
-			loop_mode_search(&phonebook, false);
+			loop_mode_search(&phonebook);
 		}
 		else if(user_input.compare("EXIT") == 0)
 		{
