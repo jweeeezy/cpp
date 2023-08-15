@@ -2,7 +2,7 @@
 #include "phonebook.hpp"	// needed for DEBUG, debug_log()
 #include <iostream>			// needed for std::cout, std::endl
 #include <iomanip>			// needed for std::setw(), std::right
-#include <thread>			// needed for std::this_thread::sleep_for()
+#include <unistd.h>			// needed for sleep()
 
 void	debug_log(std::string message)
 {
@@ -77,7 +77,7 @@ void	print_short(std::string str)
 
 void	sleep_for(long long duration)
 {
-	std::this_thread::sleep_for(std::chrono::seconds(duration));
+	sleep(duration);
 }
 
 std::string	take_input(std::string cmd_line)
