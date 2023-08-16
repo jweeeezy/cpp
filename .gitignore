@@ -1,10 +1,14 @@
 # compilation files
 *.o
 
+# scripts
+*.sh
+
 # logfiles
 *.txt
+*.log
 
 # executables
 megaphone
 phonebook
-
+bank
