@@ -53,14 +53,41 @@ bool isalpha_string(std::string str_to_check)
 	return (true);
 }
 
-void	print_message(std::string message, bool delay)
+void	print_message_app(std::string message, bool delay)
 {
-	std::cout << message << std::endl;
+	std::cout << COLOR_APP << message << RESET << std::endl;
 	if (delay == true)
 	{
 		sleep_for(WAIT_DURATION);
 	}
 }
+
+void	print_message_warning(std::string warning, bool delay)
+{
+	std::cout << COLOR_WARNING << warning << RESET << std::endl;
+	if (delay == true)
+	{
+		sleep_for(WAIT_DURATION);
+	}
+}
+
+void	print_message_hint(std::string hint, bool delay)
+{
+	std::cout << COLOR_HINT << hint << RESET << std::endl;
+	if (delay == true)
+	{
+		sleep_for(WAIT_DURATION);
+	}
+}
+
+// void	print_message(std::string message, bool delay)
+// {
+// 	std::cout << message << std::endl;
+// 	if (delay == true)
+// 	{
+// 		sleep_for(WAIT_DURATION);
+// 	}
+// }
 
 void	print_short(std::string str)
 {

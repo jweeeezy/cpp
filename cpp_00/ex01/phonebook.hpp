@@ -16,6 +16,17 @@
 # define DELAY true
 # define NO_DELAY false
 
+/*	---		colors		---	*/
+#define COLOR_HINT		GREEN
+#define COLOR_WARNING	RED
+#define COLOR_APP		YELLOW
+
+#define	RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define RESET   "\033[0m"
+
+/*	---		message macros		---	*/
 # define MESSAGE_WELCOME "\nWelcome to the *phonebook* application!\n"
 # define MESSAGE_EXIT "\n< You decided to exit the *phonebook* " \
 						"application. Goodbye!\n\n"
@@ -42,7 +53,11 @@ void		debug_log(std::string message);
 void		debug_log(std::string message, int exit_status);
 bool		isalpha_string(std::string str_to_check);
 bool		isnumber_string(std::string str_to_check);
-void		print_message(std::string message, bool delay);
+
+void		print_message_app(std::string message, bool delay);
+void		print_message_warning(std::string warning, bool delay);
+void		print_message_hint(std::string hint, bool delay);
+
 void		print_short(std::string str);
 void		sleep_for(long long duration);
 std::string take_input(std::string cmd_line);

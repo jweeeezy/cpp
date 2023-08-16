@@ -6,7 +6,7 @@
 #include <cstring>				// needed for strcmp()
 #include <iomanip>				// needed for std::setw(), std::right
 
-static void add_next_field(	std::string field,
+static inline void add_next_field(	std::string field,
 							std::string *buffer,
 							size_t index)
 {
@@ -19,12 +19,12 @@ static void add_next_field(	std::string field,
 			if (index != 3 && isalpha_string(buffer[index]) == false)
 			{
 				buffer[index].clear();
-				print_message(MESSAGE_ADD_BAD_NAME, DELAY);
+				print_message_warning(MESSAGE_ADD_BAD_NAME, DELAY);
 			}
 			else if (index == 3 && isnumber_string(buffer[index]) == false)
 			{
 				buffer[index].clear();
-				print_message(MESSAGE_ADD_BAD_NUMBER, DELAY);
+				print_message_warning(MESSAGE_ADD_BAD_NUMBER, DELAY);
 			}
 			else
 			{
@@ -67,12 +67,12 @@ static void	loop_mode_search(Phonebook *phonebook)
 
 	if (phonebook->is_empty == true)
 	{
-		print_message(MESSAGE_SEARCH_EMPTY, DELAY);
+		print_message_app(MESSAGE_SEARCH_EMPTY, DELAY);
 		return ;
 	}
 
 	phonebook->display();
-	print_message(MESSAGE_SEARCH_HINT, DELAY);
+	print_message_hint(MESSAGE_SEARCH_HINT, DELAY);
 
 	while (std::cin.eof() == false)
 	{
@@ -98,7 +98,7 @@ static void	loop_mode_search(Phonebook *phonebook)
 		}
 		if (std::cin.eof() == false)
 		{
-			print_message(MESSAGE_SEARCH_BAD, DELAY);
+			print_message_warning(MESSAGE_SEARCH_BAD, DELAY);
 		}
 	}
 }
@@ -112,37 +112,37 @@ int	main_loop(bool test_mode)
 		phonebook.populate();
 	}
 
-	print_message(MESSAGE_WELCOME, DELAY);
+	print_message_app(MESSAGE_WELCOME, DELAY);
 
 	while (std::cin.eof() == false)
 	{
 		std::string	user_input;
 
-		print_message(MESSAGE_MAIN, NO_DELAY);
-		print_message(MESSAGE_MAIN_HINT, NO_DELAY);
+		print_message_app(MESSAGE_MAIN, NO_DELAY);
+		print_message_hint(MESSAGE_MAIN_HINT, NO_DELAY);
 
 		user_input = take_input(MESSAGE_CMD_LINE);
 
 		if (user_input.compare("ADD") == 0)
 		{
-			print_message(MESSAGE_ADD, NO_DELAY);
+			print_message_app(MESSAGE_ADD, NO_DELAY);
 			loop_mode_add(&phonebook);
 		}
 		else if(user_input.compare("SEARCH") == 0)
 		{
-			print_message(MESSAGE_SEARCH, NO_DELAY);
+			print_message_app(MESSAGE_SEARCH, NO_DELAY);
 			loop_mode_search(&phonebook);
 		}
 		else if(user_input.compare("EXIT") == 0)
 		{
 			debug_log("loop_mode_exit started");
-			print_message(MESSAGE_EXIT, DELAY);
+			print_message_app(MESSAGE_EXIT, DELAY);
 			break ;
 		}
 		else
 		{
 			debug_log("no viable command entered");
-			print_message(MESSAGE_MAIN_BAD, DELAY);
+			print_message_warning(MESSAGE_MAIN_BAD, DELAY);
 		}
 	}
 	return (EXIT_SUCCESS);
