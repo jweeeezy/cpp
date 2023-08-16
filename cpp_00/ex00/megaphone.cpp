@@ -6,7 +6,7 @@
 /*   By: jwillert <jwillert@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:43:17 by jwillert          #+#    #+#             */
-/*   Updated: 2023/08/07 17:05:52 by jwillert         ###   ########.fr       */
+/*   Updated: 2023/08/16 17:14:49 by jwillert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,3 @@ int	main(int argc, char **argv)
 	std::cout << std::endl;
     return (0);
 }
-
-
-
