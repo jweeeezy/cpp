@@ -1,5 +1,5 @@
 
-#include "class.contact.hpp"	// needed for Contact
+#include "class.Contact.hpp"	// needed for Contact
 #include "phonebook.hpp"		// needed for debug_log(), print_short()
 #include <iostream>				// needed for std::cout, std::endl
 #include <iomanip>				// needed for std::right, std::setw()

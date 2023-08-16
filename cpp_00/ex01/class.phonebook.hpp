@@ -2,7 +2,7 @@
 #ifndef CLASS_PHONEBOOK_H
 # define CLASS_PHONEBOOK_H
 
-#include "class.contact.hpp" // needed for Contact
+#include "class.Contact.hpp" // needed for Contact
 
 class Phonebook
 {

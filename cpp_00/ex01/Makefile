@@ -1,8 +1,8 @@
 NAME		= 	phonebook
 LOG_FILE	=	logfile.txt
 SRC_FILES	=	main.cpp \
-				class.contact.cpp \
-				class.phonebook.cpp \
+				class.Contact.cpp \
+				class.Phonebook.cpp \
 				utils.cpp
 OBJ_FILES	= 	$(SRC_FILES:.cpp=.o)
 CC			= 	c++

@@ -1,5 +1,5 @@
 
-#include "class.phonebook.hpp"	// needed for Phonebook
+#include "class.Phonebook.hpp"	// needed for Phonebook
 #include "phonebook.hpp"		// needed for MACROS, utils
 #include <iostream>				// needed for std::cout, std::cin, std::endl
 #include <cstdlib>				// needed for atoi(), MACROS
