@@ -14,7 +14,7 @@ void	Contact::clear(void)
 	this->darkest_secret.clear();
 }
 
-void	Contact::display_full(int index)
+void	Contact::display_full(int index) const
 {
 	debug_log("Contact: display_full() called");
 	std::cout << COLOR_PHONEBOOK << std::endl;
@@ -33,7 +33,7 @@ void	Contact::display_full(int index)
 	return ;
 }
 
-void	Contact::display_short(int index)
+void	Contact::display_short(int index) const
 {
 	debug_log("Contact: display_short() called");
 	std::cout << COLOR_PHONEBOOK << std::setw(10) << std::right << index + 1;

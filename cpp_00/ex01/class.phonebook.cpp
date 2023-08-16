@@ -49,7 +49,7 @@ void	Phonebook::display(void)
 	std::cout << RESET << std::endl;
 }
 
-void	Phonebook::populate()
+void	Phonebook::populate() const
 {
 	debug_log("phonebook: populate() called");
     std::string contact_information[][5] =

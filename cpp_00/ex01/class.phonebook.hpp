@@ -15,7 +15,7 @@ class Phonebook
 
 		/*	---		functions		---	*/
 		void	add_contact(std::string *buffer);
-		void	display(void);
+		void	display(void) const;
 		void	populate(void);
 
 		/*	---		construction	---	*/

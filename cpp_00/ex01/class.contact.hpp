@@ -19,9 +19,9 @@ class Contact
 		std::string	nick_name;
 
 		/*	---		functions		---	*/
-		void	clear(void);
-		void	display_full(int index);
-		void	display_short(int index);
+		void	clear( void );
+		void	display_full( int index ) const;
+		void	display_short( int index ) const;
 
 		/*	---		construction	---	*/
 		Contact(std::string fn,
