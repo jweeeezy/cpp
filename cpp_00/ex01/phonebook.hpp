@@ -17,13 +17,14 @@
 # define NO_DELAY false
 
 /*	---		colors		---	*/
-#define COLOR_HINT		GREEN
-#define COLOR_WARNING	RED
-#define COLOR_APP		YELLOW
+#define COLOR_HINT		BLUE
+#define COLOR_WARNING	PINK
+#define COLOR_APP		CYAN
 
-#define	RED     "\033[31m"
-#define GREEN   "\033[32m"
-#define YELLOW  "\033[33m"
+#define CYAN	"\033[38;5;14m"
+#define PINK	"\033[38;5;198m"
+#define BLUE	"\033[38;5;21m"
+#define GREEN	"\033[38;5;10m"
 #define RESET   "\033[0m"
 
 /*	---		message macros		---	*/
