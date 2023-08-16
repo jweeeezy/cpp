@@ -23,7 +23,7 @@ void	Phonebook::add_contact(std::string *info)
 								info[4]);
 }
 
-void	Phonebook::display(void)
+void	Phonebook::display(void) const
 {
 	debug_log("Phonebook: display() called");
 	std::string	headers[] =
@@ -49,7 +49,7 @@ void	Phonebook::display(void)
 	std::cout << RESET << std::endl;
 }
 
-void	Phonebook::populate() const
+void	Phonebook::populate() 
 {
 	debug_log("phonebook: populate() called");
     std::string contact_information[][5] =
