@@ -2,32 +2,39 @@
 #ifndef PHONEBOOK_H
 # define PHONEBOOK_H
 
+/* 								INCLUDES									*/
+
 # include <string>		// needed for std::string
 
-/*	---		debug macro	---	*/
+/* 								MACROS										*/
+/*	---		debug	---	*/
+# define TEST_MODE true
+# define NORMAL_MODE false
+
 # ifndef DEBUG
 #  define DEBUG 0
 # endif // DEBUG
 
-/*	---		macros	---	*/
-# define TEST_MODE true
-# define NORMAL_MODE false
-
+/*	---		sleep delay		---	*/
 # define DELAY true
 # define NO_DELAY false
+# define WAIT_DURATION 1
 
-/*	---		colors		---	*/
-#define COLOR_HINT		BLUE
+/*	---		colors	---	*/
+#define COLOR_PHONEBOOK	BLUE
 #define COLOR_WARNING	PINK
+#define COLOR_HINT		GREEN
 #define COLOR_APP		CYAN
+#define COLOR_SHELL		PURPLE
 
 #define CYAN	"\033[38;5;14m"
 #define PINK	"\033[38;5;198m"
 #define BLUE	"\033[38;5;21m"
 #define GREEN	"\033[38;5;10m"
+#define PURPLE	"\033[38;5;129m"
 #define RESET   "\033[0m"
 
-/*	---		message macros		---	*/
+/*	---		messages		---	*/
 # define MESSAGE_WELCOME "\nWelcome to the *phonebook* application!\n"
 # define MESSAGE_EXIT "\n< You decided to exit the *phonebook* " \
 						"application. Goodbye!\n\n"
@@ -47,18 +54,16 @@
 						" Please use ADD to add new contacts to the list!\n"
 # define MESSAGE_SEARCH_HINT "\nHint: Please enter the index of the entry " \
 						"you want to be displayed or type BACK...\n"
-# define WAIT_DURATION 1
 
-/*	---		utils	---	*/
+/* 								FUNCTIONS									 */
+/*	---		utils.cpp	---	*/
 void		debug_log(std::string message);
 void		debug_log(std::string message, int exit_status);
 bool		isalpha_string(std::string str_to_check);
 bool		isnumber_string(std::string str_to_check);
-
 void		print_message_app(std::string message, bool delay);
 void		print_message_warning(std::string warning, bool delay);
 void		print_message_hint(std::string hint, bool delay);
-
 void		print_short(std::string str);
 void		sleep_for(long long duration);
 std::string take_input(std::string cmd_line);

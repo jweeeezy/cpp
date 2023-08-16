@@ -33,7 +33,7 @@ void	Phonebook::display(void)
 		"last_name",
 		"nick_name",
 	};
-	std::cout << std::endl;
+	std::cout << COLOR_PHONEBOOK << std::endl;
 	for (size_t i = 0; i < 4; ++i)
 	{
 		std::cout	<< std::right
@@ -46,7 +46,7 @@ void	Phonebook::display(void)
 	{
 		this->contacts[i].display_short(i);
 	}
-	std::cout << std::endl;
+	std::cout << RESET << std::endl;
 }
 
 void	Phonebook::populate()

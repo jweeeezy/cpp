@@ -41,6 +41,7 @@ bool	isnumber_string(std::string str_to_check)
 
 bool isalpha_string(std::string str_to_check)
 {
+	debug_log("isalpha_string() called");
 	for (std::string::iterator itr = str_to_check.begin() ;
 			itr != str_to_check.end();
 			++itr)
@@ -80,15 +81,6 @@ void	print_message_hint(std::string hint, bool delay)
 	}
 }
 
-// void	print_message(std::string message, bool delay)
-// {
-// 	std::cout << message << std::endl;
-// 	if (delay == true)
-// 	{
-// 		sleep_for(WAIT_DURATION);
-// 	}
-// }
-
 void	print_short(std::string str)
 {
 	if (str.length() >= 9)
@@ -104,6 +96,7 @@ void	print_short(std::string str)
 
 void	sleep_for(long long duration)
 {
+	debug_log("sleep_for() called");
 	sleep(duration);
 }
 
@@ -111,9 +104,10 @@ std::string	take_input(std::string cmd_line)
 {
 	std::string buffer;
 
-	std::cout << cmd_line;
+	debug_log("take_input() called");
+	std::cout << COLOR_SHELL << cmd_line;
 	std::cin >> buffer;
-	std::cout << std::endl;
+	std::cout << RESET << std::endl;
 	return (buffer);
 }
 
