@@ -6,7 +6,7 @@
 /*   By: jwillert <jwillert@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 15:43:17 by jwillert          #+#    #+#             */
-/*   Updated: 2023/08/16 17:14:49 by jwillert         ###   ########.fr       */
+/*   Updated: 2023/08/17 11:12:16 by jwillert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 			str_it != str.end();
 			++str_it)
 		{
-			std::cout << (char) toupper(*str_it);
+			std::cout << (char) std::toupper(*str_it);
 		}
 	}
 	std::cout << std::endl;

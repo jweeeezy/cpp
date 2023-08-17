@@ -116,7 +116,7 @@ void	Account::_displayTimestamp( void )
 
 Account::Account(int initial_deposit)
 {
-	if (initial_deposit > 0)
+	if (initial_deposit >= 0)
 	{
 		this->_totalAmount += initial_deposit;
 		this->_nbAccounts += 1;
