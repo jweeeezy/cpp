@@ -16,7 +16,8 @@ static inline void add_next_field(	std::string field,
 		{
 			buffer[index] = take_input("\nPlease enter the " + field + ": ");
 
-			if (index != 3 && isalpha_string(buffer[index]) == false)
+			if (index != 3 && index != 2
+				&& isalpha_string(buffer[index]) == false)
 			{
 				buffer[index].clear();
 				print_message_warning(MESSAGE_ADD_BAD_NAME, DELAY);
