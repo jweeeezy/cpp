@@ -6,11 +6,15 @@
 
 class Phonebook
 {
+	private:
+
+		/*	---		variables		---	*/
+		size_t	index_add;
+
 	public:
 
-		/*	---		member			---	*/
+		/*	---		variables		---	*/
 		Contact	contacts[8];
-		size_t	index_add;
 		bool	is_empty;
 
 		/*	---		functions		---	*/

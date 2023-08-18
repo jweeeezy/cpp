@@ -1,7 +1,7 @@
 
 #include "Account.hpp"
-#include <iostream>
-#include <ctime>
+#include <iostream>			// needed for std::cout, std::endl
+#include <ctime>			// needed for std::*time*
 
 int	Account::_nbAccounts = 0;
 int	Account::_totalAmount = 0;

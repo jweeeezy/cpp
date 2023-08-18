@@ -8,15 +8,14 @@ class Contact
 {
 	private:
 
+		/*	---		variables		---	*/
 		std::string	phone_number;
 		std::string	darkest_secret;
-
-	public:
-
-		/*	---		member			---	*/
 		std::string	first_name;
 		std::string	last_name;
 		std::string	nick_name;
+
+	public:
 
 		/*	---		functions		---	*/
 		void	clear( void );
