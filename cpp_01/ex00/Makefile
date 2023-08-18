@@ -1,5 +1,4 @@
 NAME		= 	zombie
-LOG_FILE	=	logfile.log
 SRC_FILES	=	main.cpp \
 				Zombie.cpp \
 				randomChump.cpp \
@@ -9,7 +8,7 @@ CC			= 	c++
 DEBUG_FLAG  = 	$(shell echo $$DEBUG_FLAG)
 CFLAGS		= 	-std=c++98 -Wall -Wextra -Werror $(DEBUG_FLAG)
 
-.PHONY:		all clean fclean re run
+.PHONY:		all clean fclean re
 
 all:		$(NAME)
 $(NAME): 	$(OBJ_FILES)
@@ -18,10 +17,7 @@ $(NAME): 	$(OBJ_FILES)
 				$(CC) $(CFLAGS) -c $< -o $@
 clean:
 				rm -rf $(OBJ_FILES)
-				rm -rf $(LOG_FILE)
 fclean:		clean
 				rm -rf $(NAME)
 re:			fclean
 				$(MAKE)
-run:		all
-			@./$(NAME) > $(LOG_FILE)
