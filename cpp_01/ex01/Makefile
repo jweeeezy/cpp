@@ -1,4 +1,4 @@
-NAME		= 	zombiehorde
+NAME		= 	moarbrainz
 SRC_FILES	=	main.cpp \
 				Zombie.cpp \
 				zombieHorde.cpp
