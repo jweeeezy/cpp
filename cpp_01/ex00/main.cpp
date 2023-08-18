@@ -1,15 +1,14 @@
 
-#include "class.Zombie.hpp"
+#include "Zombie.hpp"
 
 int	main(void)
 {
-	Zombie	random("random");
+	Zombie	zombie_class;
 	Zombie	*ptr;
 
-	ptr = newZombie("Alfred");
-
-
-
-
+	ptr = zombie_class.newZombie("Alfred");
+	zombie_class.randomChump("Brian");
+	ptr->announce();
+	delete ptr;
 	return (EXIT_SUCCESS);
 }
