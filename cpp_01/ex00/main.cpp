@@ -1,5 +1,6 @@
 
 #include "Zombie.hpp"
+#include <cstdlib>		// needed for MACROS
 
 int	main(void)
 {
