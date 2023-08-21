@@ -2,6 +2,7 @@
 #include <iostream>	// neded for std::cout, std::cerr, std::endl
 #include <fstream>	// needed for std::ifstream, std::ofstream
 #include <sstream>	// needed for std::stringstream
+#include <cstdlib>	// needed for linux, MACROS
 
 #define EXPECTED_ARGC 4
 
@@ -64,14 +65,14 @@ static bool	prepare_files_and_replace_needle(	const std::string& filename,
 												const std::string& needle,
 												const std::string& replacement)
 {
-	std::ifstream file_source(filename);
+	std::ifstream file_source(filename.c_str());	// c11 --> std::string
 	if (!file_source)
 	{
 		std::cerr << "Error: cant open the source file!" << std::endl;
 		return false;
 	}
 
-	std::ofstream file_dest(new_filename);
+	std::ofstream file_dest(new_filename.c_str());	// c11 --> std::string
 	if (!file_dest)
 	{
 		std::cerr << "Error: cant open the destination file!" << std::endl;
