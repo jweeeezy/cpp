@@ -16,5 +16,6 @@ clean:
 				rm -rf $(OBJ_FILES)
 fclean:		clean
 				rm -rf $(NAME)
+				rm -rf *.replace
 re:			fclean
 				$(MAKE)

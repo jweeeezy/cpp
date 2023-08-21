@@ -5,26 +5,30 @@
 
 #define EXPECTED_ARGC 4
 
-
-static bool	read_and_replace_needle(const std::string& filename,
-									const std::string& new_filename,
-									const std::string& needle,
-									const std::string& replacement)
+static bool	validate_arguments(int argc, char **argv)
 {
-	std::ifstream file_source(filename);
-	if (!file_source)
+	if (argc != EXPECTED_ARGC)
 	{
-		std::cerr << "Error: cant open the source file" << std::endl;
+		std::cerr << "Error: bad arguments!" << std::endl;
 		return false;
 	}
-
-	std::ofstream file_dest(new_filename);
-	if (!file_dest)
+	for (int i = 0; i < argc; ++i)
 	{
-		std::cerr << "Error: cant open the destination file" << std::endl;
-		return false;
+		std::string	arg = argv[i];
+		if (arg.empty() == true)
+		{
+			std::cerr << "Error: no empty arguments allowed!" << std::endl;
+			return false;
+		}
 	}
+	return true;
+}
 
+static bool copy_and_replace(	std::ifstream& file_source,
+								std::ofstream& file_dest,
+								const std::string& needle,
+								const std::string& replacement)
+{
 	std::string	line_source;
 
 	while (getline(file_source, line_source))
@@ -45,35 +49,46 @@ static bool	read_and_replace_needle(const std::string& filename,
 			}
 			else
 			{
-				buffer << line_source.substr(pos_start, pos - pos_start) << replacement;
+				buffer	<< line_source.substr(pos_start, pos - pos_start)
+						<< replacement;
 				pos += needle.length();
 			}
 		}
 		file_dest << buffer.str() << std::endl;
 	}
-
-	file_source.close();
-	file_dest.close();
 	return true;
 }
 
-
-static bool	validate_arguments(int argc)
+static bool	prepare_files_and_replace_needle(	const std::string& filename,
+												const std::string& new_filename,
+												const std::string& needle,
+												const std::string& replacement)
 {
-	if (argc != EXPECTED_ARGC)
+	std::ifstream file_source(filename);
+	if (!file_source)
 	{
-		std::cerr << "Error: bad arguments" << std::endl;
+		std::cerr << "Error: cant open the source file!" << std::endl;
 		return false;
 	}
-	else
+
+	std::ofstream file_dest(new_filename);
+	if (!file_dest)
 	{
-		return true;
+		std::cerr << "Error: cant open the destination file!" << std::endl;
+		return false;
 	}
+
+	if (copy_and_replace(file_source, file_dest, needle, replacement) == false)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 int	main(int argc, char **argv)
 {
-	if (validate_arguments(argc) == false)
+	if (validate_arguments(argc, argv) == false)
 	{
 		return (EXIT_FAILURE);
 	}
@@ -83,14 +98,16 @@ int	main(int argc, char **argv)
 	std::string replacement = argv[3];
 	std::string new_filename = filename + ".replace";
 
-	if (!read_and_replace_needle(filename,
-								new_filename,
-								needle,
-								replacement))
+	if (prepare_files_and_replace_needle(	filename,
+											new_filename,
+											needle,
+											replacement) == false)
 	{
 		return (EXIT_FAILURE);
 	}
 
+	std::cout	<< "\nFile has been processed successfully.\n"
+				<< std::endl;
 
 	return (EXIT_SUCCESS);
 }
