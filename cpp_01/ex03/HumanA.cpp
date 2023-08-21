@@ -3,7 +3,7 @@
 #include "Weapon.hpp"
 #include "HumanA.hpp"
 
-void	HumanA::attack( void )
+void	HumanA::attack( void ) const
 {
 	std::cout	<< name
 				<< " attacks with their "
