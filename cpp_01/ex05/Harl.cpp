@@ -1,10 +1,12 @@
 
 #include "Harl.hpp"
 
-
 Harl::function_map Harl::_function_map[4] = 
 {
-    {"DEBUG", &Harl::debug}
+    {"DEBUG", &Harl::debug},
+	{"INFO", &Harl::info},
+	{"WARNING", &Harl::warning},
+	{"ERROR", &Harl::error}
 };
 
 void	Harl::complain( std::string level )
