@@ -1,5 +1,6 @@
 NAME		= 	harl2.0
-SRC_FILES	=	main.cpp
+SRC_FILES	=	main.cpp \
+				Harl.cpp
 OBJ_FILES	= 	$(SRC_FILES:.cpp=.o)
 CC			= 	c++
 DEBUG_FLAG  = 	$(shell echo $$DEBUG_FLAG)
@@ -16,6 +17,5 @@ clean:
 				rm -rf $(OBJ_FILES)
 fclean:		clean
 				rm -rf $(NAME)
-				rm -rf *.replace
 re:			fclean
 				$(MAKE)

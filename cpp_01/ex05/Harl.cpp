@@ -1,11 +1,22 @@
 
 #include "Harl.hpp"
 
+
+Harl::function_map Harl::_function_map[4] = 
+{
+    {"DEBUG", &Harl::debug}
+};
+
 void	Harl::complain( std::string level )
 {
-
-
-
+	for (size_t i = 0; i < 4; ++i)
+	{
+		if (level == _function_map[i].level)
+		{
+			(this->*_function_map[i].func)();
+			return ;
+		}
+	}
 	return ;
 }
 
@@ -36,6 +47,8 @@ void	Harl::error( void )
 
 Harl::Harl( void )
 {
+	this->_function_map[0].level = "DEBUG";
+	this->_function_map[0].func = &Harl::debug;
 	return ;
 }
 
