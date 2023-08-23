@@ -1,7 +1,7 @@
 
 #include "Harl.hpp"
 
-Harl::function_map Harl::_function_map[4] = 
+Harl::function_map Harl::_function_map[4] =
 {
     {"DEBUG", &Harl::debug},
 	{"INFO", &Harl::info},
@@ -49,8 +49,6 @@ void	Harl::error( void )
 
 Harl::Harl( void )
 {
-	this->_function_map[0].level = "DEBUG";
-	this->_function_map[0].func = &Harl::debug;
 	return ;
 }
 
