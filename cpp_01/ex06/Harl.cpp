@@ -1,6 +1,11 @@
 
 #include "Harl.hpp"
 
+static inline void	print_message(const std::string& message)
+{
+	std::cout << message << std::endl;
+}
+
 Harl::function_map Harl::_function_map[4] =
 {
     {"DEBUG", &Harl::debug},
@@ -20,21 +25,25 @@ void	Harl::complain( std::string level )
 			is_filtered = true;
 			switch (i)
 			{
-				case 0:
+				case CASE_DEBUG:
 					this->debug();
-				case 1:
+					// fallthrough
+				case CASE_INFO:
 					this->info();
-				case 2:
+					// fallthrough
+				case CASE_WARNING:
 					this->warning();
-				case 3:
+					// fallthrough
+				case CASE_ERROR:
 					this->error();
+					break;
 			}
 		}
 	}
 
 	if (is_filtered == false)
 	{
-		std::cout << "*white noise*" << std::endl;
+		print_message(MESSAGE_DEFAULT);
 	}
 
 	return ;
@@ -42,25 +51,25 @@ void	Harl::complain( std::string level )
 
 void	Harl::debug( void )
 {
-	std::cout << MESSAGE_DEBUG << std::endl;
+	print_message(MESSAGE_DEBUG);
 	return ;
 }
 
 void	Harl::info( void )
 {
-	std::cout << MESSAGE_INFO << std::endl;
+	print_message(MESSAGE_INFO);
 	return ;
 }
 
 void	Harl::warning( void )
 {
-	std::cout << MESSAGE_WARNING << std::endl;
+	print_message(MESSAGE_WARNING);
 	return ;
 }
 
 void	Harl::error( void )
 {
-	std::cout << MESSAGE_ERROR << std::endl;
+	print_message(MESSAGE_ERROR);
 	return ;
 }
 

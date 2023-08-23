@@ -4,7 +4,6 @@
 
 #include <iostream>	// needed for std::cout, std::endl
 
-
 // @todo think about some funny messages
 #define MESSAGE_DEBUG	"debug!"
 #define MESSAGE_INFO	"info!"
@@ -27,13 +26,13 @@ class Harl
 			std::string	level;
 			harl_fptr	func;
 		}				t_func_map;
-		
+
 		static function_map	_function_map[4];
 
 	public:
 
 		void		complain	( std::string level );
-		
+
 		Harl( void );
 		~Harl();
 };

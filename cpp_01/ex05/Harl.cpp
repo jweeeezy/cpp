@@ -1,6 +1,11 @@
 
 #include "Harl.hpp"
 
+static inline void	print_message(const std::string& message)
+{
+	std::cout << message << std::endl;
+}
+
 Harl::function_map Harl::_function_map[4] =
 {
     {"DEBUG", &Harl::debug},
@@ -24,26 +29,25 @@ void	Harl::complain( std::string level )
 
 void	Harl::debug( void )
 {
-	std::cout << MESSAGE_DEBUG << std::endl;
+	print_message(MESSAGE_DEBUG);
 	return ;
 }
 
 void	Harl::info( void )
 {
-	std::cout << MESSAGE_INFO << std::endl;
+	print_message(MESSAGE_INFO);
 	return ;
 }
 
-
 void	Harl::warning( void )
 {
-	std::cout << MESSAGE_WARNING << std::endl;
+	print_message(MESSAGE_WARNING);
 	return ;
 }
 
 void	Harl::error( void )
 {
-	std::cout << MESSAGE_ERROR << std::endl;
+	print_message(MESSAGE_ERROR);
 	return ;
 }
 
