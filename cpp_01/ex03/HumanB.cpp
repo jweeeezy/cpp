@@ -1,7 +1,7 @@
 
-#include <string>
-#include <iostream>
 #include "HumanB.hpp"
+#include <string>		// needed for std::string
+#include <iostream>		// needed for std::cout, std::endl
 
 void	HumanB::attack( void ) const
 {

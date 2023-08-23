@@ -1,7 +1,7 @@
 
-#include <iostream>
 #include "Weapon.hpp"
 #include "HumanA.hpp"
+#include <iostream>		// needed for std::cout, std::endl
 
 void	HumanA::attack( void ) const
 {

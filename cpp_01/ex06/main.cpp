@@ -1,6 +1,6 @@
 #include "Harl.hpp"
 
-#include <iostream>	// needed for std::cerr
+#include <iostream>	// needed for std::cerr, std::endl
 #include <cstdlib>	// needed for MACROS
 
 int	main(int argc, char **argv)
