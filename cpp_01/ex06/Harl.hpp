@@ -4,12 +4,13 @@
 
 #include <iostream>	// needed for std::cout, std::endl
 
-// @todo think about some funny messages
-#define MESSAGE_DEBUG	"debug!"
-#define MESSAGE_INFO	"info!"
-#define MESSAGE_WARNING	"warning!"
-#define MESSAGE_ERROR	"error!"
-#define MESSAGE_DEFAULT "*white noise*"
+#define MESSAGE_DEBUG 	"USB Flash drive <SneakyStick> and your machine are a match!"
+#define MESSAGE_INFO 	"USB Flash drive <SneakyStick> would like to share data..."
+#define MESSAGE_WARNING "USB Flash drive <SneakyStick> has been left on read." \
+						" Data loss is a matter of time..."
+#define MESSAGE_ERROR 	"USB Flash drive <SneakyStick> has lost the connection " \
+						"and all your shared data because of Early Ejection!"
+#define MESSAGE_DEFAULT "*just random swipes... one to the left, one to the right!*"
 
 #define CASE_DEBUG		0
 #define CASE_INFO		1
@@ -25,7 +26,7 @@ class Harl
 		void		warning	( void );
 		void		error	( void );
 
-		typedef void (Harl::*harl_fptr)();	// @todo ask chatgpt about this again
+		typedef void (Harl::*harl_fptr)();
 
 		typedef struct	function_map
 		{
