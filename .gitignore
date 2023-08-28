@@ -1,3 +1,6 @@
+# MAC Files
+.DS_Store
+
 # compilation files
 *.o
 
@@ -23,3 +26,9 @@ unnecessaryviolence
 sedisforlosers
 harl2.0
 harlfilter
+
+# cpp02
+myfirstclassinorthodoxcanonicalform
+towardsamoreusefulfixed-pointnumberclass
+noweretalking
+bsp
