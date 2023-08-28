@@ -11,9 +11,12 @@
 #include "Fixed.hpp"
 #include <iostream>
 
+#define YELLOW  "\033[33m"
+#define RESET   "\033[0m"
+
 void	print_log(std::string message)
 {
-	std::cout << message << std::endl;
+	std::cout << YELLOW << message << RESET << std::endl;
 	return ;
 }
 
