@@ -10,6 +10,7 @@
 
 #include "Fixed.hpp" // needed for Fixed
 #include <iostream>  // needed for std::cout, std::endl
+#include <cmath>     // needed for roundf()
 
 #define YELLOW  "\033[33m"
 #define RESET   "\033[0m"
@@ -20,25 +21,40 @@ const int Fixed::_fractional_bits = 8;
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> non-class functions */
 
-void	print_log(std::string message)
+static void	print_log(std::string message)
 {
 	std::cout << YELLOW << message << RESET << std::endl;
 	return ;
 }
 
+std::ostream& operator<<(std::ostream& os, const Fixed& obj)
+{
+	//print_log("<< operator used");
+	os << obj.toFloat();
+	return os;
+}
+
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
 
-int 	Fixed::getRawBits( void )
+int 	Fixed::getRawBits( void ) const
 {
-	print_log("getRawBits member function called");
 	return (_fixed_point_number);
 }
 
 void	Fixed::setRawBits( int const raw )
 {
-	print_log("setRawBits member function called");
 	_fixed_point_number = raw;
 	return ;
+}
+
+float	Fixed::toFloat( void ) const
+{
+	return (static_cast<float>(_fixed_point_number) / (1 << _fractional_bits));
+}
+
+int		Fixed::toInt( void ) const
+{
+	return (_fixed_point_number >> _fractional_bits);
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloading */
@@ -61,6 +77,20 @@ Fixed::Fixed() : _fixed_point_number(0)
 	return ;
 }
 
+Fixed::Fixed( int const number )
+	: _fixed_point_number(number << _fractional_bits)
+{
+	print_log("Integer constructor called");
+	return ;
+}
+
+Fixed::Fixed( float const number )
+	: _fixed_point_number(static_cast<int>(roundf(number * (1 << _fractional_bits))))
+{
+	print_log("Float constructor called");
+	return ;
+}
+		
 Fixed::Fixed(const Fixed& src) : _fixed_point_number(src._fixed_point_number)
 {
 	print_log("Copy constructor called");
