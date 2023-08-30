@@ -61,9 +61,45 @@ int		Fixed::toInt( void ) const
 	return (_fixed_point_number >> _fractional_bits);
 }
 
+Fixed& Fixed::min ( Fixed& obj_l, Fixed& obj_r)
+{
+	if (obj_l < obj_r)
+	{
+		return (obj_l);
+	}
+	return (obj_r);
+}
+
+const Fixed& min ( const Fixed& obj_l, const Fixed& obj_r)
+{
+	if (obj_l <= obj_r)
+	{
+		return (obj_l);
+	}
+	return (obj_r);
+}
+
+Fixed& max ( Fixed& obj_l, Fixed& obj_r)
+{
+	if (obj_l >= obj_r)
+	{
+		return (obj_l);
+	}
+	return (obj_r);
+}
+
+const Fixed& max ( const Fixed& obj_l, const Fixed& obj_r)
+{
+	if (obj_l >= obj_r)
+	{
+		return (obj_l);
+	}
+	return (obj_r);
+}
+
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloading */
 
-Fixed& Fixed::operator=(const Fixed& rhs)
+Fixed& Fixed::operator = ( const Fixed& rhs )
 {
 	print_log("Copy assignment operator called");
 	if (this != &rhs)
@@ -72,6 +108,74 @@ Fixed& Fixed::operator=(const Fixed& rhs)
 	}
 	return (*this);
 }
+
+/* <~~~~~~~~~~~~~~~~~~~> comparison operators */
+
+bool Fixed::operator <  ( const Fixed& rhs ) const
+{
+	return (this->_fixed_point_number < rhs._fixed_point_number);
+}
+
+bool Fixed::operator == ( const Fixed& rhs ) const
+{
+	return (this->_fixed_point_number == rhs._fixed_point_number);
+}
+
+// Hint: use of predetermined operators for code changeability!
+
+bool Fixed::operator >  ( const Fixed& rhs ) const
+{
+	return !(*this <= rhs);
+}
+
+bool Fixed::operator <= ( const Fixed& rhs ) const
+{
+	return (*this < rhs) || (*this == rhs);
+}
+
+bool Fixed::operator >= ( const Fixed& rhs ) const
+{
+	return !(*this < rhs);
+}
+
+bool Fixed::operator != ( const Fixed& rhs ) const
+{
+	return !(*this == rhs);
+}
+
+/* <~~~~~~~~~~~~~~~~~~~> arithmetic operators */
+
+Fixed Fixed::operator + ( const Fixed& rhs ) const
+{
+	return (Fixed (this->_fixed_point_number + rhs._fixed_point_number));
+}
+
+Fixed Fixed::operator - ( const Fixed& rhs ) const
+{
+	return (Fixed (this->_fixed_point_number - rhs._fixed_point_number));
+}
+
+Fixed Fixed::operator * ( const Fixed& rhs ) const
+{
+	return (Fixed ((this->_fixed_point_number * rhs._fixed_point_number) 
+					>> _fractional_bits));
+}
+
+Fixed Fixed::operator / ( const Fixed& rhs ) const
+{
+	if (rhs._fixed_point_number == 0)
+	{
+		return (Fixed(0));
+	}
+	return (Fixed ((this->_fixed_point_number << _fractional_bits)
+					/ rhs._fixed_point_number));
+}
+
+/* <~~~~~~~~~~~~~~~~~~~> increment operators */
+
+
+
+
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructor */
 
