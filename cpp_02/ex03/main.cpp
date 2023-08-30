@@ -8,17 +8,16 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include <cstdlib> // needed for MACROS
+#include <cstdlib>   // needed for MACROS
+#include <iostream>  // needed for std::cout, std::endl
+#include "Point.hpp" // needed for Point
 
-#define EXPECTED_ARGC 2
 
-int	main(int argc, char **argv)
+int	main( void )
 {
-	if (argc != EXPECTED_ARGC)
-	{
-		return (EXIT_FAILURE);
-	}
-	(void) argv;
+	Point a(1.1,2.2);
+
+	std::cout << a << std::endl;
 	return (EXIT_SUCCESS);
 }
 
