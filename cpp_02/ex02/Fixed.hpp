@@ -39,10 +39,10 @@ class Fixed
 		Fixed operator / ( const Fixed& rhs ) const;
 
 		// increment operators
-			// ++obj
-			// obj++
-			// --obj
-			// obj--
+		Fixed& operator++ ( void );
+		Fixed  operator++ ( int );
+		Fixed& operator-- ( void );
+		Fixed  operator-- ( int );
 
 		// static member functions
 		static Fixed& min ( Fixed& obj_l, Fixed& obj_r);

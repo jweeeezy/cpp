@@ -23,7 +23,8 @@ const int Fixed::_fractional_bits = 8;
 
 static void	print_log(std::string message)
 {
-	std::cout << YELLOW << message << RESET << std::endl;
+	//std::cout << YELLOW << message << RESET << std::endl;
+	(void) message;
 	return ;
 }
 
@@ -70,7 +71,7 @@ Fixed& Fixed::min ( Fixed& obj_l, Fixed& obj_r)
 	return (obj_r);
 }
 
-const Fixed& min ( const Fixed& obj_l, const Fixed& obj_r)
+const Fixed& Fixed::min ( const Fixed& obj_l, const Fixed& obj_r)
 {
 	if (obj_l <= obj_r)
 	{
@@ -79,7 +80,7 @@ const Fixed& min ( const Fixed& obj_l, const Fixed& obj_r)
 	return (obj_r);
 }
 
-Fixed& max ( Fixed& obj_l, Fixed& obj_r)
+Fixed& Fixed::max ( Fixed& obj_l, Fixed& obj_r)
 {
 	if (obj_l >= obj_r)
 	{
@@ -88,7 +89,7 @@ Fixed& max ( Fixed& obj_l, Fixed& obj_r)
 	return (obj_r);
 }
 
-const Fixed& max ( const Fixed& obj_l, const Fixed& obj_r)
+const Fixed& Fixed::max ( const Fixed& obj_l, const Fixed& obj_r)
 {
 	if (obj_l >= obj_r)
 	{
@@ -173,9 +174,33 @@ Fixed Fixed::operator / ( const Fixed& rhs ) const
 
 /* <~~~~~~~~~~~~~~~~~~~> increment operators */
 
+Fixed& Fixed::operator ++ ( void )
+{
+	++this->_fixed_point_number;
+	return (*this);
+}
 
+Fixed Fixed::operator ++ ( int )
+{
+	Fixed tmp(*this);
 
+	operator++();
+	return (tmp);
+}
 
+Fixed& Fixed::operator -- ( void )
+{
+	--this->_fixed_point_number;
+	return (*this);
+}
+
+Fixed Fixed::operator -- ( int )
+{
+	Fixed tmp(*this);
+
+	operator--();
+	return (tmp);
+}
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructor */
 
