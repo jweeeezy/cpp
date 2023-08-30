@@ -17,10 +17,10 @@ class Fixed
 
 	public:
 	
-		int 	getRawBits( void ) const;
-		void	setRawBits( int const raw );
-		float	toFloat( void  ) const;
-		int		toInt( void  ) const;	
+		int 	getRawBits ( void )         const;
+		void	setRawBits ( int const raw );
+		float	toFloat    ( void  )        const;
+		int		toInt      ( void  )        const;	
 
 		Fixed& operator = ( const Fixed& rhs );
 
@@ -39,15 +39,15 @@ class Fixed
 		Fixed operator / ( const Fixed& rhs ) const;
 
 		// increment operators
-		Fixed& operator++ ( void );
-		Fixed  operator++ ( int );
-		Fixed& operator-- ( void );
-		Fixed  operator-- ( int );
+		Fixed& operator ++ ( void );
+		Fixed  operator ++ ( int );
+		Fixed& operator -- ( void );
+		Fixed  operator -- ( int );
 
 		// static member functions
-		static Fixed& min ( Fixed& obj_l, Fixed& obj_r);
+		static Fixed&       min ( Fixed& obj_l, Fixed& obj_r);
 		static const Fixed& min ( const Fixed& obj_l, const Fixed& obj_r);
-		static Fixed& max ( Fixed& obj_l, Fixed& obj_r);
+		static Fixed&       max ( Fixed& obj_l, Fixed& obj_r);
 		static const Fixed& max ( const Fixed& obj_l, const Fixed& obj_r);
 
 		Fixed();

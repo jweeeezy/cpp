@@ -52,7 +52,8 @@ void	Fixed::setRawBits( int const raw )
 //	float
 float	Fixed::toFloat( void ) const
 {
-	return (static_cast<float>(_fixed_point_number >> _fractional_bits));
+	return (static_cast<float>(_fixed_point_number)
+				/ (1 << _fractional_bits));
 }
 
 // Shifts the integer part of the FPn by fractional bits to the right so it is
@@ -158,8 +159,7 @@ Fixed Fixed::operator - ( const Fixed& rhs ) const
 
 Fixed Fixed::operator * ( const Fixed& rhs ) const
 {
-	return (Fixed ((this->_fixed_point_number * rhs._fixed_point_number) 
-					>> _fractional_bits));
+	return (Fixed(this->toFloat() * rhs.toFloat()));
 }
 
 Fixed Fixed::operator / ( const Fixed& rhs ) const
@@ -168,8 +168,7 @@ Fixed Fixed::operator / ( const Fixed& rhs ) const
 	{
 		return (Fixed(0));
 	}
-	return (Fixed ((this->_fixed_point_number << _fractional_bits)
-					/ rhs._fixed_point_number));
+	return (Fixed(this->toFloat() / rhs.toFloat()));
 }
 
 /* <~~~~~~~~~~~~~~~~~~~> increment operators */
@@ -222,8 +221,8 @@ Fixed::Fixed( int const number )
 // and rounds it (with roundf() and then casts everything to an integer in order
 // to store the FPn value)
 Fixed::Fixed( float const number )
-	: _fixed_point_number(static_cast<int>(
-		roundf(number * (1 << _fractional_bits))))
+	: _fixed_point_number(
+		roundf(number * (1 << _fractional_bits)))
 {
 	print_log("Float constructor called");
 	return ;

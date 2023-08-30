@@ -51,7 +51,8 @@ void	Fixed::setRawBits( int const raw )
 //	float
 float	Fixed::toFloat( void ) const
 {
-	return (static_cast<float>(_fixed_point_number >> _fractional_bits));
+	return (static_cast<float>(_fixed_point_number)
+				/ (1 << _fractional_bits));
 }
 
 // Shifts the integer part of the FPn by fractional bits to the right so it is
