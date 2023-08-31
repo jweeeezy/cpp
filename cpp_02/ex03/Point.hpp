@@ -16,10 +16,11 @@
 class Point
 {
 	public:
-		float get_x ( void ) const;
-		float get_y ( void ) const;
+		Fixed get_x ( void ) const;
+		Fixed get_y ( void ) const;
 
 		Point( float const a, float const b );
+		Point( int const a, int const b );
 		Point();
 		Point(const Point& src);
 		~Point();

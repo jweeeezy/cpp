@@ -55,17 +55,39 @@ void key_hook( void *param )
 void draw_point( mlx_image_t* image, Point& p_print, int32_t color)
 {
 
-	std::cout << p_print << std::endl;
+	int p_y = p_print.get_y().toInt();
+	int p_x = p_print.get_x().toInt();
 
-	for (size_t y = (size_t) p_print.get_y() - 5;
-			y < (size_t) p_print.get_y() + 5 && y < HEIGHT;
+	for (int y = p_y - 5;
+			y < p_y + 5 && y < HEIGHT;
 			++y)
 	{
-		for (size_t x = p_print.get_x() - 5;
-				x < p_print.get_x() + 5 && x < WIDTH;
+		for (int x = p_x; 
+				x < p_x + 5 && x < WIDTH;
 				++x)
 		{
 			mlx_put_pixel(image, x, y, color);
+		}
+	}
+}
+
+void draw_bsp( mlx_image_t* image, int32_t color_tri )
+{
+	int32_t color_bg = get_rgba(176, 224, 230, 255);
+
+	for (int y = 0;	y < HEIGHT;	++y)
+	{
+		for (int x = 0;	x < WIDTH; ++x)
+		{
+			Point pixel(x, y);
+			if (bsp (a, b, c, pixel) == true)
+			{
+				mlx_put_pixel(image, x, y, color_tri);
+			}
+			else
+			{
+				mlx_put_pixel(image, x, y, color_bg);
+			}
 		}
 	}
 }
@@ -76,7 +98,7 @@ int	main( void )
 	mlx_image_t* image;
 
 	int32_t color_tri = get_rgba(255, 69, 0, 255);
-	int32_t color_p = get_rgba(0, 0, 0, 255);
+	//int32_t color_p = get_rgba(0, 0, 0, 255);
 
 	mlx = mlx_init(WIDTH, HEIGHT, "Binary Space Partitioning", false);
 
@@ -87,27 +109,30 @@ int	main( void )
 		std::cout << "image to window failure" << std::endl;
 	}
 
-	draw_background(image);
+	//draw_background(image);
 
-	draw_point(image, a, color_tri);
-	draw_point(image, b, color_tri);
-	draw_point(image, c, color_tri);
-	draw_point(image, point, color_p);
+	//draw_point(image, a, color_tri);
+	//draw_point(image, b, color_tri);
+	//draw_point(image, c, color_tri);
+	//draw_point(image, point, color_p);
 
-	if (bsp (a, b, c, point) == true)
-	{
-		std::cout << "true!" << std::endl;
-	}
-	else
-	{
-		std::cout << "false!" << std::endl;
-	}
+	//if (bsp (a, b, c, point) == true)
+	//{
+	//	std::cout << "true!" << std::endl;
+	//}
+	//else
+	//{
+	//	std::cout << "false!" << std::endl;
+	//}
+
+	draw_bsp(image, color_tri);
 
 	mlx_loop_hook(mlx, key_hook, mlx);
 	
 	mlx_loop(mlx);
 	
 	mlx_terminate(mlx);
+
 	return (EXIT_SUCCESS);
 }
 

@@ -18,14 +18,19 @@ std::ostream& operator<<(std::ostream& os, const Point& obj)
 	return os;
 }
 
-float Point::get_x( void ) const
+Fixed Point::get_x( void ) const
 {
-	return (this->x.toFloat());
+	return this->x;
 }
 
-float Point::get_y( void ) const
+Fixed Point::get_y( void ) const
 {
-	return (this->y.toFloat());
+	return this->y;
+}
+
+Point::Point( int const a, int const b ) : x(a), y(b)
+{
+	return ;
 }
 
 Point::Point( float const a, float const b ) : x(a), y(b)
