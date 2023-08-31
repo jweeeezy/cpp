@@ -33,7 +33,7 @@ Point::Point( float const a, float const b ) : x(a), y(b)
 	return ;
 }
 
-Point::Point()
+Point::Point() : x(0), y(0)
 {
 	return ;
 }

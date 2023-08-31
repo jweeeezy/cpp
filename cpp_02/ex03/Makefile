@@ -56,7 +56,7 @@ MLX42_CFLAGS = -I include -lglfw -L $(GLFW_DIR) $(MLX42_MAC)
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re run
 
 all: $(MLX42) $(NAME) 
 $(NAME): $(OBJ_FILES)
@@ -68,6 +68,8 @@ fclean: clean
 	rm -rf $(NAME)
 re: fclean
 	$(MAKE)
+run: all
+	./$(NAME)
 
 $(MLX42): $(MLX42_DIR)
 	cmake ./MLX42/ -B ./MLX42/build
