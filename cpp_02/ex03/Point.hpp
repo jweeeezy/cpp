@@ -35,3 +35,5 @@ class Point
 std::ostream& operator << (std::ostream& os, const Point& obj);
 
 #endif
+
+// -------------------------------------------------------------------------- //

@@ -12,6 +12,7 @@
 #include <iostream>  // needed for std::cout, std::endl
 #include "Point.hpp" // needed for Point
 
+#include "./MLX42/include/MLX42/MLX42.h"   // graphics library
 
 int	main( void )
 {

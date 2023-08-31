@@ -11,6 +11,9 @@
 *.txt
 *.log
 
+# testing purposes
+MLX42
+
 # executables
 
 # cpp00
