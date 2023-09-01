@@ -12,8 +12,8 @@
 
 std::ostream& operator<<(std::ostream& os, const Point& obj)
 {
-	os	<< "[" << obj.get_x()
-	   	<< " | " << obj.get_y()
+	os	<< "["   << obj.get_x().toFloat()
+	   	<< " | " << obj.get_y().toFloat()
 		<< "]";
 	return os;
 }
@@ -28,12 +28,7 @@ Fixed Point::get_y( void ) const
 	return this->y;
 }
 
-Point::Point( int const a, int const b ) : x(a), y(b)
-{
-	return ;
-}
-
-Point::Point( float const a, float const b ) : x(a), y(b)
+Point::Point( Fixed x, Fixed y ) : x(x), y(y)
 {
 	return ;
 }
@@ -43,9 +38,9 @@ Point::Point() : x(0), y(0)
 	return ;
 }
 
-Point::Point(const Point& src)
+Point::Point(const Point& src) : x(src.x), y(src.y)
 {
-	(void) src;
+	return ;
 }
 
 Point::~Point()
@@ -53,15 +48,9 @@ Point::~Point()
 	return ;
 }
 
-Point& Point::operator=(const Point& rhs)
+Point& Point::operator =(Point& rhs)
 {
-	//if (this != &rhs)
-	//{
-	//	this->x = rhs.x;
-	//	this->y = rhs.y;
-	//}
-	(void) rhs;
-	return (*this);
+	return (rhs);
 }
 
 // -------------------------------------------------------------------------- //

@@ -17,10 +17,6 @@
 #define HEIGHT 600
 #define WIDTH  600
 
-Point a(250, 130);
-Point b(5, 540);
-Point c(50,50);
-Point point(400, 30);
 
 bool bsp( Point const a, Point const b, Point const c, Point const point );
 
@@ -74,13 +70,16 @@ void draw_point( mlx_image_t* image, Point& p_print, int32_t color)
 void draw_bsp( mlx_image_t* image, int32_t color_tri )
 {
 	int32_t color_bg = get_rgba(176, 224, 230, 255);
+	Point a(250,130);
+	Point b(5, 540);
+	Point c(50,50);
 
 	for (int y = 0;	y < HEIGHT;	++y)
 	{
 		for (int x = 0;	x < WIDTH; ++x)
 		{
 			Point pixel(x, y);
-			if (bsp (a, b, c, pixel) == true)
+			if (bsp(a, b, c, pixel) == true)
 			{
 				mlx_put_pixel(image, x, y, color_tri);
 			}
@@ -109,21 +108,21 @@ int	main( void )
 		std::cout << "image to window failure" << std::endl;
 	}
 
-	//draw_background(image);
+  //draw_background(image);
 
-	//draw_point(image, a, color_tri);
-	//draw_point(image, b, color_tri);
-	//draw_point(image, c, color_tri);
-	//draw_point(image, point, color_p);
+  //draw_point(image, a, color_tri);
+  //draw_point(image, b, color_tri);
+  //draw_point(image, c, color_tri);
+  //draw_point(image, point, color_p);
 
-	//if (bsp (a, b, c, point) == true)
-	//{
-	//	std::cout << "true!" << std::endl;
-	//}
-	//else
-	//{
-	//	std::cout << "false!" << std::endl;
-	//}
+  //if (bsp (a, b, c, point) == true)
+  //{
+  //	std::cout << "true!" << std::endl;
+  //}
+  //else
+  //{
+  //	std::cout << "false!" << std::endl;
+  //}
 
 	draw_bsp(image, color_tri);
 

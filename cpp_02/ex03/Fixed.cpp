@@ -29,7 +29,7 @@ static void	print_log(std::string message)
 }
 
 // Creates a template way of printing the Fixed obj/class
-std::ostream& operator<<(std::ostream& os, const Fixed& obj)
+std::ostream& operator <<(std::ostream& os, const Fixed& obj)
 {
 	os << obj.toFloat();
 	return os;
@@ -74,7 +74,7 @@ Fixed& Fixed::min ( Fixed& obj_l, Fixed& obj_r)
 
 const Fixed& Fixed::min ( const Fixed& obj_l, const Fixed& obj_r)
 {
-	if (obj_l <= obj_r)
+	if (obj_l < obj_r)
 	{
 		return (obj_l);
 	}
@@ -83,7 +83,7 @@ const Fixed& Fixed::min ( const Fixed& obj_l, const Fixed& obj_r)
 
 Fixed& Fixed::max ( Fixed& obj_l, Fixed& obj_r)
 {
-	if (obj_l >= obj_r)
+	if (obj_l > obj_r)
 	{
 		return (obj_l);
 	}
@@ -92,7 +92,7 @@ Fixed& Fixed::max ( Fixed& obj_l, Fixed& obj_r)
 
 const Fixed& Fixed::max ( const Fixed& obj_l, const Fixed& obj_r)
 {
-	if (obj_l >= obj_r)
+	if (obj_l > obj_r)
 	{
 		return (obj_l);
 	}
@@ -149,12 +149,12 @@ bool Fixed::operator != ( const Fixed& rhs ) const
 
 Fixed Fixed::operator + ( const Fixed& rhs ) const
 {
-	return (Fixed (this->_fixed_point_number + rhs._fixed_point_number));
+	return (Fixed(this->toFloat() + rhs.toFloat()));
 }
 
 Fixed Fixed::operator - ( const Fixed& rhs ) const
 {
-	return (Fixed (this->_fixed_point_number - rhs._fixed_point_number));
+	return (Fixed(this->toFloat() - rhs.toFloat()));
 }
 
 Fixed Fixed::operator * ( const Fixed& rhs ) const

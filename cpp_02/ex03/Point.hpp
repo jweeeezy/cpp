@@ -19,12 +19,11 @@ class Point
 		Fixed get_x ( void ) const;
 		Fixed get_y ( void ) const;
 
-		Point( float const a, float const b );
-		Point( int const a, int const b );
+		Point( Fixed x, Fixed y );
 		Point();
 		Point(const Point& src);
 		~Point();
-		Point& operator = (const Point& rhs);
+		Point& operator =(Point& rhs);
 
 	private:
 
@@ -33,7 +32,7 @@ class Point
 };
 
 // prints [x | y]
-std::ostream& operator << (std::ostream& os, const Point& obj);
+std::ostream& operator <<(std::ostream& os, const Point& obj);
 
 #endif
 
