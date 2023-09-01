@@ -70,8 +70,8 @@ void draw_point( mlx_image_t* image, Point& p_print, int32_t color)
 void draw_bsp( mlx_image_t* image, int32_t color_tri )
 {
 	int32_t color_bg = get_rgba(176, 224, 230, 255);
-	Point a(250,130);
-	Point b(5, 540);
+	Point b(250,130);
+	Point a(5, 540);
 	Point c(50,50);
 
 	for (int y = 0;	y < HEIGHT;	++y)

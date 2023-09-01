@@ -93,43 +93,44 @@ bool bsp( Point const a, Point const b, Point const c, Point const point )
 //	std::cout << point << std::endl;
 //	return (false);
 
-	if (!pointInTriangleBoundingBox(	a.get_x(), a.get_y(),
-										b.get_x(),b.get_y(),
-										c.get_x(), c.get_y(),
+	if (!pointInTriangleBoundingBox(	a.get_x(),     a.get_y(),
+										b.get_x(),     b.get_y(),
+										c.get_x(),     c.get_y(),
 										point.get_x(), point.get_y()))
 	{
 
 		return false;
 	}
 	
-	if (naivePointInTriangle(	a.get_x(), a.get_y(),
-								b.get_x(),b.get_y(),
-								c.get_x(), c.get_y(),
+	if (naivePointInTriangle(	a.get_x(),     a.get_y(),
+								b.get_x(),     b.get_y(),
+								c.get_x(),     c.get_y(),
 								point.get_x(), point.get_y()))
 	{
+		std::cout << "true here" << std::endl;
 		return true;
 	}
 
 	Fixed epsilon_sq(EPSILON_SQUARE);
 
-	if (distanceSquarePointToSegment( 	a.get_x(), a.get_y(),
-										b.get_x(), b.get_y(),
+	if (distanceSquarePointToSegment( 	a.get_x(),     a.get_y(),
+										b.get_x(),     b.get_y(),
 										point.get_x(), point.get_y())
 										<= epsilon_sq)
 	{
 		return true;
 	}
 
-	if (distanceSquarePointToSegment(	b.get_x(), b.get_y(),
-										c.get_x(), c.get_y(),
+	if (distanceSquarePointToSegment(	b.get_x(),     b.get_y(),
+										c.get_x(),     c.get_y(),
 										point.get_x(), point.get_y())
 										<= epsilon_sq)
 	{
 		return true;
 	}
 
-	if (distanceSquarePointToSegment(	c.get_x(), c.get_y(),
-										a.get_x(), a.get_y(),
+	if (distanceSquarePointToSegment(	c.get_x(),     c.get_y(),
+										a.get_x(),     a.get_y(),
 										point.get_x(), point.get_y())
 										<= epsilon_sq)
 	{
