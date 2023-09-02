@@ -8,7 +8,7 @@ NAME      = bsp
 SRC_FILES = main.cpp \
 			Fixed.cpp \
 			Point.cpp \
-			bsp.cpp
+			bsp_new.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
 CC        = c++
 DEBUG_FLAG= $(shell echo $$DEBUG_FLAG)

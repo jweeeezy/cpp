@@ -26,24 +26,29 @@ int main(void)
 //
 //	std::cout << Fixed::max( a, b ) << std::endl;
 
-	Fixed a(42);
-	Fixed b(21);
+	Fixed a(0.1f);
 
-	std::cout << a << " " << a.getRawBits() << std::endl;
-	std::cout << b << " " << b.getRawBits() << std::endl;
+	std::cout << a.getRawBits() << std::endl;
 
-	std::cout << "min:" << Fixed::min(a, b) << std::endl;
-	std::cout << "max:" << Fixed::max(a, b) << std::endl;
 
-	std::cout << "a + b:" << Fixed(a + b) << std::endl;
-	std::cout << "a - b:" << a - b << std::endl;
-	std::cout << "b - a:" << b - a << std::endl;
-
-	std::cout << "a * b:" << Fixed(a * b) << std::endl;
-	std::cout << "a / b:" << a / b << std::endl;
-
-	std::cout << "-a + b:" << (a * -1) + b << std::endl;
-
+//	Fixed a(42);
+//	Fixed b(21);
+//
+//	std::cout << a << " " << a.getRawBits() << std::endl;
+//	std::cout << b << " " << b.getRawBits() << std::endl;
+//
+//	std::cout << "min:" << Fixed::min(a, b) << std::endl;
+//	std::cout << "max:" << Fixed::max(a, b) << std::endl;
+//
+//	std::cout << "a + b:" << Fixed(a + b) << std::endl;
+//	std::cout << "a - b:" << a - b << std::endl;
+//	std::cout << "b - a:" << b - a << std::endl;
+//
+//	std::cout << "a * b:" << Fixed(a * b) << std::endl;
+//	std::cout << "a / b:" << a / b << std::endl;
+//
+//	std::cout << "-a + b:" << (a * -1) + b << std::endl;
+//
 	return (EXIT_SUCCESS);
 }
 

@@ -17,25 +17,11 @@
 #define HEIGHT 600
 #define WIDTH  600
 
-
 bool bsp( Point const a, Point const b, Point const c, Point const point );
 
 int32_t get_rgba( int32_t r, int32_t g, int32_t b, int32_t a )
 {
 	return (r << 24 | g << 16 | b << 8 | a);
-}
-
-void draw_background( mlx_image_t* image )
-{
-	int32_t color_bg = get_rgba(176, 224, 230, 255);
-	
-	for (size_t y = 0; y < HEIGHT; ++y)
-	{
-		for (size_t x = 0; x < WIDTH; ++x)
-		{
-			mlx_put_pixel(image, x, y, color_bg);
-		}
-	}
 }
 
 void key_hook( void *param )
@@ -67,12 +53,16 @@ void draw_point( mlx_image_t* image, Point& p_print, int32_t color)
 	}
 }
 
-void draw_bsp( mlx_image_t* image, int32_t color_tri )
+
+int randomInRange( int min, int max )
+{
+	return min + (std::rand() % (max - min + 1));
+}
+
+void draw_bsp( mlx_image_t* image, Point& a, Point &b, Point& c )
 {
 	int32_t color_bg = get_rgba(176, 224, 230, 255);
-	Point b(250,130);
-	Point a(5, 540);
-	Point c(50,50);
+	int32_t color_tri = get_rgba(255, 69, 0, 255);
 
 	for (int y = 0;	y < HEIGHT;	++y)
 	{
@@ -96,7 +86,7 @@ int	main( void )
 	mlx_t*       mlx;
 	mlx_image_t* image;
 
-	int32_t color_tri = get_rgba(255, 69, 0, 255);
+	//int32_t color_tri = get_rgba(255, 69, 0, 255);
 	//int32_t color_p = get_rgba(0, 0, 0, 255);
 
 	mlx = mlx_init(WIDTH, HEIGHT, "Binary Space Partitioning", false);
@@ -108,23 +98,20 @@ int	main( void )
 		std::cout << "image to window failure" << std::endl;
 	}
 
-  //draw_background(image);
+	//draw_bsp(image, color_tri);
 
-  //draw_point(image, a, color_tri);
-  //draw_point(image, b, color_tri);
-  //draw_point(image, c, color_tri);
-  //draw_point(image, point, color_p);
+	Point a(50, 50);
+	Point b(150, 150);
+	Point c(600, 300);
+	Point point(50, 50);
+	(void) point;
 
-  //if (bsp (a, b, c, point) == true)
-  //{
-  //	std::cout << "true!" << std::endl;
-  //}
-  //else
-  //{
-  //	std::cout << "false!" << std::endl;
-  //}
+	bsp(a, b, c, point);
 
-	draw_bsp(image, color_tri);
+//	Point a(randomInRange(0, WIDTH), randomInRange(0, WIDTH));
+//	Point b(randomInRange(0, WIDTH), randomInRange(0, WIDTH));
+//	Point c(randomInRange(0, WIDTH), randomInRange(0, WIDTH));
+	draw_bsp( image, a, b, c );
 
 	mlx_loop_hook(mlx, key_hook, mlx);
 	
