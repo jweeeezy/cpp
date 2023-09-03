@@ -100,11 +100,10 @@ int	main( void )
 
 	//draw_bsp(image, color_tri);
 
-	Point a(50, 50);
-	Point b(150, 150);
-	Point c(600, 300);
+	Point b(50, 50);
+	Point c(150, 150);
+	Point a(600, 300);
 	Point point(50, 50);
-	(void) point;
 
 	bsp(a, b, c, point);
 
