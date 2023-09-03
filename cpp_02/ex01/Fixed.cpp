@@ -8,7 +8,7 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "Fixed.hpp" // needed for Fixed
+#include "Fixed.hpp" // needed for Fixed Class
 #include <iostream>  // needed for std::cout, std::endl
 #include <cmath>     // needed for roundf()
 

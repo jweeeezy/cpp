@@ -8,9 +8,9 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "Point.hpp"
+#include "Point.hpp" // needed for Point class, Fixed class, std::ostream
 
-std::ostream& operator<<(std::ostream& os, const Point& obj)
+std::ostream& operator << (std::ostream& os, const Point& obj)
 {
 	os	<< "["   << obj.get_x().toFloat()
 	   	<< " | " << obj.get_y().toFloat()
@@ -18,17 +18,17 @@ std::ostream& operator<<(std::ostream& os, const Point& obj)
 	return os;
 }
 
-Fixed Point::get_x( void ) const
+Fixed Point::get_x(void) const
 {
 	return this->x;
 }
 
-Fixed Point::get_y( void ) const
+Fixed Point::get_y(void) const
 {
 	return this->y;
 }
 
-Point::Point( Fixed x, Fixed y ) : x(x), y(y)
+Point::Point(Fixed x, Fixed y) : x(x), y(y)
 {
 	return ;
 }
@@ -48,9 +48,11 @@ Point::~Point()
 	return ;
 }
 
-Point& Point::operator =(Point& rhs)
+Point& Point::operator = (Point& rhs)
 {
-	return (rhs);
+	// not possible because of const qualifier of x and y
+	(void) rhs;
+	return (*this);
 }
 
 // -------------------------------------------------------------------------- //

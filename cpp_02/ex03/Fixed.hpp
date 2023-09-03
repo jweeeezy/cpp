@@ -10,50 +10,51 @@
 
 #ifndef FIXED_HPP
 # define FIXED_HPP
-#include <iostream>
+
+#include <iostream> // needed for std::ostream
 
 class Fixed
 {
 
 	public:
 	
-		int 	getRawBits ( void )         const;
-		void	setRawBits ( int const raw );
-		float	toFloat    ( void  )        const;
-		int		toInt      ( void  )        const;	
+		int 	getRawBits (void)         const;
+		void	setRawBits (int const raw);
+		float	toFloat    (void)        const;
+		int		toInt      (void)        const;	
 
-		Fixed& operator = ( const Fixed& rhs );
+		Fixed& operator = (const Fixed& rhs);
 
 		// comparison operators
-		bool operator >  ( const Fixed& rhs ) const;
-		bool operator <  ( const Fixed& rhs ) const;
-		bool operator <= ( const Fixed& rhs ) const;
-		bool operator >= ( const Fixed& rhs ) const;
-		bool operator == ( const Fixed& rhs ) const;
-		bool operator != ( const Fixed& rhs ) const;
+		bool operator >  (const Fixed& rhs) const;
+		bool operator <  (const Fixed& rhs) const;
+		bool operator <= (const Fixed& rhs) const;
+		bool operator >= (const Fixed& rhs) const;
+		bool operator == (const Fixed& rhs) const;
+		bool operator != (const Fixed& rhs) const;
 
 		// arithmetic operators
-		Fixed operator + ( const Fixed& rhs ) const;
-		Fixed operator - ( const Fixed& rhs ) const;
-		Fixed operator * ( const Fixed& rhs ) const;
-		Fixed operator / ( const Fixed& rhs ) const;
+		Fixed operator + (const Fixed& rhs) const;
+		Fixed operator - (const Fixed& rhs) const;
+		Fixed operator * (const Fixed& rhs) const;
+		Fixed operator / (const Fixed& rhs) const;
 
 		// increment operators
-		Fixed& operator ++ ( void );
-		Fixed  operator ++ ( int );
-		Fixed& operator -- ( void );
-		Fixed  operator -- ( int );
+		Fixed& operator ++ (void);
+		Fixed  operator ++ (int);
+		Fixed& operator -- (void);
+		Fixed  operator -- (int);
 
 		// static member functions
-		static Fixed&       min ( Fixed& obj_l, Fixed& obj_r);
-		static const Fixed& min ( const Fixed& obj_l, const Fixed& obj_r);
-		static Fixed&       max ( Fixed& obj_l, Fixed& obj_r);
-		static const Fixed& max ( const Fixed& obj_l, const Fixed& obj_r);
+		static Fixed&       min (Fixed& obj_l, Fixed& obj_r);
+		static const Fixed& min (const Fixed& obj_l, const Fixed& obj_r);
+		static Fixed&       max (Fixed& obj_l, Fixed& obj_r);
+		static const Fixed& max (const Fixed& obj_l, const Fixed& obj_r);
 
 		Fixed();
-		Fixed( int const number );
-		Fixed( float const number );
-		Fixed( const Fixed& src );
+		Fixed(int const number);
+		Fixed(float const number);
+		Fixed(const Fixed& src);
 		~Fixed();
 
 	private:
@@ -63,7 +64,7 @@ class Fixed
 
 };
 
-std::ostream& operator<<(std::ostream& os, const Fixed& obj);
+std::ostream& operator << (std::ostream& os, const Fixed& obj);
 
 #endif // FIXED_HPP
 

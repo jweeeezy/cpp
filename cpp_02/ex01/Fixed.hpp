@@ -10,24 +10,25 @@
 
 #ifndef FIXED_HPP
 # define FIXED_HPP
-#include <iostream>
+
+#include <iostream> // needed for std::ostream
 
 class Fixed
 {
 
 	public:
 	
-		int 	getRawBits( void ) const;
-		void	setRawBits( int const raw );
-		float	toFloat( void  ) const;
-		int		toInt( void  ) const;	
+		int 	getRawBits (void) const;
+		void	setRawBits (int const raw );
+		float	toFloat    (void) const;
+		int		toInt      (void ) const;	
 
 		Fixed& operator=( const Fixed& rhs );
 
 		Fixed();
-		Fixed( int const number );
-		Fixed( float const number );
-		Fixed( const Fixed& src );
+		Fixed(int const number);
+		Fixed(float const number);
+		Fixed(const Fixed& src);
 		~Fixed();
 
 	private:

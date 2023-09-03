@@ -11,19 +11,19 @@
 #ifndef POINT_HPP
 # define POINT_HPP
 
-#include "Fixed.hpp"
+#include "Fixed.hpp" // needed for Fixed Class, std::ostream
 
 class Point
 {
 	public:
-		Fixed get_x ( void ) const;
-		Fixed get_y ( void ) const;
+		Fixed get_x (void) const;
+		Fixed get_y (void) const;
 
-		Point( Fixed x, Fixed y );
+		Point(Fixed x, Fixed y);
 		Point();
 		Point(const Point& src);
 		~Point();
-		Point& operator =(Point& rhs);
+		Point& operator = (Point& rhs);
 
 	private:
 
@@ -31,9 +31,9 @@ class Point
 		Fixed const y;
 };
 
-// prints [x | y]
+// Prints content like: [x | y]
 std::ostream& operator <<(std::ostream& os, const Point& obj);
 
-#endif
+#endif // POINT_HPP
 
 // -------------------------------------------------------------------------- //

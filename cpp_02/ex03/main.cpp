@@ -9,22 +9,35 @@
 // -------------------------------------------------------------------------- //
 
 #include <cstdlib>   // needed for MACROS
-#include <iostream>  // needed for std::cout, std::endl
-#include "Point.hpp" // needed for Point
+#include "Point.hpp" // needed for Point class, Fixed class, <iostream>
+#include <cstring>   // needed for strcmp()
 
-#include "./MLX42/include/MLX42/MLX42.h"   // graphics library
+#include "./MLX42/include/MLX42/MLX42.h" // needed as graphics library
 
-#define HEIGHT 600
-#define WIDTH  600
+#define HEIGHT 600 // Window Height
+#define WIDTH  600 // Window Width
+
+#define SLEEP_DURATION 2 // Interval between showing points and drawing triangle
 
 bool bsp( Point const a, Point const b, Point const c, Point const point );
 
-int32_t get_rgba( int32_t r, int32_t g, int32_t b, int32_t a )
+static inline int32_t get_rgba( int32_t r, int32_t g, int32_t b, int32_t a )
 {
 	return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void key_hook( void *param )
+static inline int rand_i_range( int min, int max )
+{
+	return min + (std::rand() % (max - min + 1));
+}
+
+static inline void print_err_and_exit(std::string message)
+{
+	std::cerr << message << std::endl;
+	exit (EXIT_FAILURE);
+}
+
+static void key_hook( void *param )
 {
 	mlx_t* mlx = (mlx_t *) param;
 
@@ -34,32 +47,7 @@ void key_hook( void *param )
 	}
 }
 
-void draw_point( mlx_image_t* image, Point& p_print, int32_t color)
-{
-
-	int p_y = p_print.get_y().toInt();
-	int p_x = p_print.get_x().toInt();
-
-	for (int y = p_y - 5;
-			y < p_y + 5 && y < HEIGHT;
-			++y)
-	{
-		for (int x = p_x; 
-				x < p_x + 5 && x < WIDTH;
-				++x)
-		{
-			mlx_put_pixel(image, x, y, color);
-		}
-	}
-}
-
-
-int randomInRange( int min, int max )
-{
-	return min + (std::rand() % (max - min + 1));
-}
-
-void draw_bsp( mlx_image_t* image, Point& a, Point &b, Point& c )
+static void draw_bsp( mlx_image_t* image, Point& a, Point &b, Point& c )
 {
 	int32_t color_bg = get_rgba(176, 224, 230, 255);
 	int32_t color_tri = get_rgba(255, 69, 0, 255);
@@ -81,41 +69,53 @@ void draw_bsp( mlx_image_t* image, Point& a, Point &b, Point& c )
 	}
 }
 
-int	main( void )
+int	main(int argc, char **argv)
 {
-	mlx_t*       mlx;
-	mlx_image_t* image;
+	if (argc != 1 && argc != 2)
+	{
+		print_err_and_exit("Bad arguments: usage:  ./bsp || ./bsp r");
+	}
 
-	//int32_t color_tri = get_rgba(255, 69, 0, 255);
-	//int32_t color_p = get_rgba(0, 0, 0, 255);
+	mlx_t*       mlx;
 
 	mlx = mlx_init(WIDTH, HEIGHT, "Binary Space Partitioning", false);
+	if (mlx == NULL)
+	{
+		print_err_and_exit("MLX init failure");
+	}
+
+	mlx_image_t* image;
 
 	image = mlx_new_image(mlx, WIDTH, HEIGHT);
+	if (image == NULL)
+	{
+		print_err_and_exit("Image new failure");
+	}
 
 	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
 	{
-		std::cout << "image to window failure" << std::endl;
+		print_err_and_exit("Image to window failure");
 	}
 
-	//draw_bsp(image, color_tri);
+	if (argc == 2 && strcmp(argv[1], "r") == 0)
+	{
+		Point a(rand_i_range(0, WIDTH), rand_i_range(0, WIDTH));
+		Point b(rand_i_range(0, WIDTH), rand_i_range(0, WIDTH));
+		Point c(rand_i_range(0, WIDTH), rand_i_range(0, WIDTH));
 
-	Point b(50, 50);
-	Point c(150, 150);
-	Point a(600, 300);
-	Point point(50, 50);
+		draw_bsp(image, a, b, c);
+	}
+	else
+	{
+		Point a(50, 50);
+		Point b(150, 150);
+		Point c(600, 300);
 
-	bsp(a, b, c, point);
-
-//	Point a(randomInRange(0, WIDTH), randomInRange(0, WIDTH));
-//	Point b(randomInRange(0, WIDTH), randomInRange(0, WIDTH));
-//	Point c(randomInRange(0, WIDTH), randomInRange(0, WIDTH));
-	draw_bsp( image, a, b, c );
+		draw_bsp(image, a, b, c);
+	}
 
 	mlx_loop_hook(mlx, key_hook, mlx);
-	
 	mlx_loop(mlx);
-	
 	mlx_terminate(mlx);
 
 	return (EXIT_SUCCESS);

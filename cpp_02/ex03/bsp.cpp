@@ -4,11 +4,11 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  bsp_new.cpp                                                         //
+// file:  bsp.cpp                                                             //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "Point.hpp" // needed for Point
+#include "Point.hpp" // needed for Point class, Fixed class
 
 // This function calculates the orientation of the triplet (p, q, r).
 // If the result is positive, then the orientation is counterclockwise
