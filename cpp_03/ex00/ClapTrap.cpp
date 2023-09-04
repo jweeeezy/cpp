@@ -129,7 +129,16 @@ ClapTrap::ClapTrap(std::string name) : name(name),
 	                                   energy_points(10),
 									   attack_damage(0)
 {
-	print_log("ClapTrap: Default constructor called");
+	print_log("ClapTrap: constructor called");
+	return ;
+}
+
+ClapTrap::ClapTrap(void) : name("ClapTrap"),
+                           hit_points(10),
+						   energy_points(10),
+						   attack_damage(0)
+{
+	print_log("ClapTrap: default constructor called");
 	return ;
 }
 
@@ -138,13 +147,13 @@ ClapTrap::ClapTrap(const ClapTrap& src) : name(src.name),
 										  energy_points(src.energy_points), 
 										  attack_damage(src.attack_damage)
 {
-	print_log("ClapTrap: Copy constructor called");
+	print_log("ClapTrap: copy constructor called");
 	return ;
 }
 
 ClapTrap::~ClapTrap()
 {
-	print_log("ClapTrap: Destructor called");
+	print_log("ClapTrap: destructor called");
 	return ;
 }
 

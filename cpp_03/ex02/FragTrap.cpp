@@ -50,12 +50,18 @@ FragTrap::FragTrap(const FragTrap& src) : ClapTrap(src)
 	return ;
 }
 
+FragTrap::FragTrap(void) : ClapTrap()
+{
+	print_log("FragTrap: default constructor called");
+	return ;
+}
+
 FragTrap::FragTrap(std::string name) : ClapTrap(name)
 {
 	this->hit_points = 100;
 	this->energy_points = 100;
 	this->attack_damage = 30;
-	print_log("FragTrap: default constructor called");
+	print_log("FragTrap: constructor called");
 	return ;
 }
 

@@ -82,12 +82,18 @@ ScavTrap::ScavTrap(const ScavTrap& src) : ClapTrap(src)
 	return ;
 }
 
+ScavTrap::ScavTrap(void) : ClapTrap()
+{
+	print_log("ScavTrap: default constructor called");
+	return ;
+}
+
 ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
 {
 	this->hit_points = 100;
 	this->energy_points = 50;
 	this->attack_damage = 20;
-	print_log("ScavTrap: default constructor called");
+	print_log("ScavTrap: constructor called");
 	return ;
 }
 

@@ -35,6 +35,7 @@ class ClapTrap
 		void takeDamage(unsigned int amount);
 
 		ClapTrap(std::string name);
+		ClapTrap();
 		ClapTrap(const ClapTrap& src);
 		~ClapTrap();
 		ClapTrap& operator = (const ClapTrap& rhs);
