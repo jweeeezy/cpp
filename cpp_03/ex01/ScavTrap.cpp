@@ -10,12 +10,13 @@
 
 #include "ScavTrap.hpp" // needed for ScavTrap class, ClapTrap class
 #include <iostream>     // needed for std::cout, std::endl
+
 #define YELLOW  "\033[33m"
 #define RESET   "\033[0m"
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> non-class functions */
 
-static void print_log(std::string message)
+static inline void print_log(std::string message)
 {
 	std::cout << YELLOW << message << RESET << std::endl;
 }
@@ -64,11 +65,20 @@ void ScavTrap::attack(const std::string &target)
 	return ;
 }
 
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloads */
+
+ScavTrap& ScavTrap::operator=(const ScavTrap& rhs)
+{
+	ClapTrap::operator=(rhs);
+	print_log("ScavTrap: assignment operator called");
+	return *this;
+}
+
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
 
 ScavTrap::ScavTrap(const ScavTrap& src) : ClapTrap(src)
 {
-	print_log("ScavTrap: Copy constructor called");
+	print_log("ScavTrap: copy constructor called");
 	return ;
 }
 
@@ -77,7 +87,7 @@ ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
 	this->hit_points = 100;
 	this->energy_points = 50;
 	this->attack_damage = 20;
-	print_log("ScavTrap: Default constructor called");
+	print_log("ScavTrap: default constructor called");
 	return ;
 }
 
@@ -85,13 +95,6 @@ ScavTrap::~ScavTrap()
 {
 	print_log("ScavTrap: destructor called");
 	return ;
-}
-
-ScavTrap& ScavTrap::operator=(const ScavTrap& rhs)
-{
-	ClapTrap::operator=(rhs);
-	print_log("ScavTrap assignment operator called");
-	return *this;
 }
 
 // -------------------------------------------------------------------------- //
