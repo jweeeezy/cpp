@@ -17,8 +17,6 @@
 #define HEIGHT 600 // Window Height
 #define WIDTH  600 // Window Width
 
-#define SLEEP_DURATION 2 // Interval between showing points and drawing triangle
-
 bool bsp( Point const a, Point const b, Point const c, Point const point );
 
 static inline int32_t get_rgba( int32_t r, int32_t g, int32_t b, int32_t a )
