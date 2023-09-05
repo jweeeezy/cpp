@@ -38,34 +38,41 @@ void DiamondTrap::whoAmI(void)
 
 DiamondTrap& DiamondTrap::operator=(const DiamondTrap& rhs)
 {
-	(void) rhs;
 	print_log("DiamondTrap: assignment operator  called");
+	this->name = rhs.name;
+	ClapTrap::operator=(rhs);
+	ScavTrap::operator=(rhs);
+	FragTrap::operator=(rhs);
 	return *this;
 }
 
-DiamondTrap::DiamondTrap() : 	ClapTrap("ClapTrap"),
-								ScavTrap("ScavTrap"),
-								FragTrap("FragTrap"),
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
+
+DiamondTrap::DiamondTrap(std::string name) : 	ClapTrap(name + "_clap_name"),
+												ScavTrap(name + "_clap_name"),
+												FragTrap(name + "_clap_name"),
+												name(name)
+{
+	print_log("DiamondTrap: constructor called");
+	return ;
+}
+
+DiamondTrap::DiamondTrap() : 	ClapTrap(),
+								ScavTrap(),
+								FragTrap(),
 								name("DiamondTrap")
 {
 	print_log("DiamondTrap: default constructor called");
 	return ;
 }
 
-DiamondTrap::DiamondTrap(const DiamondTrap& src)
+DiamondTrap::DiamondTrap(const DiamondTrap& src) : 	ClapTrap(src),
+													ScavTrap(src),
+													FragTrap(src),
+													name(src.name)
 {
-	(void) src;
 	print_log("DiamondTrap: copy constructor called");
-	return ;
-}
 
-DiamondTrap::DiamondTrap(std::string name) : 	ClapTrap(name + "_clap_name"),
-												ScavTrap(name),
-												FragTrap(name),
-												name(name)
-{
-	print_log("DiamondTrap: constructor called");
-	return ;
 }
 
 DiamondTrap::~DiamondTrap()

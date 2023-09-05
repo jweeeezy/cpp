@@ -15,15 +15,21 @@
 #include "FragTrap.hpp" // needed for FragTrap class
 #include "ScavTrap.hpp" // needed for ScavTrap class
 
-class DiamondTrap : public ScavTrap, public FragTrap
+class DiamondTrap : virtual public ScavTrap, virtual public FragTrap
 {
 	private:
 
 		std::string name;
 
+		using ScavTrap::energy_points;
+		
+		using FragTrap::hit_points;
+		using FragTrap::attack_damage;
+
 	public:
 
 		void whoAmI(void);
+		using ScavTrap::attack;
 
 		DiamondTrap(std::string name);
 		DiamondTrap();
