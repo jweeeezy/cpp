@@ -10,7 +10,9 @@ OBJ_FILES = $(SRC_FILES:.cpp=.o)
 CC        = c++
 DEBUG_FLAG= $(shell echo $$DEBUG_FLAG)
 CSTD      = -std=c++98
-CFLAGS    = -Wall -Wextra -Werror -Wshadow -Wno-shadow $(CSTD) $(DEBUG_FLAG)
+CFLAGS    = -Wall -Wextra -Werror -Wshadow $(CSTD) $(DEBUG_FLAG)
+
+#Wshadow shows duplicate naming in the same active scope (shadow vars)
 
 .PHONY:     all clean fclean re
 

@@ -30,8 +30,8 @@ int	main(void)
 	
 	print_story("Does he know about his roots?");
 	{
-		DiamondTrap dt;
-		dt.whoAmI();
+		DiamondTrap dt_c;
+		dt_c.whoAmI();
 	}
 
 	print_story("Does he know how to mimic himself?");
