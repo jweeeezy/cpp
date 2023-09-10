@@ -18,15 +18,15 @@ class ClapTrap
 
 	private:
 
-		std::string name; // @note maybe const?
+		std::string name;
 		short int hit_points;
 		short int energy_points;
 		short int attack_damage;
 
 	public:
 
-		std::string getName(void);
-		short int   getAttackDamage(void);
+		std::string getName(void) const;
+		short int   getAttackDamage(void) const;
 
 		void attack(const std::string& target);
 		void beRepaired(unsigned int amount);

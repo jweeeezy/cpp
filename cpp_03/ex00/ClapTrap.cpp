@@ -33,12 +33,12 @@ static void print_no_hp(std::string name)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
 
-std::string ClapTrap::getName(void)
+std::string ClapTrap::getName(void) const
 {
 	return(name);
 }
 
-short int ClapTrap::getAttackDamage(void)
+short int ClapTrap::getAttackDamage(void) const
 {
 	if (energy_points <= 0 || hit_points <= 0)
 	{
@@ -142,9 +142,9 @@ ClapTrap::ClapTrap(void) : name("ClapTrap"),
 	return ;
 }
 
-ClapTrap::ClapTrap(const ClapTrap& src) : name(src.name), 
-	                                      hit_points(src.hit_points), 
-										  energy_points(src.energy_points), 
+ClapTrap::ClapTrap(const ClapTrap& src) : name(src.name),
+	                                      hit_points(src.hit_points),
+										  energy_points(src.energy_points),
 										  attack_damage(src.attack_damage)
 {
 	print_log("ClapTrap: copy constructor called");
