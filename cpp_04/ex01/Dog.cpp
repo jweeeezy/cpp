@@ -33,7 +33,7 @@ Dog::Dog(const Dog& src) : Animal(src)
 {
 	print_log("Dog: copy constructor called");
 	type = src.type;
-	brain = src.brain;
+	brain = new Brain(*src.brain);
 }
 
 Dog::~Dog()
@@ -50,7 +50,8 @@ Dog& Dog::operator=(const Dog& rhs)
 	if (this != &rhs)
 	{
 		type = rhs.type;
-		brain = rhs.brain;
+		delete brain;
+		brain = new Brain(*rhs.brain);
 	}
 	return *this;
 }

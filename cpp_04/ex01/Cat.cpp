@@ -33,7 +33,7 @@ Cat::Cat(const Cat& src) : Animal(src)
 {
 	print_log("Cat: copy constructor called");
 	type = src.type;
-	brain = src.brain;
+	brain = new Brain(*src.brain);
 }
 
 Cat::~Cat()
@@ -50,7 +50,8 @@ Cat& Cat::operator=(const Cat& rhs)
 	if (this != &rhs)
 	{
 		type = rhs.type;
-		brain = rhs.brain;
+		delete brain;
+		brain = new Brain(*rhs.brain);
 	}
 	return *this;
 }
