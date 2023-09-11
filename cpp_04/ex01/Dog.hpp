@@ -12,11 +12,18 @@
 # define DOG_HPP
 
 #include "Animal.hpp" // needed for Animal class
+#include "Brain.hpp"  // needed for Brain class
 
 class Dog : public Animal
 {
+	private:
+
+		Brain* brain;
 
 	public:
+
+		std::string getIdea(int pos);
+		void        setIdea(std::string idea, int pos);
 
 		void makeSound() const;
 

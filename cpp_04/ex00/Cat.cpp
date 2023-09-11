@@ -31,6 +31,7 @@ Cat::Cat() : Animal("Cat")
 Cat::Cat(const Cat& src) : Animal(src)
 {
 	print_log("Cat: copy constructor called");
+	type = src.type;
 }
 
 Cat::~Cat()
@@ -52,7 +53,7 @@ Cat& Cat::operator=(const Cat& rhs)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
 
-void Cat::MakeSound() const
+void Cat::makeSound() const
 {
 	std::cout << "Oh long johnson ..." << std::endl;
 }

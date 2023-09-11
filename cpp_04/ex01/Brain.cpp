@@ -31,6 +31,10 @@ Brain::Brain()
 Brain::Brain(const Brain& src)
 {
 	print_log("Brain: copy constructor called");
+	for (int i = 0; i < 100; ++i)
+	{
+		ideas[i] = src.ideas[i];
+	}
 }
 
 Brain::~Brain()
@@ -38,14 +42,38 @@ Brain::~Brain()
 	print_log("Brain: destructor called");
 }
 
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloads */
+
 Brain& Brain::operator=(const Brain& rhs)
 {
 	print_log("Brain: assignment operator called");
 	if (this != &rhs)
 	{
-		//ideas = rhs.ideas;
+		for (int i = 0; i < 100; ++i)
+		{
+			ideas[i] = rhs.ideas[i];
+		}
 	}
 	return *this;
+}
+
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
+
+std::string Brain::getIdea(int pos)
+{
+	return ideas[pos];
+}
+
+void Brain::setIdea(std::string idea, int pos)
+{
+	if (pos > BRAIN_SIZE)
+	{
+		ideas[pos] = idea;
+	}
+	else
+	{
+		ideas[pos] = idea;
+	}
 }
 
 // -------------------------------------------------------------------------- //

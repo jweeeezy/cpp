@@ -13,14 +13,22 @@
 
 #include <string> // needed for std::string
 
+#ifndef BRAIN_SIZE
+# define BRAIN_SIZE 100
+#endif // BRAIN_SIZE
+
 class Brain
 {
 
-	protected:
+	private:
 
-		std::string ideas[100];
+		std::string ideas[BRAIN_SIZE];
 	
 	public:
+
+		std::string getIdea(int pos);
+
+		void setIdea(std::string idea, int pos);
 
 		Brain();
 		Brain(const Brain& src);

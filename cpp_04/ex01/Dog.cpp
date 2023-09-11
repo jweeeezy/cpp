@@ -26,16 +26,19 @@ static inline void print_log(std::string message)
 Dog::Dog() : Animal("Dog")
 {
 	print_log("Dog: default constructor called");
+	brain = new Brain();
 }
 
 Dog::Dog(const Dog& src) : Animal(src)
 {
 	print_log("Dog: copy constructor called");
 	type = src.type;
+	brain = src.brain;
 }
 
 Dog::~Dog()
 {
+	delete brain;
 	print_log("Dog: destructor called");
 }
 
@@ -47,11 +50,22 @@ Dog& Dog::operator=(const Dog& rhs)
 	if (this != &rhs)
 	{
 		type = rhs.type;
+		brain = rhs.brain;
 	}
 	return *this;
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
+
+std::string Dog::getIdea(int pos)
+{
+	return brain->getIdea(pos);
+}
+
+void Dog::setIdea(std::string idea, int pos)
+{
+	brain->setIdea(idea, pos);
+}
 
 void Dog::makeSound() const
 {

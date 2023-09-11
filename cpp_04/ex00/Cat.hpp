@@ -13,12 +13,12 @@
 
 #include "Animal.hpp" // needed for Animal class
 
-class Cat : virtual public Animal
+class Cat : public Animal
 {
 
 	public:
 
-		void MakeSound() const;
+		void makeSound() const;
 
 		Cat();
 		Cat(const Cat& src);

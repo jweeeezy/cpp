@@ -4,12 +4,12 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  Dog.cpp                                                             //
+// file:  Animal.cpp                                                          //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "Dog.hpp"  // needed for Dog class, Animal class
-#include <iostream> // needed for std::cout, std::endl
+#include <iostream>   // needed for std::cout, std::endl
+#include "Animal.hpp" // needed for Animal class
 
 #define YELLOW  "\033[33m"
 #define RESET   "\033[0m"
@@ -23,27 +23,31 @@ static inline void print_log(std::string message)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
 
-Dog::Dog() : Animal("Dog")
+Animal::Animal(std::string t) : type(t)
 {
-	print_log("Dog: default constructor called");
+	print_log("Animal: type constructor called");
 }
 
-Dog::Dog(const Dog& src) : Animal(src)
+Animal::Animal() : type("basic animal")
 {
-	print_log("Dog: copy constructor called");
-	type = src.type;
+	print_log("Animal: default constructor called");
 }
 
-Dog::~Dog()
+Animal::Animal(const Animal& src) : type(src.type)
 {
-	print_log("Dog: destructor called");
+	print_log("Animal: copy constructor called");
+}
+
+Animal::~Animal()
+{
+	print_log("Animal: destructor called");
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloads */
 
-Dog& Dog::operator=(const Dog& rhs)
+Animal& Animal::operator=(const Animal& rhs)
 {
-	print_log("Dog: assignment operator called");
+	print_log("Animal: assignment operator called");
 	if (this != &rhs)
 	{
 		type = rhs.type;
@@ -53,9 +57,14 @@ Dog& Dog::operator=(const Dog& rhs)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
 
-void Dog::makeSound() const
+std::string Animal::getType() const
 {
-	std::cout << "Some badly impersonated Wolf sounds ..." << std::endl;
+	return this->type;
+}
+
+void Animal::makeSound() const
+{
+	std::cout << "Random Animal sounds ... " << std::endl;
 }
 
 // -------------------------------------------------------------------------- //

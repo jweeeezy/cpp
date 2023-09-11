@@ -4,29 +4,36 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  Dog.hpp                                                             //
+// file:  Cat.hpp                                                             //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#ifndef DOG_HPP
-# define DOG_HPP
+#ifndef CAT_HPP
+# define CAT_HPP
 
 #include "Animal.hpp" // needed for Animal class
+#include "Brain.hpp"  // needed for Brain class
 
-class Dog : public Animal
+class Cat : public Animal
 {
+	private:
+
+		Brain* brain;
 
 	public:
 
+		std::string getIdea(int pos);
+		void        setIdea(std::string idea, int pos);
+
 		void makeSound() const;
 
-		Dog();
-		Dog(const Dog& src);
-		~Dog();
-		Dog& operator=(const Dog& rhs);
+		Cat();
+		Cat(const Cat& src);
+		~Cat();
+		Cat& operator=(const Cat& rhs);
 
 };
 
-#endif // DOG_HPP
+#endif // CAT_HPP
 
 // -------------------------------------------------------------------------- //
