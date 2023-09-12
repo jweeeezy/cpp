@@ -25,7 +25,7 @@ class Cat : public Animal
 		std::string getIdea(int pos);
 		void        setIdea(std::string idea, int pos);
 
-		void makeSound() const;
+		virtual void makeSound() const;
 
 		Cat();
 		Cat(const Cat& src);

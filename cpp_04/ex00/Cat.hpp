@@ -18,7 +18,7 @@ class Cat : public Animal
 
 	public:
 
-		void makeSound() const;
+		virtual void makeSound() const;
 
 		Cat();
 		Cat(const Cat& src);
