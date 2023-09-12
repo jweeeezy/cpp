@@ -46,7 +46,8 @@ int	main(void)
 		static_cast<Dog*>(arr[1])->setIdea("Getting a beer for my owner", 50);
 		std::cout << static_cast<Dog*>(arr[1])->getIdea(50) << std::endl;
 
-		Dog a = *(static_cast<Dog *>(arr[1]));
+		Dog a;
+		a = *(static_cast<Dog *>(arr[1]));
 
 		std::cout << a.getType() << std::endl;
 		a.makeSound();
@@ -57,8 +58,8 @@ int	main(void)
 	{
 		std::cout << arr[9]->getType() << std::endl;
 		arr[9]->makeSound();
-		static_cast<Cat*>(arr[1])->setIdea("Smacking my owner in the face", 20);
-		std::cout << static_cast<Cat*>(arr[1])->getIdea(20) << std::endl;
+		static_cast<Cat*>(arr[9])->setIdea("Smacking my owner in the face", 20);
+		std::cout << static_cast<Cat*>(arr[9])->getIdea(20) << std::endl;
 
 		Cat a(*(static_cast<Cat*>(arr[9])));
 		std::cout << a.getType() << std::endl;
@@ -78,8 +79,12 @@ int	main(void)
 
 		std::cout << j.getType() << std::endl;
 		j.makeSound();
+
 		j.setIdea("Bring a mouse home, because my owner likes it dirty", 0);
 		std::cout << j.getIdea(0) << std::endl;
+		
+		j.setIdea("Sit on my owners face when hes sleeping", -10);
+		std::cout << j.getIdea(-10) << std::endl;
 	}
 	
 	print_story("subject test...");

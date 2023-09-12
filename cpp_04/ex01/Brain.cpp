@@ -61,14 +61,21 @@ Brain& Brain::operator=(const Brain& rhs)
 
 std::string Brain::getIdea(int pos)
 {
-	return ideas[pos];
+	if (pos < 0 || pos > BRAIN_SIZE)
+	{
+		return ("Brainfreeze");
+	}
+	else
+	{
+		return ideas[pos];
+	}
 }
 
 void Brain::setIdea(std::string idea, int pos)
 {
-	if (pos > BRAIN_SIZE)
+	if (pos < 0 || pos > BRAIN_SIZE)
 	{
-		ideas[pos] = idea;
+		print_log("Brain: setIdea is out of bounds");
 	}
 	else
 	{

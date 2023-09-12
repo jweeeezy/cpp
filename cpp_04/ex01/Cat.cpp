@@ -63,7 +63,7 @@ std::string Cat::getIdea(int pos)
 	return brain->getIdea(pos);
 }
 
-void        Cat::setIdea(std::string idea, int pos)
+void Cat::setIdea(std::string idea, int pos)
 {
 	brain->setIdea(idea, pos);
 }
