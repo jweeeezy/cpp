@@ -23,7 +23,7 @@ static inline void print_log(std::string message)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
 
-WrongAnimal::WrongAnimal() : type("basic animal")
+WrongAnimal::WrongAnimal() : type("WrongAnimal")
 {
 	print_log("WrongAnimal: default constructor called");
 }

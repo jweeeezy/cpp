@@ -62,16 +62,20 @@ int	main(void)
 		print_story("wrong Animal* test:");
 	{
 		const WrongAnimal* meta = new WrongAnimal();
-		const WrongCat* i = new WrongCat();
+		const WrongAnimal* i = new WrongCat();
+		const WrongCat* j = new WrongCat();
 		
 		std::cout << meta->getType() << std::endl;
 		std::cout << i->getType() << std::endl;
+		std::cout << j->getType() << std::endl;
 
 		meta->makeSound();
 		i->makeSound();
+		j->makeSound();
 		
 		delete meta;
 		delete i;
+		delete j;
 	}
 
 	return (EXIT_SUCCESS);

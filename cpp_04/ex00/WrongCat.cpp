@@ -23,8 +23,9 @@ static inline void print_log(std::string message)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
 
-WrongCat::WrongCat()
+WrongCat::WrongCat() : WrongAnimal()
 {
+	this->type = "WrongCat";
 	print_log("WrongCat: default constructor called");
 }
 
@@ -48,6 +49,13 @@ WrongCat& WrongCat::operator=(const WrongCat& rhs)
 		this->type = rhs.type;
 	}
 	return *this;
+}
+
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
+
+void WrongCat::makeSound() const
+{
+	std::cout << "I am a Cat you fool!" << std::endl;
 }
 
 // -------------------------------------------------------------------------- //

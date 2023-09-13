@@ -13,10 +13,12 @@
 
 #include "WrongAnimal.hpp" // needed for WrongAnimal class
 
-class WrongCat : virtual public WrongAnimal
+class WrongCat : public WrongAnimal
 {
 
 	public:
+
+		void makeSound() const;
 
 		WrongCat();
 		WrongCat(const WrongCat& src);
