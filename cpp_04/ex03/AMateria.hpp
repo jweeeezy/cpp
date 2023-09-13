@@ -11,30 +11,28 @@
 #ifndef AMATERIA_HPP
 # define AMATERIA_HPP
 
-#include <string>         // needed for std::string
-#include "ICharacter.hpp" // needed for ICharacter interface
+#include <string> // needed for std::string
+
+class ICharacter; // "forward declaration" - only reference is used
 
 class AMateria
 {
 	protected:
-
-
-
+		
+		std::string const type;
 
 	public:
-
-		AMateria(std::string const & type);
-
-
 
 		std::string const & getType() const;
 
 		virtual AMateria* clone() const = 0;
+		
 		virtual void use(ICharacter& target);
 
+		AMateria(std::string const & type);
 		AMateria();
 		AMateria(const AMateria& src);
-		~AMateria(); // @note virtual?
+		virtual ~AMateria();
 		AMateria& operator=(const AMateria& rhs);
 
 };

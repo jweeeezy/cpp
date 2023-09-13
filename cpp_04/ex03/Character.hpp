@@ -4,31 +4,40 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  Ice.hpp                                                             //
+// file:  Character.hpp                                                       //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#ifndef ICE_HPP
-# define ICE_HPP
+#ifndef CHARACTER_HPP
+# define CHARACTER_HPP
 
-#include "AMateria.hpp" // needed for AMateria class
+#include "ICharacter.hpp" // needed for ICharacter interface, AMateria class,
+						  // std::string
 
-class Ice : public AMateria
+class Character : public ICharacter
 {
+	protected:
+		
+		std::string const name;
+
+		AMateria*  inventory[4];
 
 	public:
-		
-		AMateria* clone() const;
-	
-		void use(ICharacter& target);
 
-		Ice();
-		Ice(const Ice& src);
-		~Ice();
-		Ice& operator=(const Ice& rhs);
+		void equip(AMateria* m);
+		void unequip(int idx);
+		void use(int idx, ICharacter& target);
+		
+		std::string const & getName() const;
+
+		Character(std::string const name);
+		Character();
+		Character(const Character& src);
+		~Character();
+		Character& operator=(const Character& rhs);
 
 };
 
-#endif
+#endif // CHARACTER_HPP
 
 // -------------------------------------------------------------------------- //
