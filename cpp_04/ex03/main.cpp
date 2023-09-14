@@ -11,74 +11,37 @@
 #include <cstdlib>  // needed for MACROS
 #include <iostream> // needed for std::cout, std::endl
 
-#include "Character.hpp" // needed for Character class
 #include "Ice.hpp"       // needed for Ice class
 #include "Cure.hpp"      // needed for Cure class
+#include "Floor.hpp"     // needed for Floor class
+#include "Character.hpp" // needed for Character class
 #include "MateriaSource.hpp" // needed for MateriaSource class
-
-#define FLOOR_SIZE 256
-#define EMPTY NULL
-
-static void prepare_floor(AMateria **floor)
-{
-	for (int i = 0; i < FLOOR_SIZE; ++i)
-	{
-		floor[i] = NULL;
-	}
-}
-
-void clean_floor(AMateria** floor)
-{
-	for (int i = 0; i < FLOOR_SIZE; ++i)
-	{
-		if (floor[i] != NULL)
-		{
-			delete floor[i];
-			floor[i] = EMPTY;
-		}
-	}
-}
-
-void add_floor(AMateria** floor, AMateria* drop)
-{
-	for (int i = 0; i < FLOOR_SIZE; ++i)
-	{
-		if (floor[i] == EMPTY)
-		{
-			floor[i] = drop;
-			return ;
-		}
-	}
-	delete drop;
-}
 
 int	main(void)
 {
-	AMateria* floor[FLOOR_SIZE];
-	prepare_floor(floor);
+	Floor fl;
 
-	MateriaSource src;
+	AMateria* a = new Ice();
+	AMateria* b = new Ice();
+	AMateria* c = new Cure();
+	AMateria* d = new Cure();
+	AMateria* e = new Cure();
+	AMateria* f = new Cure();
 
-	src.showStorage();
-	src.learnMateria(new Cure());
-	src.showStorage();
+	AMateria* g = new Cure();
 
-	Character* harald = new Character("Harald");
+	fl.add(a);
+	fl.add(b);
+	fl.add(c);
+	fl.add(d);
+	fl.add(e);
+	fl.add(f);
 
-	harald->showInventory();
-	harald->equip(src.createMateria("ice"));
-	harald->showInventory();
+	fl.print();
 
-	ICharacter* peter = new Character("Peter");
+	fl.add(g);
 
-	harald->use(0, *peter);
-	add_floor(floor, harald->getItem(0));
-	harald->unequip(0);
-
-	clean_floor(floor);
-
-	delete peter;
-	delete harald;
+	fl.print();
 
 //	IMateriaSource* src = new MateriaSource();
 //	src->learnMateria(new Ice());

@@ -7,6 +7,7 @@
 // file:  Ice.cpp                                                             //
 //                                                                            //
 // -------------------------------------------------------------------------- //
+
 #include "Ice.hpp"        // needed for Ice class, AMateria class
 #include <iostream>       // needed for std::cout, std::endl
 #include "ICharacter.hpp" // needed for ICharacter interface

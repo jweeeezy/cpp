@@ -6,7 +6,8 @@ SRC_FILES = main.cpp \
 			Ice.cpp \
 			Cure.cpp \
 			Character.cpp \
-			MateriaSource.cpp
+			MateriaSource.cpp \
+			Floor.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
 CC        = c++
 DEBUG_FLAG= $(shell echo $$DEBUG_FLAG)
