@@ -4,7 +4,8 @@ NAME      = interfaceandrecap
 SRC_FILES = main.cpp \
 			AMateria.cpp \
 			Ice.cpp \
-			Character.cpp
+			Character.cpp \
+			MateriaSource.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
 CC        = c++
 DEBUG_FLAG= $(shell echo $$DEBUG_FLAG)

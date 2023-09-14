@@ -4,12 +4,12 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  Ice.cpp                                                             //
+// file:  MateriaSource.cpp                                                   //
 //                                                                            //
 // -------------------------------------------------------------------------- //
-#include "Ice.hpp"        // needed for Ice class, AMateria class
-#include <iostream>       // needed for std::cout, std::endl
-#include "ICharacter.hpp" // needed for ICharacter interface
+
+#include <iostream>          // needed for std::cout, std::endl
+#include "MateriaSource.hpp" // needed for MateriaSource class
 
 #define YELLOW  "\033[33m"
 #define RESET   "\033[0m"
@@ -24,52 +24,74 @@ static inline void debug_log(std::string message)
 {
 	if (DEBUG)
 	{
-		std::cout << YELLOW << "Ice: " << message << RESET << std::endl;
+		std::cout << YELLOW << "MateriaSource: " << message 
+			      << RESET << std::endl;
 	}
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
 
-Ice::Ice() : AMateria("ice")
+MateriaSource::MateriaSource()
 {
 	debug_log("default constructor called");
+	for (int i = 0; i < 4; ++i)
+	{
+		storage[i] = NULL;
+	}
 }
 
-Ice::Ice(const Ice& src) : AMateria(src.type)
+MateriaSource::MateriaSource(const MateriaSource& src)
 {
 	debug_log("copy constructor called");
+	(void) src;
 }
 
-Ice::~Ice()
+MateriaSource::~MateriaSource()
 {
 	debug_log("destructor called");
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloads */
 
-Ice& Ice::operator=(const Ice& rhs)
+MateriaSource& MateriaSource::operator=(const MateriaSource& rhs)
 {
 	debug_log("assignment operator called");
-	if (this != &rhs)
-	{
-	//	type = rhs.type;
-		debug_log("operator = dummy overload");
-	}
+	(void) rhs;
 	return *this;
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
 
-AMateria* Ice::clone() const
+void MateriaSource::showStorage()
 {
-	return (new Ice(*this));
+	for (int i = 0; i < 4; ++i)
+	{
+		if (storage[i] != NULL)
+		{
+			std::cout << storage[i]->getType() << std::endl;
+		}
+		else
+		{
+			std::cout << "empty" << std::endl;
+		}
+	}
 }
 
-void Ice::use(ICharacter& target)
+void MateriaSource::learnMateria(AMateria *m)
 {
-	std::cout << "* shoots an ice bolt at "
-              << target.getName()
-			  << " *" << std::endl;
+	for (int i = 0; i < 4; ++i)
+	{
+		if (storage[i] == NULL)
+		{
+			storage[i] = m;
+		}
+	}
+}
+
+AMateria* MateriaSource::createMateria(std::string const & type)
+{
+	(void) type;
+	return 0; // null
 }
 
 // -------------------------------------------------------------------------- //

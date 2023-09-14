@@ -13,17 +13,16 @@
 
 #include "Character.hpp" // needed for Character class
 #include "Ice.hpp"       // needed for Ice class
-#include <stdio.h>
+
+#include "MateriaSource.hpp" // needed for MateriaSource class
 
 int	main(void)
 {
-	Character a;
+	MateriaSource src;
 
-	AMateria* item = new Ice();
+	src.showStorage();
 
-	(void) item;
 
-	system("leaks interfaceandrecap");
 //	IMateriaSource* src = new MateriaSource();
 //	src->learnMateria(new Ice());
 //	src->learnMateria(new Cure());
