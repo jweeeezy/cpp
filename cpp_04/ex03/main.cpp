@@ -19,29 +19,33 @@
 
 int	main(void)
 {
-	Floor fl;
+	Character a("Andrew");
+	
+	AMateria* i1 = new Ice();
+	AMateria* i2 = new Ice();
+	AMateria* i3 = new Cure();
+	AMateria* i4 = new Cure();
 
-	AMateria* a = new Ice();
-	AMateria* b = new Ice();
-	AMateria* c = new Cure();
-	AMateria* d = new Cure();
-	AMateria* e = new Cure();
-	AMateria* f = new Cure();
+	a.equip(i1);
+	a.equip(i2);
+	a.equip(i3);
+	a.equip(i4);
+	
+	a.showInventory();
 
-	AMateria* g = new Cure();
+	Character b("Bob");
 
-	fl.add(a);
-	fl.add(b);
-	fl.add(c);
-	fl.add(d);
-	fl.add(e);
-	fl.add(f);
+	b = a;
 
-	fl.print();
+	b.showInventory();
+	b.clearInventory();
+	b.showInventory();
 
-	fl.add(g);
+	Character c(b);
 
-	fl.print();
+	c.showInventory();
+
+
 
 //	IMateriaSource* src = new MateriaSource();
 //	src->learnMateria(new Ice());

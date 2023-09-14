@@ -53,7 +53,7 @@ Ice& Ice::operator=(const Ice& rhs)
 	debug_log("assignment operator called");
 	if (this != &rhs)
 	{
-
+		// implementation
 	}
 	return *this;
 }

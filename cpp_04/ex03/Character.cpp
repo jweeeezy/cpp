@@ -55,6 +55,8 @@ Character::Character() : name("Dummy")
 Character::Character(const Character& src) : name(src.name)
 {
 	debug_log("copy constructor called");
+	null_array((void **) inventory, 4);
+	clearInventory();
 	for (int i = 0; i < 4; ++i)
 	{
 		if (src.inventory[i] != EMPTY)
@@ -71,13 +73,7 @@ Character::Character(const Character& src) : name(src.name)
 Character::~Character()
 {
 	debug_log("destructor called");
-	for (int i = 0; i < 4; ++i)
-	{
-		if (inventory[i] != EMPTY)
-		{
-			delete inventory[i];
-		}
-	}
+	clearInventory();
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloads */
@@ -87,15 +83,12 @@ Character& Character::operator=(const Character& rhs)
 	debug_log("assignment operator called");
 	if (this != &rhs)
 	{
+		clearInventory();
 		for (int i = 0; i < 4; ++i)
 		{
 			if (rhs.inventory[i] != EMPTY)
 			{
 				inventory[i] = rhs.inventory[i]->clone();
-			}
-			else
-			{
-				inventory[i] = EMPTY;
 			}
 		}
 	}
@@ -103,6 +96,18 @@ Character& Character::operator=(const Character& rhs)
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
+
+void Character::clearInventory()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		if (inventory[i] != EMPTY)
+		{
+			delete inventory[i];
+			inventory[i] = EMPTY;
+		}
+	}
+}
 
 void Character::showInventory() const
 {

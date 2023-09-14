@@ -32,6 +32,7 @@ class Character : public ICharacter
 		AMateria* getItem(int idx);
 
 		void showInventory() const;
+		void clearInventory();
 
 		Character(std::string const name);
 		Character();
