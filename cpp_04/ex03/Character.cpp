@@ -18,7 +18,7 @@
 # define DEBUG 0
 # endif // DEBUG
 
-#define EMPTY NULL // used for clarity - not sure if viable
+#define EMPTY NULL // used for clarity - not sure if good practice
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> non-class functions */
 
@@ -58,7 +58,7 @@ Character::~Character()
 	// @note delete?
 	for (int i = 0; i < 4; ++i)
 	{
-		if (inventory[i] != NULL)
+		if (inventory[i] != EMPTY)
 		{
 			//delete inventory[i];
 		}
@@ -74,7 +74,7 @@ Character& Character::operator=(const Character& rhs)
 	{
 		for (int i = 0; i < 4; ++i)
 		{
-			inventory[i] = rhs.inventory[i]->clone();
+			inventory[i] = rhs.inventory[i]; // <-- no clone?
 		}
 	}
 	return *this;
@@ -101,7 +101,7 @@ void Character::equip(AMateria* m)
 
 void Character::unequip(int idx)
 {
-	inventory[idx] = NULL;
+	inventory[idx] = EMPTY;
 }
 
 void Character::use(int idx, ICharacter& target)

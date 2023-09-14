@@ -19,6 +19,11 @@ int	main(void)
 {
 	Character a;
 
+	AMateria* item = new Ice();
+
+	(void) item;
+
+	system("leaks interfaceandrecap");
 //	IMateriaSource* src = new MateriaSource();
 //	src->learnMateria(new Ice());
 //	src->learnMateria(new Cure());
