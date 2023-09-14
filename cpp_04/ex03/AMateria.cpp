@@ -8,8 +8,9 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "AMateria.hpp" // needed for AMateria class
-#include <iostream>     // needed for std::cout, std::endl
+#include "AMateria.hpp"   // needed for AMateria class
+#include <iostream>       // needed for std::cout, std::endl
+#include "ICharacter.hpp" // needed for ICharacter interface
 
 #define YELLOW  "\033[33m"
 #define RESET   "\033[0m"
@@ -55,11 +56,7 @@ AMateria::~AMateria()
 AMateria& AMateria::operator=(const AMateria& rhs)
 {
 	debug_log("assignment operator called");
-	if (this != &rhs)
-	{
-		// needs implementation
-		debug_log("operator = dummmy overload");
-	}
+	(void) rhs;
 	return *this;
 }
 
@@ -72,9 +69,8 @@ std::string const &AMateria::getType() const
 
 void AMateria::use(ICharacter& target)
 {
-	// needs implementation
-	(void) target;
-	debug_log("use dummy function");
+	std::cout << "* can't use generic AMateria" << target.getName()
+		      << " *" << std::endl;
 }
 
 // -------------------------------------------------------------------------- //

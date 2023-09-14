@@ -24,11 +24,12 @@ class Character : public ICharacter
 
 	public:
 
+		std::string const & getName() const;
+
 		void equip(AMateria* m);
 		void unequip(int idx);
 		void use(int idx, ICharacter& target);
-		
-		std::string const & getName() const;
+
 		AMateria* getItem(int idx);
 
 		void showInventory() const;

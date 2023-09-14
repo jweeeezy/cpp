@@ -66,13 +66,7 @@ MateriaSource::MateriaSource(const MateriaSource& src)
 MateriaSource::~MateriaSource()
 {
 	debug_log("destructor called");
-	for (int i = 0; i < 4; ++i)
-	{
-		if (storage[i] != EMPTY)
-		{
-			delete storage[i];
-		}
-	}
+	cleanStorage();
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloads */
@@ -82,6 +76,7 @@ MateriaSource& MateriaSource::operator=(const MateriaSource& rhs)
 	debug_log("assignment operator called");
 	if (this != &rhs)
 	{
+		cleanStorage();
 		for (int i = 0; i < 4; ++i)
 		{
 			if (rhs.storage[i] != EMPTY)
@@ -94,11 +89,22 @@ MateriaSource& MateriaSource::operator=(const MateriaSource& rhs)
 			}
 		}
 	}
-
 	return *this;
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
+
+void MateriaSource::cleanStorage()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		if (storage[i] != EMPTY)
+		{
+			delete storage[i];
+			storage[i] = EMPTY;
+		}
+	}
+}
 
 void MateriaSource::showStorage() const
 {
@@ -133,7 +139,7 @@ AMateria* MateriaSource::createMateria(std::string const & type)
 {
 	for (int i = 0; i < 4; ++i)
 	{
-		if (storage[i] != NULL && storage[i]->getType() == type)
+		if (storage[i] != EMPTY && storage[i]->getType() == type)
 		{
 			return (storage[i]->clone());
 		}

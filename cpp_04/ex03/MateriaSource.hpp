@@ -22,6 +22,7 @@ class MateriaSource : public IMateriaSource
 	public:
 
 		void showStorage() const;
+		void cleanStorage();
 
 		void learnMateria(AMateria *m);
 		AMateria* createMateria(std::string const & type);

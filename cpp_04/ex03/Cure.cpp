@@ -50,10 +50,7 @@ Cure::~Cure()
 Cure& Cure::operator=(const Cure& rhs)
 {
 	debug_log("assignment operator called");
-	if (this != & rhs)
-	{
-
-	}
+	(void) rhs;
 	return *this;
 }
 

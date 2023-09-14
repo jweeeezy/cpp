@@ -11,8 +11,7 @@
 #ifndef ICHARACTER_HPP
 # define ICHARACTER_HPP
 
-#include <string>       // needed for std::string
-#include "AMateria.hpp" // needed for AMateria class
+#include "AMateria.hpp" // needed for AMateria class, std::string
 
 class ICharacter
 {

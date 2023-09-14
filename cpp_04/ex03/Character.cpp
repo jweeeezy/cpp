@@ -55,8 +55,6 @@ Character::Character() : name("Dummy")
 Character::Character(const Character& src) : name(src.name)
 {
 	debug_log("copy constructor called");
-	null_array((void **) inventory, 4);
-	clearInventory();
 	for (int i = 0; i < 4; ++i)
 	{
 		if (src.inventory[i] != EMPTY)
@@ -128,7 +126,15 @@ void Character::showInventory() const
 
 AMateria* Character::getItem(int idx)
 {
-	return inventory[idx];
+	if (idx >= 0 && idx < 4)
+	{
+		return inventory[idx];
+	}
+	else
+	{
+		debug_log("getItem: index out of bounds");
+		return NULL;
+	}
 }
 
 std::string const & Character::getName() const
@@ -150,18 +156,30 @@ void Character::equip(AMateria* m)
 
 void Character::unequip(int idx)
 {
-	inventory[idx] = EMPTY;
+	if (idx >= 0 && idx < 4)
+	{
+		inventory[idx] = EMPTY;
+	}
+	else
+	{
+		debug_log("unequip: index out of bounds");
+	}
 }
 
 void Character::use(int idx, ICharacter& target)
 {
-	if (inventory[idx] != NULL)
+	if (idx >= 0 && idx < 4)
 	{
-		inventory[idx]->use(target);
+		if (inventory[idx] != NULL)
+		{
+			inventory[idx]->use(target);
+			return ;
+		}
+		debug_log("use: no item equipped");
 	}
 	else
 	{
-		debug_log("use: index out of bounds or no item equipped");
+		debug_log("use: index out of bounds");
 	}
 }
 
