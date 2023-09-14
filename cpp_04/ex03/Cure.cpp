@@ -4,10 +4,11 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  Ice.cpp                                                             //
+// file:  Cure.cpp                                                            //
 //                                                                            //
 // -------------------------------------------------------------------------- //
-#include "Ice.hpp"        // needed for Ice class, AMateria class
+
+#include "Cure.hpp"       // needed for Cure class
 #include <iostream>       // needed for std::cout, std::endl
 #include "ICharacter.hpp" // needed for ICharacter interface
 
@@ -24,33 +25,32 @@ static inline void debug_log(std::string message)
 {
 	if (DEBUG)
 	{
-		std::cout << YELLOW << "Ice: " << message << RESET << std::endl;
+		std::cout << YELLOW << "Cure: " << message << RESET << std::endl;
 	}
 }
-
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
 
-Ice::Ice() : AMateria("ice")
+Cure::Cure() : AMateria("cure")
 {
 	debug_log("default constructor called");
 }
 
-Ice::Ice(const Ice& src) : AMateria(src.type)
+Cure::Cure(const Cure& src) : AMateria(src.type)
 {
 	debug_log("copy constructor called");
 }
 
-Ice::~Ice()
+Cure::~Cure()
 {
 	debug_log("destructor called");
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloads */
 
-Ice& Ice::operator=(const Ice& rhs)
+Cure& Cure::operator=(const Cure& rhs)
 {
 	debug_log("assignment operator called");
-	if (this != &rhs)
+	if (this != & rhs)
 	{
 
 	}
@@ -59,16 +59,15 @@ Ice& Ice::operator=(const Ice& rhs)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
 
-AMateria* Ice::clone() const
+AMateria* Cure::clone() const
 {
-	return (new Ice(*this));
+	return (new Cure(*this));
 }
-
-void Ice::use(ICharacter& target)
+void Cure::use(ICharacter& target)
 {
-	std::cout << "* shoots an ice bolt at "
+	std::cout << "* heals "
               << target.getName()
-			  << " *" << std::endl;
+			  << "'s wounds *" << std::endl;
 }
 
 // -------------------------------------------------------------------------- //

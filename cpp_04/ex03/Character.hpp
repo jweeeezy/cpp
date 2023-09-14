@@ -30,6 +30,8 @@ class Character : public ICharacter
 		
 		std::string const & getName() const;
 
+		void showInventory() const;
+
 		Character(std::string const name);
 		Character();
 		Character(const Character& src);

@@ -4,6 +4,7 @@ NAME      = interfaceandrecap
 SRC_FILES = main.cpp \
 			AMateria.cpp \
 			Ice.cpp \
+			Cure.cpp \
 			Character.cpp \
 			MateriaSource.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)

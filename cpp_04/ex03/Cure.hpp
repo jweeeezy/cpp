@@ -4,35 +4,31 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  MateriaSource.hpp                                                   //
+// file:  Cure.hpp                                                            //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#ifndef MATERIASOURCE_HPP
-# define MATERIASOURCE_HPP
+#ifndef CURE_HPP
+# define CURE_HPP
 
-#include "IMateriaSource.hpp" // needed for IMateriaSource interface
+#include "AMateria.hpp" // needed for AMateria class, ICharacter interface
 
-class MateriaSource : public IMateriaSource
+class Cure : public AMateria
 {
-	protected:
-		
-		AMateria* storage[4];
 
 	public:
 
-		void showStorage() const;
+		AMateria* clone() const;
+	
+		void use(ICharacter& target);
 
-		void learnMateria(AMateria *m);
-		AMateria* createMateria(std::string const & type);
-
-		MateriaSource();
-		MateriaSource(const MateriaSource& src);
-		~MateriaSource();
-		MateriaSource& operator=(const MateriaSource& rhs);
+		Cure();
+		Cure(const Cure& src);
+		~Cure();
+		Cure& operator=(const Cure& rhs);
 
 };
 
-#endif // MATERIASOURCE_HPP
+#endif // CURE_HPP
 
 // -------------------------------------------------------------------------- //

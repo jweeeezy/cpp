@@ -8,8 +8,8 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "Character.hpp" // needed for Character class
 #include <iostream>      // needed for std::cout, std::endl
+#include "Character.hpp" // needed for Character class
 
 #define YELLOW  "\033[33m"
 #define RESET   "\033[0m"
@@ -18,7 +18,7 @@
 # define DEBUG 0
 # endif // DEBUG
 
-#define EMPTY NULL // used for clarity - not sure if good practice
+#define EMPTY NULL       // used for readability
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> non-class functions */
 
@@ -30,16 +30,26 @@ static inline void debug_log(std::string message)
 	}
 }
 
+static inline void null_array(void **arr, int size)
+{
+	for (int i = 0; i < size; ++i)
+	{
+		arr[i] = EMPTY;
+	}
+}
+
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
 
 Character::Character(std::string const name) : name(name)
 {
 	debug_log("name constructor called");
+	null_array((void **) inventory, 4);
 }
 
 Character::Character() : name("Dummy")
 {
 	debug_log("default constructor called");
+	null_array((void **) inventory, 4);
 }
 
 Character::Character(const Character& src) : name(src.name)
@@ -47,20 +57,25 @@ Character::Character(const Character& src) : name(src.name)
 	debug_log("copy constructor called");
 	for (int i = 0; i < 4; ++i)
 	{
-		inventory[i] = src.inventory[i]->clone();
+		if (src.inventory[i] != EMPTY)
+		{
+			inventory[i] = src.inventory[i]->clone();
+		}
+		else
+		{
+			inventory[i] = EMPTY;
+		}
 	}
 }
 
 Character::~Character()
 {
 	debug_log("destructor called");
-	
-	// @note delete?
 	for (int i = 0; i < 4; ++i)
 	{
 		if (inventory[i] != EMPTY)
 		{
-			//delete inventory[i];
+			delete inventory[i];
 		}
 	}
 }
@@ -74,13 +89,37 @@ Character& Character::operator=(const Character& rhs)
 	{
 		for (int i = 0; i < 4; ++i)
 		{
-			inventory[i] = rhs.inventory[i]; // <-- no clone?
+			if (rhs.inventory[i] != EMPTY)
+			{
+				inventory[i] = rhs.inventory[i]->clone();
+			}
+			else
+			{
+				inventory[i] = EMPTY;
+			}
 		}
 	}
 	return *this;
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
+
+void Character::showInventory() const
+{
+	std::cout << "Character " << name << ":";
+	for (int i = 0; i < 4; ++i)
+	{
+		if (inventory[i] != EMPTY)
+		{
+			std::cout << "[" << inventory[i]->getType() << "]";
+		}
+		else
+		{
+			std::cout << "[empty]";
+		}
+	}
+	std::cout << std::endl;
+}
 
 std::string const & Character::getName() const
 {
@@ -106,7 +145,14 @@ void Character::unequip(int idx)
 
 void Character::use(int idx, ICharacter& target)
 {
-	inventory[idx]->use(target);
+	if (inventory[idx] != NULL)
+	{
+		inventory[idx]->use(target);
+	}
+	else
+	{
+		debug_log("use: index out of bounds or no item equipped");
+	}
 }
 
 // -------------------------------------------------------------------------- //

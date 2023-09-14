@@ -18,6 +18,8 @@
 # define DEBUG 0
 # endif // DEBUG
 
+#define EMPTY NULL
+
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> non-class functions */
 
 static inline void debug_log(std::string message)
@@ -33,7 +35,7 @@ static inline void null_array(void **arr, int size)
 {
 	for (int i = 0; i < size; ++i)
 	{
-		arr[i] = NULL;
+		arr[i] = EMPTY;
 	}
 }
 
@@ -50,13 +52,13 @@ MateriaSource::MateriaSource(const MateriaSource& src)
 	debug_log("copy constructor called");
 	for (int i = 0; i < 4; ++i)
 	{
-		if (src.storage[i] != NULL)
+		if (src.storage[i] != EMPTY)
 		{
 			storage[i] = src.storage[i]->clone();
 		}
 		else
 		{
-			storage[i] = NULL;
+			storage[i] = EMPTY;
 		}
 	}
 }
@@ -66,7 +68,7 @@ MateriaSource::~MateriaSource()
 	debug_log("destructor called");
 	for (int i = 0; i < 4; ++i)
 	{
-		if (storage[i] != NULL)
+		if (storage[i] != EMPTY)
 		{
 			delete storage[i];
 		}
@@ -82,13 +84,13 @@ MateriaSource& MateriaSource::operator=(const MateriaSource& rhs)
 	{
 		for (int i = 0; i < 4; ++i)
 		{
-			if (rhs.storage[i] != NULL)
+			if (rhs.storage[i] != EMPTY)
 			{
 				storage[i] = rhs.storage[i]->clone();
 			}
 			else
 			{
-				storage[i] = NULL;
+				storage[i] = EMPTY;
 			}
 		}
 	}
@@ -98,26 +100,28 @@ MateriaSource& MateriaSource::operator=(const MateriaSource& rhs)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
 
-void MateriaSource::showStorage()
+void MateriaSource::showStorage() const
 {
+	std::cout << "MateriaSource storage: ";
 	for (int i = 0; i < 4; ++i)
 	{
-		if (storage[i] != NULL)
+		if (storage[i] != EMPTY)
 		{
-			std::cout << storage[i]->getType() << std::endl;
+			std::cout << "[" << storage[i]->getType() << "]";
 		}
 		else
 		{
-			std::cout << "empty" << std::endl;
+			std::cout << "[empty]"; 
 		}
 	}
+	std::cout << std::endl;
 }
 
 void MateriaSource::learnMateria(AMateria *m)
 {
 	for (int i = 0; i < 4; ++i)
 	{
-		if (storage[i] == NULL)
+		if (storage[i] == EMPTY)
 		{
 			storage[i] = m;
 			break ;
@@ -129,7 +133,7 @@ AMateria* MateriaSource::createMateria(std::string const & type)
 {
 	for (int i = 0; i < 4; ++i)
 	{
-		if (storage[i]->getType() == type)
+		if (storage[i] != NULL && storage[i]->getType() == type)
 		{
 			return (storage[i]->clone());
 		}

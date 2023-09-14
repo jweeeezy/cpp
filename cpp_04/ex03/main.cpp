@@ -13,7 +13,7 @@
 
 #include "Character.hpp" // needed for Character class
 #include "Ice.hpp"       // needed for Ice class
-
+#include "Cure.hpp"      // needed for Cure class
 #include "MateriaSource.hpp" // needed for MateriaSource class
 
 int	main(void)
@@ -21,12 +21,21 @@ int	main(void)
 	MateriaSource src;
 
 	src.showStorage();
-	src.learnMateria(new Ice());
+	src.learnMateria(new Cure());
 	src.showStorage();
 
-	AMateria* ice = src.createMateria("ice");
-	std::cout << ice->getType() << std::endl;
-	delete ice;
+	Character* harald = new Character("Harald");
+
+	harald->showInventory();
+	harald->equip(src.createMateria("ice"));
+	harald->showInventory();
+
+	ICharacter* peter = new Character("Peter");
+
+	harald->use(0, *peter);
+
+	delete peter;
+	delete harald;
 
 //	IMateriaSource* src = new MateriaSource();
 //	src->learnMateria(new Ice());

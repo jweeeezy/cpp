@@ -11,7 +11,7 @@
 #ifndef ICE_HPP
 # define ICE_HPP
 
-#include "AMateria.hpp" // needed for AMateria class
+#include "AMateria.hpp" // needed for AMateria class, ICharacter interface
 
 class Ice : public AMateria
 {
