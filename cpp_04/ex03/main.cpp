@@ -21,7 +21,12 @@ int	main(void)
 	MateriaSource src;
 
 	src.showStorage();
+	src.learnMateria(new Ice());
+	src.showStorage();
 
+	AMateria* ice = src.createMateria("ice");
+	std::cout << ice->getType() << std::endl;
+	delete ice;
 
 //	IMateriaSource* src = new MateriaSource();
 //	src->learnMateria(new Ice());

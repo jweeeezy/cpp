@@ -29,26 +29,48 @@ static inline void debug_log(std::string message)
 	}
 }
 
+static inline void null_array(void **arr, int size)
+{
+	for (int i = 0; i < size; ++i)
+	{
+		arr[i] = NULL;
+	}
+}
+
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
 
 MateriaSource::MateriaSource()
 {
 	debug_log("default constructor called");
-	for (int i = 0; i < 4; ++i)
-	{
-		storage[i] = NULL;
-	}
+	null_array((void**) storage, 4);
 }
 
 MateriaSource::MateriaSource(const MateriaSource& src)
 {
 	debug_log("copy constructor called");
-	(void) src;
+	for (int i = 0; i < 4; ++i)
+	{
+		if (src.storage[i] != NULL)
+		{
+			storage[i] = src.storage[i]->clone();
+		}
+		else
+		{
+			storage[i] = NULL;
+		}
+	}
 }
 
 MateriaSource::~MateriaSource()
 {
 	debug_log("destructor called");
+	for (int i = 0; i < 4; ++i)
+	{
+		if (storage[i] != NULL)
+		{
+			delete storage[i];
+		}
+	}
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloads */
@@ -56,7 +78,21 @@ MateriaSource::~MateriaSource()
 MateriaSource& MateriaSource::operator=(const MateriaSource& rhs)
 {
 	debug_log("assignment operator called");
-	(void) rhs;
+	if (this != &rhs)
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			if (rhs.storage[i] != NULL)
+			{
+				storage[i] = rhs.storage[i]->clone();
+			}
+			else
+			{
+				storage[i] = NULL;
+			}
+		}
+	}
+
 	return *this;
 }
 
@@ -84,14 +120,21 @@ void MateriaSource::learnMateria(AMateria *m)
 		if (storage[i] == NULL)
 		{
 			storage[i] = m;
+			break ;
 		}
 	}
 }
 
 AMateria* MateriaSource::createMateria(std::string const & type)
 {
-	(void) type;
-	return 0; // null
+	for (int i = 0; i < 4; ++i)
+	{
+		if (storage[i]->getType() == type)
+		{
+			return (storage[i]->clone());
+		}
+	}
+	return NULL;
 }
 
 // -------------------------------------------------------------------------- //
