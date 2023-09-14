@@ -57,9 +57,6 @@ int	main(void)
 	AMateria* floor[FLOOR_SIZE];
 	prepare_floor(floor);
 
-
-
-
 	MateriaSource src;
 
 	src.showStorage();
@@ -75,10 +72,10 @@ int	main(void)
 	ICharacter* peter = new Character("Peter");
 
 	harald->use(0, *peter);
+	add_floor(floor, harald->getItem(0));
+	harald->unequip(0);
 
-
-
-
+	clean_floor(floor);
 
 	delete peter;
 	delete harald;
