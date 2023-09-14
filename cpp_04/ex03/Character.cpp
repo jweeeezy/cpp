@@ -121,6 +121,11 @@ void Character::showInventory() const
 	std::cout << std::endl;
 }
 
+AMateria* Character::getItem(int idx)
+{
+	return inventory[idx];
+}
+
 std::string const & Character::getName() const
 {
 	return name;

@@ -16,8 +16,50 @@
 #include "Cure.hpp"      // needed for Cure class
 #include "MateriaSource.hpp" // needed for MateriaSource class
 
+#define FLOOR_SIZE 256
+#define EMPTY NULL
+
+static void prepare_floor(AMateria **floor)
+{
+	for (int i = 0; i < FLOOR_SIZE; ++i)
+	{
+		floor[i] = NULL;
+	}
+}
+
+void clean_floor(AMateria** floor)
+{
+	for (int i = 0; i < FLOOR_SIZE; ++i)
+	{
+		if (floor[i] != NULL)
+		{
+			delete floor[i];
+			floor[i] = EMPTY;
+		}
+	}
+}
+
+void add_floor(AMateria** floor, AMateria* drop)
+{
+	for (int i = 0; i < FLOOR_SIZE; ++i)
+	{
+		if (floor[i] == EMPTY)
+		{
+			floor[i] = drop;
+			return ;
+		}
+	}
+	delete drop;
+}
+
 int	main(void)
 {
+	AMateria* floor[FLOOR_SIZE];
+	prepare_floor(floor);
+
+
+
+
 	MateriaSource src;
 
 	src.showStorage();
@@ -33,6 +75,10 @@ int	main(void)
 	ICharacter* peter = new Character("Peter");
 
 	harald->use(0, *peter);
+
+
+
+
 
 	delete peter;
 	delete harald;
