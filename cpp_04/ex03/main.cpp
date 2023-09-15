@@ -57,7 +57,6 @@ int	main(void)
 		delete src;
 	}
 
-
 	print_story("AMateria class tests");
 	{
 		Ice ice;
@@ -70,8 +69,9 @@ int	main(void)
 		ice.use(*target);
 		cure.use(*target);
 
-		target->equip(&ice);
-
+		target->equip(ice.clone());
+		target->use(0, *target);
+		delete target;
 	}
 
 	print_story("MateriaSource class tests");
@@ -108,10 +108,35 @@ int	main(void)
 
 	print_story("Character class tests");
 	{
+		Character tim("Tim");
+		Character albert("Albert");
+		AMateria* ice = new Ice(); 
 
+		tim.showInventory();
+		print_hint("                                          <--- equip test");
+		tim.equip(ice);
+		tim.showInventory();
+		std::cout << tim.getItem(0) << std::endl;
+		std::cout << tim.getItem(1) << std::endl;
+		print_hint("                                            <--- use test");
+		tim.use(0, tim);
+		tim.use(1, tim);
 
+		print_hint("                                    <--- Copy constructor");
+		Character cpy(tim);
+		std::cout << cpy.getName() << std::endl;
 
+		print_hint("                                 <--- assignment operator");
+		albert = tim;
+		std::cout << albert.getName() << std::endl;
 
+		print_hint("                                            <--- cleaning");
+		tim.clearInventory();
+		tim.showInventory();
+
+		print_hint("                                      <--- deep copy test");
+		albert.showInventory();
+		cpy.showInventory();
 	}
 	return (EXIT_SUCCESS);
 }
