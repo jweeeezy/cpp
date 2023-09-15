@@ -21,6 +21,8 @@
 #define GREEN "\033[32m"
 #define RESET "\033[0m"
 
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> helper functions */
+
 static inline void print_story(std::string story)
 {
 	std::cout << GREEN << "\n< " << story << " >\n" << RESET << std::endl;
@@ -31,7 +33,9 @@ static inline void print_hint(std::string story)
 	std::cout << GREEN << story << RESET << std::endl;
 }
 
-int	main(void)
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> test modules */
+
+void test_subject()
 {
 	print_story("Subject tests");
 	{
@@ -56,7 +60,10 @@ int	main(void)
 		delete me;
 		delete src;
 	}
+}
 
+void test_amateria()
+{
 	print_story("AMateria class tests");
 	{
 		Ice ice;
@@ -73,7 +80,10 @@ int	main(void)
 		target->use(0, *target);
 		delete target;
 	}
+}
 
+void test_materiasource()
+{
 	print_story("MateriaSource class tests");
 	{
 		MateriaSource src;
@@ -105,7 +115,10 @@ int	main(void)
 		cpy.showStorage();
 		aopr.showStorage();
 	}
+}
 
+void test_character()
+{
 	print_story("Character class tests");
 	{
 		Character tim("Tim");
@@ -138,6 +151,67 @@ int	main(void)
 		albert.showInventory();
 		cpy.showInventory();
 	}
+}
+
+void test_floor()
+{
+	Floor ground;
+
+	ground.add(new Ice());
+	ground.add(NULL);
+	ground.print();
+
+	print_hint("                                        <--- Copy constructor");
+	Floor cpy(ground);
+
+	print_hint("                                     <--- assignment operator");
+	Floor aopr;
+	aopr = cpy;
+
+	print_hint("                                                <--- cleaning");
+	ground.clean();
+
+	print_hint("                                          <--- deep copy test");
+	cpy.print();
+	aopr.print();
+}
+
+void test_intensive()
+{
+	Floor ground;
+
+	ground.print();
+
+	MateriaSource src;
+
+	src.learnMateria(new Ice());
+	src.learnMateria(new Cure());
+	src.showStorage();
+
+	Character tom("Tom");
+	tom.showInventory();
+	
+	tom.equip(src.createMateria("cure"));
+	tom.equip(src.createMateria("ice"));
+	tom.equip(src.createMateria("dummy"));
+	tom.showInventory();
+
+	tom.use(0, tom);
+	tom.use(1, tom);
+	tom.use(3, tom);
+
+	ground.add(tom.getItem(0));
+	tom.unequip(0);
+}
+
+int	main(void)
+{
+//	test_subject();
+//	test_floor();
+//	test_amateria();
+//	test_materiasource();
+//	test_character();
+	test_intensive();
 	return (EXIT_SUCCESS);
 }
 
