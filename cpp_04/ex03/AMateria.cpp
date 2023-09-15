@@ -69,7 +69,7 @@ std::string const &AMateria::getType() const
 
 void AMateria::use(ICharacter& target)
 {
-	std::cout << "* can't use generic AMateria" << target.getName()
+	std::cout << "* uses generic AMateria on " << target.getName()
 		      << " *" << std::endl;
 }
 
