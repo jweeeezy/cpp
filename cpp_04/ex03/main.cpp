@@ -155,6 +155,7 @@ void test_character()
 
 void test_floor()
 {
+	print_story("Floor class test");
 	Floor ground;
 
 	ground.add(new Ice());
@@ -176,42 +177,50 @@ void test_floor()
 	aopr.print();
 }
 
-void test_intensive()
+void test_usage()
 {
-	Floor ground;
+	print_story("Usage test");
 
+	print_hint("                                          <--- creating floor");
+	Floor ground;
 	ground.print();
 
+	print_hint("                                  <--- creating MateriaSource");
 	MateriaSource src;
-
 	src.learnMateria(new Ice());
 	src.learnMateria(new Cure());
 	src.showStorage();
 
+	print_hint("                                      <--- creating Character");
 	Character tom("Tom");
 	tom.showInventory();
 	
+	print_hint("                            <--- equipping from MateriaSource");
 	tom.equip(src.createMateria("cure"));
 	tom.equip(src.createMateria("ice"));
 	tom.equip(src.createMateria("dummy"));
 	tom.showInventory();
 
+	print_hint("                                    <--- using from inventory");
 	tom.use(0, tom);
 	tom.use(1, tom);
 	tom.use(3, tom);
 
+	print_hint("        <---  dropping from inventory and adding to the floor");
 	ground.add(tom.getItem(0));
 	tom.unequip(0);
+	tom.showInventory();
+	ground.print();
 }
 
 int	main(void)
 {
-//	test_subject();
-//	test_floor();
-//	test_amateria();
-//	test_materiasource();
-//	test_character();
-	test_intensive();
+	test_subject();
+	test_floor();
+	test_amateria();
+	test_materiasource();
+	test_character();
+	test_usage();
 	return (EXIT_SUCCESS);
 }
 
