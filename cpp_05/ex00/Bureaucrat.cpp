@@ -30,7 +30,7 @@ static inline void debug_log(std::string message)
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
 
 Bureaucrat::Bureaucrat(std::string const name, unsigned short int grade)
-	: name(name), grade(grade)
+	: name(name)
 {
 	debug_log("grade constructor called");
 	if (grade > 150)
@@ -41,9 +41,10 @@ Bureaucrat::Bureaucrat(std::string const name, unsigned short int grade)
 	{
 		throw GradeTooLowException();
 	}
+	this->grade = grade;
 }
 
-Bureaucrat::Bureaucrat() : name("Bureaucrat"), grade(0)
+Bureaucrat::Bureaucrat() : name("Bureaucrat"), grade(150)
 {
 	debug_log("default constructor called");
 }
