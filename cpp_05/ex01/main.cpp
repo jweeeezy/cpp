@@ -8,17 +8,16 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include <cstdlib> // needed for MACROS
+#include <cstdlib>  // needed for MACROS
+#include <iostream> // needed for std::cout, std::endl
+#include "Form.hpp" // needed for Form class, Bureaucrat class
 
-#define EXPECTED_ARGC 2
-
-int	main(int argc, char **argv)
+int	main(void)
 {
-	if (argc != EXPECTED_ARGC)
-	{
-		return (EXIT_FAILURE);
-	}
-	(void) argv;
+	Form f;
+
+	std::cout << f << std::endl;
+
 	return (EXIT_SUCCESS);
 }
 
