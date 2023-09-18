@@ -38,23 +38,27 @@ Form::Form() : name("Default"),
 	debug_log("default constructor called");
 }
 
-Form::Form(const Form& src) : sign_status(src.sign_status),
+Form::Form(const Form& src) : name(src.name), sign_status(src.sign_status),
 	req_grade_sign(src.req_grade_sign), req_grade_exec(src.req_grade_exec)
 {
 	debug_log("copy constructor called");
 }
 
 Form::Form(std::string const name,
-		unsigned short int req_sign,
-		unsigned short int req_exec)
+		   unsigned short int req_sign,
+           unsigned short int req_exec) : name(name), sign_status(false)
 {
 	debug_log("name and grade constructor called");
-	(void) name;
-	(void) req_sign;
-	(void) req_exec;
-	sign_status = false;
-	// throw exceptions
-	// @note needs implementation
+	if (req_sign < 1 || req_exec < 1)
+	{
+		throw GradeTooHighException();
+	}
+	else if (req_sign > 150 || req_exec > 150)
+	{
+		throw GradeTooLowException();
+	}
+	req_grade_sign = req_sign;
+	req_grade_exec = req_exec;
 }
 
 Form::~Form()
@@ -66,18 +70,20 @@ Form::~Form()
 
 Form& Form::operator=(const Form& rhs)
 {
-	(void) rhs;
+	sign_status = rhs.sign_status;
+	req_grade_sign = rhs.req_grade_sign;
+	req_grade_exec = rhs.req_grade_exec;
 	return *this;
 }
 
 std::ostream &operator<<(std::ostream &os, const Form &rhs)
 {
 	os  << "--Form information--\n"
-		<< "Name: "
+		<< "Name:                      "
 		<< rhs.getName()
 		<< std::endl;
 
-	os << "Status: ";
+	os << "Status:                    ";
 	if (rhs.getSignStatus() == true)
 	{
 		os << "signed" << std::endl;
@@ -87,7 +93,7 @@ std::ostream &operator<<(std::ostream &os, const Form &rhs)
 		os << "unsigned" << std::endl;
 	}
 	
-	os << "Required Grade to Sign: "
+	os << "Required Grade to Sign:    "
 	   << rhs.getReqGradeSign()
 	   << std::endl;
 
@@ -121,8 +127,14 @@ unsigned short int  Form::getReqGradeExec() const
 
 void Form::beSigned(Bureaucrat &b)
 {
-	// @note needs implementation
-	(void) b;
+	if (b.getGrade() <= this->getReqGradeSign())
+	{
+		sign_status = true;
+	}
+	else
+	{
+		throw GradeTooLowException();
+	}
 }
 
 // -------------------------------------------------------------------------- //
