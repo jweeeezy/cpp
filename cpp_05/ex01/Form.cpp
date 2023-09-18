@@ -24,28 +24,30 @@ static inline void debug_log(std::string message)
 {
 	if (DEBUG)
 	{
-		std::cout << YELLOW << "Bureaucrat: " << message << RESET << std::endl;
+		std::cout << YELLOW << "Form: " << message << RESET << std::endl;
 	}
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
 
 Form::Form() : name("Default"),
-	           sign_status(false),
-			   req_grade_sign(150),
-			   req_grade_exec(150)
+               sign_status(false),
+               req_grade_sign(150),
+               req_grade_exec(150)
 {
 	debug_log("default constructor called");
 }
 
-Form::Form(const Form& src) : name(src.name), sign_status(src.sign_status),
-	req_grade_sign(src.req_grade_sign), req_grade_exec(src.req_grade_exec)
+Form::Form(const Form& src) : name(src.name),
+                              sign_status(src.sign_status),
+                              req_grade_sign(src.req_grade_sign),
+                              req_grade_exec(src.req_grade_exec)
 {
 	debug_log("copy constructor called");
 }
 
-Form::Form(std::string const name,
-		   unsigned short int req_sign,
+Form::Form(std::string const  name,
+           unsigned short int req_sign,
            unsigned short int req_exec) : name(name), sign_status(false)
 {
 	debug_log("name and grade constructor called");
