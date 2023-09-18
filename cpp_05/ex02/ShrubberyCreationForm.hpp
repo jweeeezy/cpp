@@ -4,24 +4,29 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  main.cpp                                                            //
+// file:  ShrubberyCreationForm.hpp                                           //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include <cstdlib>                   // needed for MACROS
-#include <iostream>                  // needed for std::cout, std::endl
-#include "ShrubberyCreationForm.hpp" // needed for SCF class
+#ifndef SHRUBBERYCREATIONFORM_HPP
+# define SHRUBBERYCREATIONFORM_HPP
 
-int	main(void)
+#include "AForm.hpp" // needed for AForm class, std::string
+
+class ShrubberyCreationForm : public AForm
 {
-	Bureaucrat b;
-	ShrubberyCreationForm scf("home");
+	public:
 
-	std::cout << scf << std::endl;
+		void execute(Bureaucrat const& executor) const;
 
-	scf.execute(b);
+		ShrubberyCreationForm(std::string const& target);
+		ShrubberyCreationForm();
+		ShrubberyCreationForm(const ShrubberyCreationForm& src);
+		~ShrubberyCreationForm();
+		ShrubberyCreationForm& operator=(const ShrubberyCreationForm& rhs);
 
-	return (EXIT_SUCCESS);
-}
+};
+
+#endif // SHRUBBERYCREATIONFORM
 
 // -------------------------------------------------------------------------- //

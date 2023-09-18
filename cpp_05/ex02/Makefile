@@ -1,7 +1,10 @@
 #/ -------------------------------------------------------------------------- //
 
 NAME      = noyouneedform28bnot28c
-SRC_FILES = main.cpp
+SRC_FILES = main.cpp \
+			Bureaucrat.cpp \
+			AForm.cpp \
+			ShrubberyCreationForm.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
 CC        = c++
 DEBUG_FLAG= $(shell echo $$DEBUG_FLAG)
@@ -19,6 +22,7 @@ clean:
 				rm -rf $(OBJ_FILES)
 fclean:     clean
 				rm -rf $(NAME)
+				rm -rf *_shrubbery
 re:         fclean
 				$(MAKE)
 
