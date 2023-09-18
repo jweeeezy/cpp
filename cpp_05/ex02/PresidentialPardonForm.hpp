@@ -4,28 +4,29 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  main.cpp                                                            //
+// file:  PresidentialPardonForm.hpp                                          //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include <cstdlib>                   // needed for MACROS
-#include <iostream>                  // needed for std::cout, std::endl
-#include "ShrubberyCreationForm.hpp" // needed for SCF class
+#ifndef PRESIDENTIALPARDONFORM_HPP
+# define PRESIDENTIALPARDONFORM_HPP
 
-int	main(void)
+#include "AForm.hpp" // needed for AForm class, Bureaucrat class, std::string
+
+class PresidentialPardonForm : public AForm
 {
-	Bureaucrat b;
-	ShrubberyCreationForm scf("home");
 
-	std::cout << b << std::endl;
-	std::cout << scf << std::endl;
+	public:
+		
+		void execute(Bureaucrat const& executor) const;
 
-	b.executeForm(scf);
-	b.signForm(scf);
-	b.executeForm(scf);
-	//scf.execute(b);
+		PresidentialPardonForm();
+		PresidentialPardonForm(const PresidentialPardonForm& src);
+		~PresidentialPardonForm();
+		PresidentialPardonForm& operator=(const PresidentialPardonForm& rhs);
 
-	return (EXIT_SUCCESS);
-}
+};
+
+#endif
 
 // -------------------------------------------------------------------------- //

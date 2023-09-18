@@ -4,28 +4,29 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  main.cpp                                                            //
+// file:  RobotomyRequestForm.hpp                                             //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include <cstdlib>                   // needed for MACROS
-#include <iostream>                  // needed for std::cout, std::endl
-#include "ShrubberyCreationForm.hpp" // needed for SCF class
+#ifndef ROBOTOMYREQUESTFORM_HPP
+# define ROBOTOMYREQUESTFORM_HPP
 
-int	main(void)
+#include "AForm.hpp" // needed for AForm class, Bureaucrat class, std::string
+
+class RobotomyRequestForm : public AForm
 {
-	Bureaucrat b;
-	ShrubberyCreationForm scf("home");
 
-	std::cout << b << std::endl;
-	std::cout << scf << std::endl;
+	public:
 
-	b.executeForm(scf);
-	b.signForm(scf);
-	b.executeForm(scf);
-	//scf.execute(b);
+		void execute(Bureaucrat const& executor) const;
 
-	return (EXIT_SUCCESS);
-}
+		RobotomyRequestForm();
+		RobotomyRequestForm(const RobotomyRequestForm& src);
+		~RobotomyRequestForm();
+		RobotomyRequestForm& operator=(const RobotomyRequestForm& rhs);
+
+};
+
+#endif // ROBOTOMYREQUESTFORM
 
 // -------------------------------------------------------------------------- //

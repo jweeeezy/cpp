@@ -38,6 +38,16 @@ class AForm
 		void                beSigned(Bureaucrat &b);
 		virtual void        execute(Bureaucrat const& executor) const = 0;
 
+
+		class NotSignedException : public std::exception
+		{
+			public:
+				const char *what() const throw()
+				{
+					return "Form is not signed yet!";
+				}
+		};
+
 		class GradeTooHighException : public std::exception
 		{
 			public:

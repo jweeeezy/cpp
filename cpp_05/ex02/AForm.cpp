@@ -163,4 +163,16 @@ void AForm::beSigned(Bureaucrat &b)
 	}
 }
 
+void AForm::execute(Bureaucrat const& executor) const
+{
+	if (this->getSignStatus() == false)
+	{
+		throw NotSignedException();
+	}
+	else if ((executor.getGrade() > req_grade_exec) == true)
+	{
+		throw GradeTooLowException();
+	}
+}
+
 // -------------------------------------------------------------------------- //

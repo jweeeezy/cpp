@@ -36,7 +36,7 @@ static inline void debug_log(std::string message)
 ShrubberyCreationForm::ShrubberyCreationForm() : AForm("SCF", 145, 137)
 {
 	debug_log("default constructor called");
-	setTarget("./");
+	setTarget("target");
 }
 
 ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& src)
@@ -73,9 +73,9 @@ ShrubberyCreationForm& ShrubberyCreationForm::operator=
 
 void ShrubberyCreationForm::execute(Bureaucrat const& executor) const
 {
-	(void) executor;
-	std::ofstream file(this->getTarget() + "_shrubbery");
+	AForm::execute(executor);
 
+	std::ofstream file((this->getTarget() + "_shrubbery").c_str());
 	if (file.is_open() == false)
 	{
 		debug_log("execute: failed to open file");

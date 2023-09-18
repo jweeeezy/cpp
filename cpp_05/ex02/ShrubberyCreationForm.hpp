@@ -11,10 +11,11 @@
 #ifndef SHRUBBERYCREATIONFORM_HPP
 # define SHRUBBERYCREATIONFORM_HPP
 
-#include "AForm.hpp" // needed for AForm class, std::string
+#include "AForm.hpp" // needed for AForm class, Bureaucrat class, std::string
 
 class ShrubberyCreationForm : public AForm
 {
+	
 	public:
 
 		void execute(Bureaucrat const& executor) const;
