@@ -25,7 +25,6 @@ int	main(void)
 	Bureaucrat a;
 	Bureaucrat b("Bob", 100);
 	
-
 	print_story("getName() and getGrade() testing");
 	std::cout << a.getName() << " " << a.getGrade() << std::endl;
 	std::cout << b.getName() << " " << b.getGrade() << std::endl;

@@ -35,11 +35,11 @@ Bureaucrat::Bureaucrat(std::string const name, unsigned short int grade)
 	debug_log("grade constructor called");
 	if (grade > 150)
 	{
-		throw GradeTooHighException();
+		throw GradeTooLowException();
 	}
 	else if (grade < 1)
 	{
-		throw GradeTooLowException();
+		throw GradeTooHighException();
 	}
 	this->grade = grade;
 }
@@ -83,7 +83,7 @@ void Bureaucrat::increment()
 {
 	if (grade - 1 < 1)
 	{
-		throw GradeTooLowException();
+		throw GradeTooHighException();
 	}
 	grade -= 1;
 }
@@ -92,7 +92,7 @@ void Bureaucrat::decrement()
 {
 	if (grade + 1 > 150)
 	{
-		throw GradeTooHighException();
+		throw GradeTooLowException();
 	}
 	grade += 1;
 }
