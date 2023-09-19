@@ -24,7 +24,7 @@ static inline void debug_log(std::string message)
 {
 	if (DEBUG)
 	{
-		std::cout << YELLOW << "SCF: " << message << RESET << std::endl;
+		std::cout << YELLOW << "PPF: " << message << RESET << std::endl;
 	}
 }
 

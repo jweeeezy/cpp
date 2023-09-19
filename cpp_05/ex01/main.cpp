@@ -9,7 +9,6 @@
 // -------------------------------------------------------------------------- //
 
 #include <cstdlib>  // needed for MACROS
-#include <exception>
 #include <iostream> // needed for std::cout, std::endl
 #include "Form.hpp" // needed for Form class, Bureaucrat class
 
