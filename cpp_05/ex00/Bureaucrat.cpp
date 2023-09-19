@@ -7,6 +7,7 @@
 // file:  Bureaucrat.cpp                                                      //
 //                                                                            //
 // -------------------------------------------------------------------------- //
+
 #include "Bureaucrat.hpp" // needed for Bureaucrat exception class
 #include <iostream>       // needed for std::cout, std::endl
 

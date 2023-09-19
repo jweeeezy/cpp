@@ -7,9 +7,10 @@
 // file:  Bureaucrat.cpp                                                      //
 //                                                                            //
 // -------------------------------------------------------------------------- //
+
 #include "Bureaucrat.hpp" // needed for Bureaucrat exception class
-#include <iostream>       // needed for std::cout, std::endl
 #include "Form.hpp"       // needed for Form class
+#include <iostream>       // needed for std::cout, std::endl
 
 #define YELLOW  "\033[33m"
 #define RESET   "\033[0m"
