@@ -1,7 +1,13 @@
 #/ -------------------------------------------------------------------------- //
 
 NAME      = atleastthisbeatscoffee-making
-SRC_FILES = main.cpp
+SRC_FILES = main.cpp \
+			Bureaucrat.cpp \
+			AForm.cpp \
+			ShrubberyCreationForm.cpp \
+			RobotomyRequestForm.cpp \
+			PresidentialPardonForm.cpp \
+			Intern.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
 CC        = c++
 DEBUG_FLAG= $(shell echo $$DEBUG_FLAG)
