@@ -16,7 +16,7 @@ int	main(void)
 	Intern i;
 
 	i.makeForm("random form", "home");
-	i.makeForm("shrubbery creation", "home");
+	delete i.makeForm("shrubbery creation", "home");
 
 	return (EXIT_SUCCESS);
 }

@@ -82,6 +82,7 @@ AForm* Intern::makeForm(std::string const& form,
 	}
 
 	std::cout << "Intern doesn't know the form!" << std::endl;
+	// @note throw exception!!
 	return NULL;
 }
 
