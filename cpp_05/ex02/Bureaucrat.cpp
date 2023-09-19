@@ -90,7 +90,9 @@ void Bureaucrat::executeForm(AForm const& form)
 	}
 	catch (std::exception& e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << name << " couldn't execute "
+			      << form.getName() << ". Reason: "
+				  << e.what() << std::endl;
 	}
 }
 
@@ -118,7 +120,7 @@ void Bureaucrat::signForm(AForm& f)
 		std::cout << this->getName()
                   << " couldn't sign "
                   << f.getName()
-                  << " because the Grade is too low." << std::endl;
+                  << ". Reason: Grade is too low!" << std::endl;
 	}
 }
 

@@ -4,15 +4,14 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  ShrubberyCreationForm.cpp                                           //
+// file:  RobotomyRequestForm.cpp                                             //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "ShrubberyCreationForm.hpp" // needed for ShrubberyCreationForm class,
-                                     // AForm class, std::string
-#include <iostream>                  // needed for std::cout, std::endl
-#include <fstream>                   // needed for std::ofstream
-#include <stdexcept>                 // needed for std::runtime_error
+#include <iostream>                // needed for std::cout, std::endl
+#include <cstdlib>                 // needed for time(), srand(), rand()
+#include "RobotomyRequestForm.hpp" // needed for RRF class, AForm class,
+                                   // std::string
 
 #define YELLOW  "\033[33m"
 #define RESET   "\033[0m"
@@ -33,35 +32,35 @@ static inline void debug_log(std::string message)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
 
-ShrubberyCreationForm::ShrubberyCreationForm(std::string const& target)
-	: AForm("SCF", 145, 137)
+RobotomyRequestForm::RobotomyRequestForm(std::string const& target)
+	: AForm("RRF", 72, 15)
 {
 	debug_log("target constructor called");
 	setTarget(target);
 }
 
-ShrubberyCreationForm::ShrubberyCreationForm() : AForm("SCF", 145, 137)
+RobotomyRequestForm::RobotomyRequestForm() : AForm ("RRF", 72, 15)
 {
 	debug_log("default constructor called");
 	setTarget("target");
 }
 
-ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& src)
+RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& src)
 	: AForm(src)
 {
 	debug_log("copy constructor called");
 	setTarget(src.getTarget());
 }
 
-ShrubberyCreationForm::~ShrubberyCreationForm()
+RobotomyRequestForm::~RobotomyRequestForm()
 {
 	debug_log("destructor called");
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloads */
 
-ShrubberyCreationForm& ShrubberyCreationForm::operator=
-                                            (const ShrubberyCreationForm& rhs)
+RobotomyRequestForm& RobotomyRequestForm::operator=
+                                        (const RobotomyRequestForm& rhs)
 {
 	debug_log("assignment operator called");
 	AForm::operator=(rhs);
@@ -69,35 +68,23 @@ ShrubberyCreationForm& ShrubberyCreationForm::operator=
 	return *this;
 }
 
-/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
-
-void ShrubberyCreationForm::execute(Bureaucrat const& executor) const
+void RobotomyRequestForm::execute(Bureaucrat const& executor) const
 {
 	AForm::execute(executor);
 
-	std::ofstream file((this->getTarget() + "_shrubbery").c_str());
-	if (file.is_open() == false)
+	std::cout << "*** drilling noises ***" << std::endl;
+
+	srand(static_cast<unsigned int>(time(0)));
+	if (rand() % 2)
 	{
-		debug_log("execute: failed to open file");
-		throw std::runtime_error("failed to open file");
+		std::cout << this->getTarget()
+			      << " has been robotomized successfully!"
+				  << std::endl;
 	}
-
-	file << "   +   " << "\n"
-         << "  / \\  " << "\n"
-	     << " +   +  " << "\n"
-	     << "/ \\ / \\" << std::endl;
-
-	file << "   +   " << "\n"
-         << "  / \\  " << "\n"
-	     << " +   +  " << "\n"
-	     << "/ \\ / \\" << std::endl;
-	
-	file << "   +   " << "\n"
-         << "  / \\  " << "\n"
-	     << " +   +  " << "\n"
-	     << "/ \\ / \\" << std::endl;
-
-	file.close();
+	else
+	{
+		std::cout << "Robotomy has failed!" << std::endl;
+	}
 }
 
 // -------------------------------------------------------------------------- //
