@@ -80,9 +80,7 @@ AForm* Intern::makeForm(std::string const& form,
 			return (this->*forms[i].create)(target);
 		}
 	}
-
-	std::cout << "Intern doesn't know the form!" << std::endl;
-	// @note throw exception!!
+	throw UnknownFormException();
 	return NULL;
 }
 

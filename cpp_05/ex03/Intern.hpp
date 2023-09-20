@@ -34,6 +34,15 @@ class Intern
 
 	public:
 
+		class UnknownFormException : public std::exception
+		{
+			public:
+				const char *what() const throw()
+				{
+					return "Intern doesn't know this form!";
+				}
+		};
+
 		AForm* makeForm(std::string const& form,
                         std::string const& target) const;
 
