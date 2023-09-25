@@ -55,6 +55,13 @@ bool ScalarConverter::is_printable(std::string const& input)
 	return true;
 }
 
+bool ScalarConverter::is_number(std::string const& input)
+{
+	//@needs implementation
+	(void) input;
+	return true;
+}
+
 bool ScalarConverter::has_dot(std::string const& input)
 {
 	if (input.size() >= 3)
@@ -90,18 +97,30 @@ bool ScalarConverter::has_trailing_f(std::string const& input)
 void ScalarConverter::convert(std::string const& input)
 {
 	print_log("convert() called!");
+
+	// @needs to be abstracted to function
 	if (is_printable(input) == false)
 	{
 		throw NonPrintableException();
 	}
-	else
+	else if (is_number(input) == true)
 	{
-		if (has_dot(input) == true)
+		if (has_trailing_f(input) == true)
 		{
-			if (has_trailing_f(input) == true)
-			{
-				std::cout << input << std::endl;
-			}
+			std::cout << "Float!" << std::endl;
+		}
+		else if (has_dot(input) == true)
+		{
+			std::cout << "Double!" << std::endl;
+		}
+		else
+		{
+			// @needs check for 'f' and '.'
+			// if (has_at_least_once(input, "f.") == true)
+			// {
+			// 		return ;
+			// }
+			std::cout << "Int!" << std::endl;
 		}
 	}
 	return ;
