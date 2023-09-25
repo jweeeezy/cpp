@@ -26,7 +26,17 @@ int	main(int argc, char **argv)
 	{
 		print_error("Wrong arguments!");
 	}
-	ScalarConverter::convert(std::string(argv[1]));
+
+	std::string const& input(argv[1]);
+
+	try
+	{
+		ScalarConverter::convert(input);
+	}
+	catch(const std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 	return (EXIT_SUCCESS);
 }
 
