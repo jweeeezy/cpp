@@ -80,8 +80,11 @@ bool ScalarConverter::has_dot(std::string const& input)
 
 bool ScalarConverter::has_trailing_f(std::string const& input)
 {
-	(void) input;
-	return true;
+	if (*(input.end() - 1) == 'f')
+	{
+		return true;
+	}
+	return false;
 }
 
 void ScalarConverter::convert(std::string const& input)
@@ -95,7 +98,10 @@ void ScalarConverter::convert(std::string const& input)
 	{
 		if (has_dot(input) == true)
 		{
-			std::cout << input << std::endl;
+			if (has_trailing_f(input) == true)
+			{
+				std::cout << input << std::endl;
+			}
 		}
 	}
 	return ;
