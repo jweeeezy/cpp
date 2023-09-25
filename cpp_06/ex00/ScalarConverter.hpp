@@ -20,6 +20,8 @@ class ScalarConverter
 	private:
 
 		static bool is_printable(std::string const& input);
+		static bool has_dot(std::string const& input);
+		static bool has_trailing_f(std::string const& input);
 
 	public:
 

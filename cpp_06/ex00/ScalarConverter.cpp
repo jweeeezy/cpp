@@ -43,15 +43,44 @@ ScalarConverter& ScalarConverter::operator=(const ScalarConverter& rhs)
 
 bool ScalarConverter::is_printable(std::string const& input)
 {
-	for (std::string::const_iterator it = input.begin();
-	                                 it != input.end();
-									 ++it)
+	for (std::string::const_iterator itr = input.begin();
+	                                 itr != input.end();
+									 ++itr)
 	{
-		if (std::isprint(static_cast<unsigned char>(*it)) == false)
+		if (std::isprint(static_cast<unsigned char>(*itr)) == false)
 		{
 			return false;
 		}
 	}
+	return true;
+}
+
+bool ScalarConverter::has_dot(std::string const& input)
+{
+	if (input.size() >= 3)
+	{
+		for (std::string::const_iterator itr = input.begin();
+	                                 itr != input.end() - 2;
+									 ++itr)
+		{
+			char current = static_cast<unsigned char>(*itr);
+			char next = *(itr + 1);
+			char after_next = static_cast<unsigned char>(*(itr + 2));
+
+			if (std::isdigit(current) == true
+			    && next == '.'
+				&& std::isdigit(after_next) == true)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool ScalarConverter::has_trailing_f(std::string const& input)
+{
+	(void) input;
 	return true;
 }
 
@@ -64,7 +93,10 @@ void ScalarConverter::convert(std::string const& input)
 	}
 	else
 	{
-		std::cout << input << std::endl;
+		if (has_dot(input) == true)
+		{
+			std::cout << input << std::endl;
+		}
 	}
 	return ;
 }
