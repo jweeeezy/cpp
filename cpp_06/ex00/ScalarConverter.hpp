@@ -18,11 +18,11 @@ class ScalarConverter
 
 	public:
 
-		virtual void convert(std::string input) = 0;
+		static void convert(std::string input);
 		
 		ScalarConverter();
 		ScalarConverter(const ScalarConverter& src);
-		virtual ~ScalarConverter();
+		~ScalarConverter();
 		ScalarConverter& operator=(const ScalarConverter& rhs);
 
 };

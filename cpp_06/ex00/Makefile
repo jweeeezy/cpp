@@ -1,7 +1,8 @@
 #/ -------------------------------------------------------------------------- //
 
 NAME      = conversionofscalartypes
-SRC_FILES = main.cpp
+SRC_FILES = main.cpp \
+            ScalarConverter.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
 CC        = c++
 DEBUG_FLAG= $(shell echo $$DEBUG_FLAG)
