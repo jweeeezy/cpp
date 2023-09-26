@@ -10,8 +10,6 @@ TESTS=(
 	"Double Test" "23.045" "Double!"
 )
 
-echo
-
 for ((i=0; i<${#TESTS[@]}; i+=3)); do
 	echo
 	test_name="${TESTS[$i]}"
@@ -31,4 +29,3 @@ for ((i=0; i<${#TESTS[@]}; i+=3)); do
 	echo
 done
 
-echo
