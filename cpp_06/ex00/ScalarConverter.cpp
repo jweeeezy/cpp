@@ -57,8 +57,10 @@ bool ScalarConverter::is_printable(std::string const& input)
 
 bool ScalarConverter::is_number(std::string const& input)
 {
-	//@needs implementation
-	(void) input;
+	if (input.find_first_not_of("0123456789-+.f") != std::string::npos)
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -67,8 +69,8 @@ bool ScalarConverter::has_dot(std::string const& input)
 	if (input.size() >= 3)
 	{
 		for (std::string::const_iterator itr = input.begin();
-	                                 itr != input.end() - 2;
-									 ++itr)
+	                                     itr != input.end() - 2;
+									     ++itr)
 		{
 			char current = static_cast<unsigned char>(*itr);
 			char next = *(itr + 1);
@@ -99,6 +101,7 @@ void ScalarConverter::convert(std::string const& input)
 	print_log("convert() called!");
 
 	// @needs to be abstracted to function
+	
 	if (is_printable(input) == false)
 	{
 		throw NonPrintableException();
@@ -115,13 +118,17 @@ void ScalarConverter::convert(std::string const& input)
 		}
 		else
 		{
-			// @needs check for 'f' and '.'
-			// if (has_at_least_once(input, "f.") == true)
-			// {
-			// 		return ;
-			// }
+			if (  input.find("f") != std::string::npos
+			   || input.find(".") != std::string::npos)
+			{
+				return ;
+			}
 			std::cout << "Int!" << std::endl;
 		}
+	}
+	else
+	{
+		std::cout << "Char!" << std::endl;
 	}
 	return ;
 }

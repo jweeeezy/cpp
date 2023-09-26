@@ -32,10 +32,6 @@ class ScalarConverter
 		static bool has_dot(std::string const& input);
 		static bool has_trailing_f(std::string const& input);
 
-		static bool has_at_least_once(std::string const& input,
-                                      std::string const& compare);
-		// ^ @needs impl.
-
 	public:
 
 		class NonPrintableException : public std::exception
