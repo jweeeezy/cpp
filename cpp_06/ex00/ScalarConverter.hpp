@@ -34,6 +34,16 @@ class ScalarConverter
 
 	public:
 
+		class StringException : public std::exception
+		{
+			public:
+				const char *what() const throw()
+				{
+					return "ScalarConverter: Multi-Character Strings are " \
+						"not valid input!";
+				}
+		};
+
 		class NonPrintableException : public std::exception
 		{
 			public:

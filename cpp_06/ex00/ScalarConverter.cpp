@@ -128,6 +128,11 @@ void ScalarConverter::convert(std::string const& input)
 	}
 	else
 	{
+		std::cout << input.length() << std::endl;
+		if (input.length() >= 2)
+		{
+			throw StringException();
+		}
 		std::cout << "Char!" << std::endl;
 	}
 	return ;
