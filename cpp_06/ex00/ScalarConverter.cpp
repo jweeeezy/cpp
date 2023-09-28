@@ -61,6 +61,11 @@ bool ScalarConverter::is_number(std::string const& input)
 	{
 		return false;
 	}
+	if (input.length() <= 1
+		&& (has_trailing_f(input) == true || input.compare(".") == 0))
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -128,7 +133,6 @@ void ScalarConverter::convert(std::string const& input)
 	}
 	else
 	{
-		std::cout << input.length() << std::endl;
 		if (input.length() >= 2)
 		{
 			throw StringException();
