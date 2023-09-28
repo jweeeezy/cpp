@@ -26,13 +26,26 @@ class ScalarConverter
 			// if has trailing_f <-- is this viable without a dot?
 			// if hasdot()
 
-		static bool is_printable(std::string const& input);
-		static bool is_number(std::string const& input); // <-- @needs impl.
 
-		static bool has_dot(std::string const& input);
-		static bool has_trailing_f(std::string const& input);
+
+		static bool is_printable   (std::string const& input);
+		static bool is_number      (std::string const& input);
+
+		static bool has_dot        (std::string const& input);
+		static bool has_trailing_f (std::string const& input);
+
 
 	public:
+
+		enum Type {
+			NON_TYPE,
+			NON_PRINTABLE,
+			CHAR,
+			STRING,
+			INTEGER,
+			DOUBLE,
+			FLOAT
+		};
 
 		class StringException : public std::exception
 		{
@@ -56,6 +69,8 @@ class ScalarConverter
 
 		//static void getType(std::string const& input); <-- @needs impl.
 
+		static Type identify_type  (std::string const& input);
+
 		static void convert(std::string const& input);
 		
 		ScalarConverter();
@@ -64,6 +79,8 @@ class ScalarConverter
 		ScalarConverter& operator=(const ScalarConverter& rhs);
 
 };
+
+std::ostream& operator<<(std::ostream& os, const ScalarConverter::Type& type);
 
 #endif // SCALARCONVERTER_HPP
 

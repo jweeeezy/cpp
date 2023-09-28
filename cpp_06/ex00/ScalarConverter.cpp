@@ -11,6 +11,9 @@
 #include "ScalarConverter.hpp" // needed for ScalarConverter class
 #include <iostream>            // needed for std::cout, std::endl, std::cerr
 
+#define YELLOW  "\033[33m"
+#define RESET   "\033[0m"
+
 #ifndef DEBUG
 # define DEBUG 0
 #endif // DEBUG
@@ -21,7 +24,8 @@ static inline void print_log(std::string message)
 {
 	if (DEBUG)
 	{
-		std::cerr << "ScalarConverter: " << message << std::endl;
+		std::cerr << YELLOW
+                  << "ScalarConverter: " << message << RESET << std::endl;
 	}
 }
 
@@ -37,6 +41,38 @@ ScalarConverter& ScalarConverter::operator=(const ScalarConverter& rhs)
 {
 	(void) rhs;
 	return *this;
+}
+
+std::ostream& operator<<(std::ostream& os, const ScalarConverter::Type& type)
+{
+    switch(type) 
+	{
+        case ScalarConverter::NON_PRINTABLE:
+            os << "NON_PRINTABLE!";
+            break;
+        case ScalarConverter::FLOAT:
+            os << "FLOAT!";
+            break;
+        case ScalarConverter::DOUBLE:
+            os << "DOUBLE!";
+            break;
+        case ScalarConverter::INTEGER:
+            os << "INTEGER!";
+            break;
+        case ScalarConverter::NON_TYPE:
+            os << "NON_TYPE!";
+            break;
+		case ScalarConverter::STRING:
+            os << "STRING!";
+            break;
+        case ScalarConverter::CHAR:
+            os << "CHAR!";
+            break;
+        default:
+            os << "UNKNOWN_TYPE";
+            break;
+    }
+    return os;
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
@@ -101,44 +137,51 @@ bool ScalarConverter::has_trailing_f(std::string const& input)
 	return false;
 }
 
-void ScalarConverter::convert(std::string const& input)
+ScalarConverter::Type ScalarConverter::identify_type(std::string const& input)
 {
-	print_log("convert() called!");
+	print_log("identify_type() called!");
 
-	// @needs to be abstracted to function
-	
 	if (is_printable(input) == false)
 	{
-		throw NonPrintableException();
+		return (NON_PRINTABLE);
 	}
 	else if (is_number(input) == true)
 	{
 		if (has_trailing_f(input) == true)
 		{
-			std::cout << "Float!" << std::endl;
+			return (FLOAT);
 		}
 		else if (has_dot(input) == true)
 		{
-			std::cout << "Double!" << std::endl;
+			return (DOUBLE);
 		}
 		else
 		{
 			if (  input.find("f") != std::string::npos
 			   || input.find(".") != std::string::npos)
 			{
-				return ;
+				return (NON_TYPE);
 			}
-			std::cout << "Int!" << std::endl;
+				return (INTEGER);
 		}
 	}
 	else
 	{
 		if (input.length() >= 2)
 		{
-			throw StringException();
+			return (STRING);
 		}
-		std::cout << "Char!" << std::endl;
+		return (CHAR);
 	}
+}
+
+void ScalarConverter::convert(std::string const& input)
+{
+	print_log("convert() called!");
+	
+	Type result = identify_type(input);
+	std::cout << result << std::endl;
+	
 	return ;
 }
 
