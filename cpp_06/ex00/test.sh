@@ -4,10 +4,10 @@
 PROGRAM="./conversionofscalartypes"
 
 TESTS=(
-	"Char Test" "Char!" "a" "f" "."
-	"Int Test" "Int!" "12345" "-12" "917831273812378"
-	"Float Test" "Float!" "23.01f" "123f"
-	"Double Test" "Double!" "23.045" "1.00"
+	"Char Test" "CHAR!" "a" "f" "."
+	"Int Test" "INTEGER!" "12345" "-12" "917831273812378"
+	"Float Test" "FLOAT!" "23.01f" "123f"
+	"Double Test" "DOUBLE!" "23.045" "1.00"
 )
 
 
