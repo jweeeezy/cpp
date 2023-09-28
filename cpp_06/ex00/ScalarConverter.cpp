@@ -181,29 +181,57 @@ void ScalarConverter::convert(std::string const& input)
 {
 	print_log("convert() called!");
 	
-	Type result = identify_type(input);
-	std::cout << result << std::endl;
+	char c;
+	int i;
+	double d;
+	float f;
+	Type type = identify_type(input);
 
-	if (result == ScalarConverter::CHAR)
+	switch(type)
 	{
-		char r = static_cast<char>(input[0]);
-		printf("%c\n", r);
+		case CHAR:
+			c = static_cast<char>(input[0]);
+			i = static_cast<int>(c);
+			d = static_cast<double>(c);
+			f = static_cast<float>(c);
+			break;
+		case INTEGER:
+			i = atoi(input.c_str());
+			c = static_cast<char>(i);
+			d = static_cast<double>(i);
+			f = static_cast<float>(i);
+			break;
+		case DOUBLE:
+			d = atof(input.c_str());
+			c = static_cast<char>(d);
+			i = static_cast<int>(d);
+			f = static_cast<float>(d);
+			break;
+		case FLOAT:
+			f = static_cast<float>(atof(input.c_str()));
+			c = static_cast<char>(f);
+			i = static_cast<int>(f);
+			d = static_cast<double>(f);
+			break;
+		case STRING:
+			return;
+		case NON_TYPE:
+			return;
+		case NON_PRINTABLE:
+			return;
 	}
-	else if (result == ScalarConverter::INTEGER)
-	{
-		int i = atoi(input.c_str());
-		printf("%i\n", i);
-	}
-	else if (result == ScalarConverter::DOUBLE)
-	{
-		double d = atof(input.c_str());
-		printf("%f\n", d);
-	}
-	else if (result == ScalarConverter::FLOAT)
-	{
-		float f = atof(input.c_str());
-		printf("%f\n", f);
-	}
+
+	print_conversion(c, i, d, f);
+}
+
+void ScalarConverter::print_conversion(char c, int i, double d, float f)
+{
+	(void) c;
+	(void) i;
+	(void) d;
+	(void) f;
+
+	std::cout << "No implementation yet" << std::endl;
 }
 
 // -------------------------------------------------------------------------- //

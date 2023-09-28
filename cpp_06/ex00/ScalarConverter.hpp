@@ -23,6 +23,8 @@ class ScalarConverter
 
 		static bool has_dot        (std::string const& input);
 		static bool has_trailing_f (std::string const& input);
+		
+		static void print_conversion(char c, int i, double d, float f);
 
 	public:
 
@@ -42,7 +44,7 @@ class ScalarConverter
 				const char *what() const throw()
 				{
 					return "ScalarConverter: Multi-Character Strings are " \
-						"not valid input!";
+						"invalid input!";
 				}
 		};
 
