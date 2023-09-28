@@ -4,28 +4,35 @@
 PROGRAM="./conversionofscalartypes"
 
 TESTS=(
-	"Char Test" "asdf." "Char!"
-	"Int Test" "12345" "Int!"
-	"Float Test" "23.01f" "Float!"
-	"Double Test" "23.045" "Double!"
+	"Char Test" "Char!" "a" "f" "."
+	"Int Test" "Int!" "12345" "-12" "917831273812378"
+	"Float Test" "Float!" "23.01f" "123f"
+	"Double Test" "Double!" "23.045" "1.00"
 )
 
-for ((i=0; i<${#TESTS[@]}; i+=3)); do
-	echo
-	test_name="${TESTS[$i]}"
-	test_value="${TESTS[$i+1]}"
-	expected_output="${TESTS[$i+2]}"
-	
-	actual_output="$PROGRAM $test_value"
-	
-	if [ "$($actual_output)" == "$expected_output" ] ; then
-		result=✅
-	else
-		result=❌
-	fi
 
-	echo $test_name
-	echo $test_value $($actual_output) $expected_output $result
+echo
+i=0
+while [ $i -lt ${#TESTS[@]} ]; do
+	test_name="${TESTS[$i]}"
+	expected_output="${TESTS[$i+1]}"
+	i=$((i+2))
+
+	echo "$test_name:"
+
+	while [[ $i -lt ${#TESTS[@]} && ! "${TESTS[$i]}" =~ " Test" ]]; do
+		test_value="${TESTS[$i]}"
+		
+		actual_output=$($PROGRAM $test_value)
+		if [ "$actual_output" == "$expected_output" ] ; then
+			result=✅
+		else
+			result=❌
+		fi
+
+		echo -n "\"$test_value\" $result " "[$actual_output / $expected_output]"
+		echo
+		i=$((i+1))
+	done
 	echo
 done
-
