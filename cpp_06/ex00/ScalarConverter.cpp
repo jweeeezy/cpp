@@ -9,7 +9,9 @@
 // -------------------------------------------------------------------------- //
 
 #include "ScalarConverter.hpp" // needed for ScalarConverter class
+#include <cstdlib>
 #include <iostream>            // needed for std::cout, std::endl, std::cerr
+#include <cstdlib>             // needed for atoi(), atof()
 
 #define YELLOW  "\033[33m"
 #define RESET   "\033[0m"
@@ -143,35 +145,35 @@ ScalarConverter::Type ScalarConverter::identify_type(std::string const& input)
 
 	if (is_printable(input) == false)
 	{
-		return (NON_PRINTABLE);
+		return (ScalarConverter::NON_PRINTABLE);
 	}
 	else if (is_number(input) == true)
 	{
 		if (has_trailing_f(input) == true)
 		{
-			return (FLOAT);
+			return (ScalarConverter::FLOAT);
 		}
 		else if (has_dot(input) == true)
 		{
-			return (DOUBLE);
+			return (ScalarConverter::DOUBLE);
 		}
 		else
 		{
 			if (  input.find("f") != std::string::npos
 			   || input.find(".") != std::string::npos)
 			{
-				return (NON_TYPE);
+				return (ScalarConverter::NON_TYPE);
 			}
-				return (INTEGER);
+				return (ScalarConverter::INTEGER);
 		}
 	}
 	else
 	{
 		if (input.length() >= 2)
 		{
-			return (STRING);
+			return (ScalarConverter::STRING);
 		}
-		return (CHAR);
+		return (ScalarConverter::CHAR);
 	}
 }
 
@@ -181,8 +183,27 @@ void ScalarConverter::convert(std::string const& input)
 	
 	Type result = identify_type(input);
 	std::cout << result << std::endl;
-	
-	return ;
+
+	if (result == ScalarConverter::CHAR)
+	{
+		char r = static_cast<char>(input[0]);
+		printf("%c\n", r);
+	}
+	else if (result == ScalarConverter::INTEGER)
+	{
+		int i = atoi(input.c_str());
+		printf("%i\n", i);
+	}
+	else if (result == ScalarConverter::DOUBLE)
+	{
+		double d = atof(input.c_str());
+		printf("%f\n", d);
+	}
+	else if (result == ScalarConverter::FLOAT)
+	{
+		float f = atof(input.c_str());
+		printf("%f\n", f);
+	}
 }
 
 // -------------------------------------------------------------------------- //

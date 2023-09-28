@@ -18,22 +18,11 @@ class ScalarConverter
 
 	private:
 
-		// type identification
-		// check for printable?!
-		// if !isnumber()
-			// check for printable?!
-		// else
-			// if has trailing_f <-- is this viable without a dot?
-			// if hasdot()
-
-
-
 		static bool is_printable   (std::string const& input);
 		static bool is_number      (std::string const& input);
 
 		static bool has_dot        (std::string const& input);
 		static bool has_trailing_f (std::string const& input);
-
 
 	public:
 
@@ -67,10 +56,7 @@ class ScalarConverter
 				}
 		};
 
-		//static void getType(std::string const& input); <-- @needs impl.
-
-		static Type identify_type  (std::string const& input);
-
+		static Type identify_type(std::string const& input);
 		static void convert(std::string const& input);
 		
 		ScalarConverter();
