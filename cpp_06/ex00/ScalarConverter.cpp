@@ -77,7 +77,7 @@ std::ostream& operator<<(std::ostream& os, const ScalarConverter::Type& type)
     return os;
 }
 
-/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> private member functions */
 
 bool ScalarConverter::is_printable(std::string const& input)
 {
@@ -139,6 +139,23 @@ bool ScalarConverter::has_trailing_f(std::string const& input)
 	return false;
 }
 
+void ScalarConverter::print_conversion(char c, int i, double d, float f)
+{
+	if (c < 32 || c == 127)
+	{
+		std::cout << "char: " << "Non displayable" << std::endl;
+	}
+	else
+	{
+		std::cout << "char: '"  << c << "'" << std::endl;
+	}
+	std::cout << "int: "    << i << std::endl;
+	std::cout << "float: "  << f << std::endl;
+	std::cout << "double: " << d << std::endl;
+}
+
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> public member functions */
+
 ScalarConverter::Type ScalarConverter::identify_type(std::string const& input)
 {
 	print_log("identify_type() called!");
@@ -181,10 +198,10 @@ void ScalarConverter::convert(std::string const& input)
 {
 	print_log("convert() called!");
 	
-	char c;
-	int i;
-	double d;
-	float f;
+	char c   = 0;
+	int i    = 0;
+	double d = 0.0;
+	float f  = 0.0f;
 	Type type = identify_type(input);
 
 	switch(type)
@@ -214,24 +231,13 @@ void ScalarConverter::convert(std::string const& input)
 			d = static_cast<double>(f);
 			break;
 		case STRING:
+			throw StringException();
+		case NON_PRINTABLE:
 			return;
 		case NON_TYPE:
 			return;
-		case NON_PRINTABLE:
-			return;
 	}
-
 	print_conversion(c, i, d, f);
-}
-
-void ScalarConverter::print_conversion(char c, int i, double d, float f)
-{
-	(void) c;
-	(void) i;
-	(void) d;
-	(void) f;
-
-	std::cout << "No implementation yet" << std::endl;
 }
 
 // -------------------------------------------------------------------------- //
