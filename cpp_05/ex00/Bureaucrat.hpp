@@ -16,47 +16,42 @@
 class Bureaucrat
 {
 
-	protected:
+  protected:
+    std::string const  name;
+    unsigned short int grade;
 
-		std::string const name;
-		unsigned short int grade;
+  public:
 
-	public:
+    /* constructors */
+    Bureaucrat           (std::string const & name, unsigned short int grade);
+    Bureaucrat           ();
+    ~Bureaucrat          ();
+    Bureaucrat           (const Bureaucrat &src);
+    Bureaucrat &operator=(const Bureaucrat &rhs);
 
-		class GradeTooHighException : public std::exception
-		{
-			public:
-				const char *what() const throw()
-				{
-					return "Grade is too high!";
-				}
-		};
+    /* member functions */
+    std::string const & getName()    const;
+    unsigned short int  getGrade()   const;
+    void                increment();
+    void                decrement();
+   
+    /* exceptions */
+    class GradeTooHighException : public std::exception
+    {
+      public:
+        const char *what() const throw() { return "Grade is too high!"; }
+    };
 
-		class GradeTooLowException : public std::exception
-		{
-			public:
-				const char *what() const throw()
-				{
-					return "Grade is too low!";
-				}
-		};
-
-		std::string const &getName() const;
-		unsigned short int getGrade() const;
-
-		void increment();
-		void decrement();
-
-		Bureaucrat(std::string const name, unsigned short int grade);
-		Bureaucrat();
-		Bureaucrat(const Bureaucrat& src);
-		~Bureaucrat();
-		Bureaucrat& operator=(const Bureaucrat& rhs);
+    class GradeTooLowException : public std::exception
+    {
+      public:
+        const char *what() const throw() { return "Grade is too low!"; }
+    };
 
 };
 
 std::ostream &operator<<(std::ostream &os, const Bureaucrat &rhs);
 
-#endif
+#endif // BUREAUCRAT_HPP
 
 // -------------------------------------------------------------------------- //
