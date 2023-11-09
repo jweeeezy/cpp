@@ -18,7 +18,7 @@
 
 static inline void debug_log(std::string const & message)
 {
-    (void) message;
+    (void)message;
 
     #ifdef DEBUG
     std::cout << YELLOW << "Bureaucrat: " << message << RESET << std::endl;
@@ -47,7 +47,8 @@ Bureaucrat::Bureaucrat() : name("Bureaucrat"), grade(150)
     debug_log("default constructor called");
 }
 
-Bureaucrat::Bureaucrat(const Bureaucrat &src) : name(src.name), grade(src.grade)
+Bureaucrat::Bureaucrat(const Bureaucrat & src)
+    : name(src.name), grade(src.grade)
 {
     debug_log("copy constructor called");
 }
@@ -56,7 +57,7 @@ Bureaucrat::~Bureaucrat() { debug_log("destructor called"); }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloads */
 
-Bureaucrat &Bureaucrat::operator=(const Bureaucrat &rhs)
+Bureaucrat & Bureaucrat::operator=(const Bureaucrat & rhs)
 {
     if (this != &rhs)
     {
@@ -65,7 +66,7 @@ Bureaucrat &Bureaucrat::operator=(const Bureaucrat &rhs)
     return *this;
 }
 
-std::ostream &operator<<(std::ostream &os, const Bureaucrat &rhs)
+std::ostream & operator<<(std::ostream & os, const Bureaucrat & rhs)
 {
     os << rhs.getName() << ", bureaucrat grade " << rhs.getGrade() << ".";
     return (os);
@@ -73,8 +74,8 @@ std::ostream &operator<<(std::ostream &os, const Bureaucrat &rhs)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
 
-unsigned short int Bureaucrat::getGrade() const { return grade; }
-std::string const &Bureaucrat::getName() const { return name; }
+std::string const & Bureaucrat::getName () const { return name; }
+unsigned short int  Bureaucrat::getGrade() const { return grade; }
 
 void Bureaucrat::increment()
 {

@@ -21,7 +21,6 @@ class Bureaucrat
     unsigned short int grade;
 
   public:
-
     /* constructors */
     Bureaucrat           (std::string const & name, unsigned short int grade);
     Bureaucrat           ();
@@ -32,6 +31,7 @@ class Bureaucrat
     /* member functions */
     std::string const & getName()    const;
     unsigned short int  getGrade()   const;
+
     void                increment();
     void                decrement();
    

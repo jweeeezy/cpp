@@ -8,64 +8,98 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include <cstdlib>  // needed for MACROS
-#include <iostream> // needed for std::cout, std::endl
 #include "Form.hpp" // needed for Form class, Bureaucrat class
+#include <cstdlib>  // needed for MACROS
+#include <iostream> // needed for std::cout, std::cerr, std::endl
 
 #define GREEN "\033[32m"
 #define RESET "\033[0m"
 
-static inline void print_story(std::string story)
+/* log function */
+
+static inline std::string const getBoolAsString(bool is)
 {
-	std::cout << GREEN << "\n< " << story << " >\n" << RESET << std::endl;
+    if (is == true)
+        return ("<is signed>");
+    return ("<is not signed>");
 }
 
-int	main(void)
+static inline void test_log(std::string const & message)
 {
-	print_story("Wrong Form");
-	{
-		try
-		{
-			Form f("Wrong", 151, 151);
-			std::cout << f << std::endl;
-		}
-		catch (std::exception& e)
-		{
-			std::cout << "Exception caught: " << e.what() << std::endl;
-		}
-	}
+    std::cout << GREEN << "\n< " << message << " >" << RESET << std::endl;
+}
 
-	print_story("Default Bureaucrat");
-	Bureaucrat b;
-	std::cout << b << std::endl;
+/* test cases */
 
-	print_story("Explicit Bureaucrat");
-	Bureaucrat b2("Hans", 2);
-	std::cout << b2 << std::endl;
+void test_invalid_construction()
+{
+    test_log("Testing both exceptions in constructor");
+    try
+    {
+        Form toohigh("Too High", 151, 20);
+    }
+    catch (std::exception & e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
+    try
+    {
+        Form toolow("too Low", 20, 0);
+    }
+    catch (std::exception & e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
+}
 
-	print_story("Explicit Form");
-	Form f("Thesis", 20, 20);
-	std::cout << f << std::endl;
-	
-	print_story("Signing Test");
-	b.signForm(f);
-	b2.signForm(f);
-	b2.signForm(f);
+void test_valid_construction(std::string const & name, unsigned int grade_sign,
+                             unsigned int grade_exec)
+{
+    test_log(
+        "Testing constructor with valid name and grades for exec and sign");
+    Form obj(name, grade_sign, grade_exec);
+    std::cout << obj.getName() << " " << getBoolAsString(obj.getSignStatus())
+              << " " << obj.getReqGradeSign() << " " << obj.getReqGradeExec()
+              << std::endl;
+}
 
-	print_story("Assignment operator test");
-	{
-		Form f2;
-		f2 = f;
-		b2.signForm(f2);
-	}
+void test_copy_construction_and_operator_overloads()
+{
+    test_log("Testing assignment / copy constructor");
+    Form obj;
+    std::cout << obj << std::endl;
 
-	print_story("Copy constructor test");
-	{
-		Form f2(f);
-		b2.signForm(f2);
-	}
+    Form cpy(obj);
+    std::cout << cpy << std::endl;
 
-	return (EXIT_SUCCESS);
+    Form mirr = obj;
+    std::cout << mirr << std::endl;
+}
+
+void test_valid_and_unvalid_signing()
+{
+    test_log("Testing each a valid/unvalid form signing with a Bureaucrat");
+    Form fa("A1", 130, 130);
+    std::cout << fa << std::endl;
+
+    Form fb("B2", 50, 50);
+    std::cout << fb << std::endl;
+
+    Bureaucrat bur("Tom", 70);
+    std::cout << bur << std::endl;
+
+    bur.signForm(fa);
+    bur.signForm(fb);
+
+}
+
+int main(void)
+{
+    test_invalid_construction();
+    test_valid_construction("Letter", 150, 150);
+    test_copy_construction_and_operator_overloads();
+    test_valid_and_unvalid_signing();
+    return (EXIT_SUCCESS);
 }
 
 // -------------------------------------------------------------------------- //
