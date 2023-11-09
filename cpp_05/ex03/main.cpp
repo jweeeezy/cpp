@@ -8,65 +8,70 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include <iostream>       // needed for std::cout, std::endl
-#include <cstdlib>        // needed for MACROS
-#include "Intern.hpp"     // needed for Intern class, AForm class,
-						  // Bureaucrat class
+#include "Intern.hpp" // needed for Intern class, AForm class,
+#include <cstdlib>    // needed for MACROS
+#include <iostream>   // needed for std::cout, std::endl
+                      // Bureaucrat class
 
 #define GREEN "\033[32m"
 #define RESET "\033[0m"
 
-static inline void print_story(std::string story)
+static inline void test_log(std::string story)
 {
-	std::cout << GREEN << "\n< " << story << " >\n" << RESET << std::endl;
+    std::cout << GREEN << "\n< " << story << " >\n" << RESET << std::endl;
 }
 
-int	main(void)
+void test_unknown_form(Intern & i, Bureaucrat & b)
 {
-	Intern i;
-	Bureaucrat b("Randy", 2);
-	
-	print_story("unknown form test");
-	try
-	{
-		AForm* f = i.makeForm("random form", "home");
-		b.executeForm(*f);
-		delete f;
-	}
-	catch (std::exception &e)
-	{
-		std::cout << e.what() << std::endl;
-	}
+    test_log("Testing making and executing an unknown form");
+    try
+    {
+        AForm * f = i.makeForm("random form", "home");
+        b.executeForm(*f);
+        delete f;
+    }
+    catch (std::exception & e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+}
 
-	print_story("known form test");
-	try
-	{
-		AForm* f = i.makeForm("robotomy request", "fridge");
-		b.signForm(*f);
-		b.executeForm(*f);
-		delete f;
-	}
-	catch (std::exception &e)
-	{
-		std::cout << e.what() << std::endl;
-	}
+void test_known_form(Intern & i, Bureaucrat & b)
+{
+    test_log("Testing making and executing a known form");
+    try
+    {
+        AForm * f = i.makeForm("robotomy request", "The Eval Duck");
+        b.signForm(*f);
+        b.executeForm(*f);
+        delete f;
+    }
+    catch (std::exception & e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+}
 
-	print_story("NULL test / no try/catch block");
-	{
-		AForm* ptr = i.makeForm("not existing", "self");
-		// possible segfault if no exception thrown!
-		
-		if (ptr != NULL)
-		{
-			b.signForm(*ptr);
-		}
-		else
-		{
-			std::cout << "ptr is NULL!" << std::endl;
-		}
-	}
+void test_no_try_catch_block(Intern & i, Bureaucrat & b)
+{
+    test_log("Testing throwing exception without try/catch block");
+    {
+        AForm * ptr = i.makeForm("not existing", "self");
+        /* throwing exception replaces NULL check */
+        b.signForm(*ptr);
+    }
+}
 
-	return (EXIT_SUCCESS);
+int main(void)
+{
+    test_log("Testing creating Intern (make Forms)and Bureaucrat (exec Forms)");
+    Intern i;
+    Bureaucrat b("Randy", 1);
+
+    test_unknown_form(i, b);
+    test_known_form(i, b);
+    test_no_try_catch_block(i, b);
+    return (EXIT_SUCCESS);
 }
 
 // -------------------------------------------------------------------------- //

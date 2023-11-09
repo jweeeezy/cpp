@@ -9,7 +9,7 @@
 // -------------------------------------------------------------------------- //
 
 #ifndef INTERN_HPP
-# define INTERN_HPP
+#define INTERN_HPP
 
 #include "AForm.hpp" // needed for AForm class
 
@@ -17,40 +17,41 @@
 
 class Intern
 {
-	
-	private:
 
-		typedef struct s_function_map
-		{
-			std::string const name;
-			AForm* (Intern::*create)(std::string const& target) const; //create
-		}              t_func_map;
+  public:
+    /* constructors */
+    Intern            ();
+    Intern            (const Intern & src);
+    ~Intern           ();
+    Intern & operator=(const Intern & rhs);
 
-		static t_func_map forms[FORM_COUNT]; // typedef
-		
-		AForm* makeSCF(std::string const& target) const;
-		AForm* makeRRF(std::string const& target) const;
-		AForm* makePPF(std::string const& target) const;
+    /* member functions */
+    AForm * makeForm(std::string const & form,
+                     std::string const & target) const;
 
-	public:
+    class UnknownFormException : public std::exception
+    {
+      public:
+        const char * what() const throw()
+        {
+            return "Intern: I dont know this form!";
+        }
+    };
 
-		class UnknownFormException : public std::exception
-		{
-			public:
-				const char *what() const throw()
-				{
-					return "Intern doesn't know this form!";
-				}
-		};
+  private:
+    /* static variables  */
+    typedef struct s_function_map
+    {
+        std::string const name;
+        AForm * (Intern::*create)(std::string const & target) const;
+    } t_func_map;
 
-		AForm* makeForm(std::string const& form,
-                        std::string const& target) const;
+    static t_func_map forms[FORM_COUNT];
 
-		Intern();
-		Intern(const Intern& src);
-		~Intern();
-		Intern& operator=(const Intern& rhs);
-
+    /* member functions */
+    AForm * makeSCF(std::string const & target) const;
+    AForm * makeRRF(std::string const & target) const;
+    AForm * makePPF(std::string const & target) const;
 };
 
 #endif // INTERN
