@@ -20,7 +20,6 @@
 static inline void debug_log(std::string message)
 {
     (void)message;
-
     #ifdef DEBUG
     std::cout << YELLOW << "Bureaucrat: " << message << RESET << std::endl;
     #endif // DEBUG

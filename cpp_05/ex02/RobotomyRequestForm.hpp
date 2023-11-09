@@ -9,22 +9,23 @@
 // -------------------------------------------------------------------------- //
 
 #ifndef ROBOTOMYREQUESTFORM_HPP
-# define ROBOTOMYREQUESTFORM_HPP
+#define ROBOTOMYREQUESTFORM_HPP
 
 #include "AForm.hpp" // needed for AForm class, Bureaucrat class, std::string
 
 class RobotomyRequestForm : public AForm
 {
 
-	public:
+  public:
+    /* constructors */
+    RobotomyRequestForm            (std::string const & target);
+    RobotomyRequestForm            ();
+    RobotomyRequestForm            (const RobotomyRequestForm & src);
+    ~RobotomyRequestForm           ();
+    RobotomyRequestForm & operator=(const RobotomyRequestForm & rhs);
 
-		void execute(Bureaucrat const& executor) const;
-
-		RobotomyRequestForm(std::string const& target);
-		RobotomyRequestForm();
-		RobotomyRequestForm(const RobotomyRequestForm& src);
-		~RobotomyRequestForm();
-		RobotomyRequestForm& operator=(const RobotomyRequestForm& rhs);
+    /* member functions */
+    void execute(Bureaucrat const & executor) const;
 
 };
 

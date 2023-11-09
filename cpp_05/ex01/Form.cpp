@@ -19,8 +19,7 @@
 
 static inline void debug_log(std::string message)
 {
-    (void) message;
-
+    (void)message;
     #ifdef DEBUG
     std::cout << YELLOW << "Form: " << message << RESET << std::endl;
     #endif // DEBUG
