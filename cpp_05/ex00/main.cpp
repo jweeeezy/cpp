@@ -66,7 +66,7 @@ void test_valid_construction(std::string const &name,
     std::cout << obj.getGrade() << std::endl;
 }
 
-void test_copy_and_operator_overloads()
+void test_copy_construction_and_operator_overloads()
 {
     test_log("Testing assignment / copy constructor");
     
@@ -110,7 +110,7 @@ int main(void)
 {
     test_invalid_construction();
     test_valid_construction("Paul", 20);
-    test_copy_and_operator_overloads();
+    test_copy_construction_and_operator_overloads();
     test_exception_on_increment_or_decrement();
     return (EXIT_SUCCESS);
 }
