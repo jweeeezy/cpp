@@ -14,17 +14,17 @@
 
 #define EXPECTED_ARGC 2
 
-static inline void print_error(std::string message)
+static inline int log_exit_failure(const std::string & message)
 {
-	std::cout << message << std::endl;
-	exit(1);
+	std::cerr << message << std::endl;
+	return (EXIT_FAILURE);
 }
 
 int	main(int argc, char **argv)
 {
 	if (argc != EXPECTED_ARGC)
 	{
-		print_error("Wrong arguments!");
+		log_exit_failure("Wrong arguments given!");
 	}
 
 	try
