@@ -9,7 +9,6 @@
 // -------------------------------------------------------------------------- //
 
 #include "ScalarConverter.hpp" // needed for ScalarConverter class
-#include <cstdlib>             // needed for atoi(), atof()
 #include <iostream>            // needed for std::cout, std::endl, std::cerr
 
 #define YELLOW "\033[33m"
@@ -17,214 +16,64 @@
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> non-class functions */
 
-static inline void log_debug(std::string message)
+static inline void log_debug(std::string const & message)
 {
-#ifdef DEBUG
-  std::cerr << YELLOW << "ScalarConverter: " << message << RESET << std::endl;
-#endif // DEBUG
+    (void)message;
+    #ifdef DEBUG
+    std::cerr << YELLOW << "ScalarConverter: " << message << RESET << "\n";
+    #endif // DEBUG
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
 
-ScalarConverter::ScalarConverter() { ; }
-ScalarConverter::ScalarConverter(const ScalarConverter &src) { (void)src; }
-ScalarConverter::~ScalarConverter() { ; }
+ScalarConverter::ScalarConverter() { log_debug("default constructor called"); }
+
+ScalarConverter::ScalarConverter(ScalarConverter const & src)
+{
+    (void)src;
+    log_debug("copy constructor called");
+}
+
+ScalarConverter::~ScalarConverter() { log_debug("destructor called"); }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloads */
 
-ScalarConverter &ScalarConverter::operator=(const ScalarConverter &rhs)
+ScalarConverter & ScalarConverter::operator=(ScalarConverter const & rhs)
 {
-  (void)rhs;
-  return *this;
+    (void)rhs;
+    return *this;
 }
 
-std::ostream &operator<<(std::ostream &os, const ScalarConverter::Type &type)
+std::ostream & operator<<(std::ostream & os, ScalarConverter::Type const & type)
 {
-  switch (type)
-  {
+    switch (type)
+    {
     case ScalarConverter::NON_PRINTABLE:
-      os << "NON_PRINTABLE!";
-      break;
+        os << "NON_PRINTABLE!";
+        break;
     case ScalarConverter::FLOAT:
-      os << "FLOAT!";
-      break;
+        os << "FLOAT!";
+        break;
     case ScalarConverter::DOUBLE:
-      os << "DOUBLE!";
-      break;
+        os << "DOUBLE!";
+        break;
     case ScalarConverter::INTEGER:
-      os << "INTEGER!";
-      break;
+        os << "INTEGER!";
+        break;
     case ScalarConverter::NON_TYPE:
-      os << "NON_TYPE!";
-      break;
+        os << "NON_TYPE!";
+        break;
     case ScalarConverter::STRING:
-      os << "STRING!";
-      break;
+        os << "STRING!";
+        break;
     case ScalarConverter::CHAR:
-      os << "CHAR!";
-      break;
+        os << "CHAR!";
+        break;
     default:
-      os << "UNKNOWN_TYPE";
-      break;
-  }
-  return os;
-}
-
-/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> private member functions */
-
-bool ScalarConverter::is_printable(std::string const &input)
-{
-  for (std::string::const_iterator itr = input.begin(); itr != input.end();
-       ++itr)
-  {
-    if (std::isprint(static_cast<unsigned char>(*itr)) == false)
-    {
-      return false;
+        os << "UNKNOWN_TYPE";
+        break;
     }
-  }
-  return true;
-}
-
-bool ScalarConverter::is_number(std::string const &input)
-{
-  if (input.find_first_not_of("0123456789-+.f") != std::string::npos)
-  {
-    return false;
-  }
-  if (input.length() <= 1 &&
-      (has_trailing_f(input) == true || input.compare(".") == 0))
-  {
-    return false;
-  }
-  return true;
-}
-
-bool ScalarConverter::has_dot(std::string const &input)
-{
-  if (input.size() >= 3)
-  {
-    for (std::string::const_iterator itr = input.begin();
-         itr != input.end() - 2; ++itr)
-    {
-      char current = static_cast<unsigned char>(*itr);
-      char next = *(itr + 1);
-      char after_next = static_cast<unsigned char>(*(itr + 2));
-
-      if (std::isdigit(current) == true && next == '.' &&
-          std::isdigit(after_next) == true)
-      {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-bool ScalarConverter::has_trailing_f(std::string const &input)
-{
-  if (*(input.end() - 1) == 'f')
-  {
-    return true;
-  }
-  return false;
-}
-
-void ScalarConverter::print_conversion(char c, int i, double d, float f)
-{
-  if (c < 32 || c == 127)
-  {
-    std::cout << "char: "
-              << "Non displayable" << std::endl;
-  }
-  else
-  {
-    std::cout << "char: '" << c << "'" << std::endl;
-  }
-  std::cout << "int: " << i << std::endl;
-  std::cout << "float: " << f << std::endl;
-  std::cout << "double: " << d << std::endl;
-}
-
-/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> public member functions */
-
-ScalarConverter::Type ScalarConverter::identify_type(std::string const &input)
-{
-  if (is_printable(input) == false)
-  {
-    return (ScalarConverter::NON_PRINTABLE);
-  }
-  else if (is_number(input) == true)
-  {
-    if (has_trailing_f(input) == true)
-    {
-      return (ScalarConverter::FLOAT);
-    }
-    else if (has_dot(input) == true)
-    {
-      return (ScalarConverter::DOUBLE);
-    }
-    else
-    {
-      if (input.find("f") != std::string::npos ||
-          input.find(".") != std::string::npos)
-      {
-        return (ScalarConverter::NON_TYPE);
-      }
-      return (ScalarConverter::INTEGER);
-    }
-  }
-  else
-  {
-    if (input.length() >= 2)
-    {
-      return (ScalarConverter::STRING);
-    }
-    return (ScalarConverter::CHAR);
-  }
-}
-
-void ScalarConverter::convert(std::string const &input)
-{
-  char c = 0;
-  int i = 0;
-  double d = 0.0;
-  float f = 0.0f;
-
-  switch (identify_type(input))
-  {
-    case CHAR:
-      c = static_cast<char>(input[0]);
-      i = static_cast<int>(c);
-      d = static_cast<double>(c);
-      f = static_cast<float>(c);
-      break;
-    case INTEGER:
-      i = atoi(input.c_str());
-      c = static_cast<char>(i);
-      d = static_cast<double>(i);
-      f = static_cast<float>(i);
-      break;
-    case DOUBLE:
-      d = atof(input.c_str());
-      c = static_cast<char>(d);
-      i = static_cast<int>(d);
-      f = static_cast<float>(d);
-      break;
-    case FLOAT:
-      f = static_cast<float>(atof(input.c_str()));
-      c = static_cast<char>(f);
-      i = static_cast<int>(f);
-      d = static_cast<double>(f);
-      break;
-    case STRING:
-      throw StringException();
-    case NON_PRINTABLE:
-      return;
-    case NON_TYPE:
-      return;
-  }
-
-  print_conversion(c, i, d, f);
+    return os;
 }
 
 // -------------------------------------------------------------------------- //

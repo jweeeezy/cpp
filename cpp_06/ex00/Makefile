@@ -2,7 +2,8 @@
 
 NAME      = conversionofscalartypes
 SRC_FILES = main.cpp \
-            ScalarConverter.cpp
+            ScalarConverter.cpp \
+            ScalarConverter_convert.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
 CC        = c++
 DEBUG_FLAG= $(shell echo $$DEBUG_FLAG)
