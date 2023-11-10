@@ -29,6 +29,10 @@ static bool isPrintable(std::string const & input)
 
 static void printConversion(char c, int i, double d, float f)
 {
+
+    /* @note handle over/underflows */
+        /* check out std::numeric_limits */
+
     if (c < 32 || c == 127)
     {
         std::cout << "char:   "
