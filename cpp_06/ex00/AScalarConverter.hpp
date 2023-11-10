@@ -4,12 +4,12 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  ScalarConverter.hpp                                                 //
+// file:  AScalarConverter.hpp                                                //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#ifndef SCALARCONVERTER_HPP
-#define SCALARCONVERTER_HPP
+#ifndef ASCALARCONVERTER_HPP
+#define ASCALARCONVERTER_HPP
 
 #include <string> // needed for std::string
 
@@ -17,21 +17,26 @@ class ScalarConverter
 {
 
   public:
+    
     /* static functions */
     static void convert(std::string const & input);
 
     enum Type
     {
-        NON_TYPE,
-        NON_PRINTABLE,
         CHAR,
-        STRING,
         INTEGER,
         DOUBLE,
-        FLOAT
+        FLOAT,
+        INFNEG,
+        INFPOS,
+        NANF,
+        STRING,
+        NON_TYPE,
+        NON_PRINTABLE,
     };
 
   private:
+
     /* constructors */
     ScalarConverter();
     ScalarConverter(ScalarConverter const & src);
@@ -57,11 +62,20 @@ class ScalarConverter
                    "are invalid input!";
         }
     };
+    class NoTypeIdentifiedException : public std::exception
+    {
+        public:
+            char const * what() const throw()
+            {
+                return "ScalarConverter: No type identifiable!";
+            }
+    };
+
 };
 
 std::ostream & operator<<(std::ostream & os,
                           ScalarConverter::Type const & type);
 
-#endif // SCALARCONVERTER_HPP
+#endif // ASCALARCONVERTER_HPP
 
 // -------------------------------------------------------------------------- //

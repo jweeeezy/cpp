@@ -4,15 +4,15 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  ScalarConverter.cpp                                                 //
+// file:  AScalarConverter.cpp                                                //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "ScalarConverter.hpp" // needed for ScalarConverter class
+#include "AScalarConverter.hpp" // needed for ScalarConverter class
 #include <iostream>            // needed for std::cout, std::endl, std::cerr
 
 #define YELLOW "\033[33m"
-#define RESET "\033[0m"
+#define RESET  "\033[0m"
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> non-class functions */
 
