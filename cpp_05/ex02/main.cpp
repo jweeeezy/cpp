@@ -18,9 +18,10 @@
 #define RESET "\033[0m"
 
 /* log function */
-static inline void test_log(std::string story)
+
+static inline void test_log(std::string const & message)
 {
-    std::cout << GREEN << "\n< " << story << " >\n" << RESET << std::endl;
+    std::cout << GREEN << "\n< " << message << " >" << RESET << std::endl;
 }
 
 /* test cases */

@@ -16,10 +16,14 @@
 #define GREEN "\033[32m"
 #define RESET "\033[0m"
 
-static inline void test_log(std::string story)
+/* log function */
+
+static inline void test_log(std::string const & message)
 {
-    std::cout << GREEN << "\n< " << story << " >\n" << RESET << std::endl;
+    std::cout << GREEN << "\n< " << message << " >" << RESET << std::endl;
 }
+
+/* test cases */
 
 void test_unknown_form(Intern & i, Bureaucrat & b)
 {
