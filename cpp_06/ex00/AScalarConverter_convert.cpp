@@ -11,6 +11,13 @@
 #include "AScalarConverter.hpp" // needed for Type struct
 #include <cstdlib>              // needed for atoi(), atof()
 #include <iostream>             // needed for std::cout
+#include <limits>
+#include <sstream> // needed for std::istringstream
+
+#define PREFIX_CHAR "char:   "
+#define PREFIX_INT "int:    "
+#define PREFIX_FLOAT "float:  "
+#define PREFIX_DOUBLE "double: "
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> helper functions */
 
@@ -27,25 +34,22 @@ static bool isPrintable(std::string const & input)
     return true;
 }
 
-static void printConversion(char c, int i, double d, float f)
-{
-
-    /* @note handle over/underflows */
-        /* check out std::numeric_limits */
-
-    if (c < 32 || c == 127)
-    {
-        std::cout << "char:   "
-                  << "Non displayable\n";
-    }
-    else
-    {
-        std::cout << "char:   '" << c << "'\n";
-    }
-    std::cout << "int:    " << i << "\n";
-    std::cout << "float:  " << f << "f\n";
-    std::cout << "double: " << d << "\n";
-}
+// void printConversion(char c, int i, double d, float f)
+//{
+//
+//     if (c < 32 || c == 127)
+//     {
+//         std::cout << "char:   "
+//                   << "Non displayable\n";
+//     }
+//     else
+//     {
+//         std::cout << "char:   '" << c << "'\n";
+//     }
+//     std::cout << "int:    " << i << "\n";
+//     std::cout << "float:  " << f << "f\n";
+//     std::cout << "double: " << d << "\n";
+// }
 
 static bool hasTrailingF(std::string const & input)
 {
@@ -169,40 +173,112 @@ static ScalarConverter::Type identifyType(std::string const & input)
     }
 }
 
+int stringToInt(std::string const & input)
+{
+    int value;
+    std::istringstream stream(input);
+
+    if (stream >> value)
+    {
+    }
+
+    std::cout << value;
+    return value;
+}
+
+void printChar(long int value)
+{
+    if (value < std::numeric_limits<char>::min() ||
+        value > std::numeric_limits<char>::max())
+    {
+        std::cout << PREFIX_CHAR << "overflow/underflow\n";
+    }
+    else if (value < 32 || value > 127)
+    {
+        std::cout << PREFIX_CHAR << "non_displayable\n";
+    }
+    else
+    {
+        std::cout << PREFIX_CHAR << static_cast<char>(value) << "\n";
+    }
+}
+
+void printInt(long int value)
+{
+    if (value < std::numeric_limits<int>::min() ||
+        value > std::numeric_limits<int>::max())
+    {
+        std::cout << PREFIX_INT << "overflow/underflow\n";
+    }
+    else
+    {
+        std::cout << PREFIX_INT << value << "\n";
+    }
+}
+
+void printDouble(long double value)
+{
+    if (value < std::numeric_limits<double>::min() ||
+        value > std::numeric_limits<double>::max())
+    {
+        std::cout << PREFIX_DOUBLE << "overflow/underflow\n";
+    }
+    else
+    {
+        std::cout << PREFIX_DOUBLE << value;
+        if (value == static_cast<int>(value))
+        {
+            std::cout << ".0";
+        }
+        std::cout << "\n";
+    }
+}
+
+void printFloat(long double value)
+{
+    if (value < std::numeric_limits<float>::min() ||
+        value > std::numeric_limits<float>::max())
+    {
+        std::cout << PREFIX_FLOAT << "overflow/underflow\n";
+    }
+    else
+    {
+        std::cout << PREFIX_FLOAT << value;
+        if (value == static_cast<int>(value))
+        {
+            std::cout << ".0f";
+        }
+        std::cout << "\n";
+    }
+}
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> convert function */
 
 void ScalarConverter::convert(std::string const & input)
 {
-    char c = 0;
-    int i = 0;
-    double d = 0.0;
-    float f = 0.0f;
+    char c;
+    int  i;
 
     switch (identifyType(input))
     {
     case CHAR:
         c = static_cast<char>(input[0]);
-        i = static_cast<int>(c);
-        d = static_cast<double>(c);
-        f = static_cast<float>(c);
+        printChar(c);
+        printInt(static_cast<long int>(c));
+        printDouble( static_cast<long double>(c));
+        printFloat(static_cast<long double>(c));
         break;
     case INTEGER:
         i = atoi(input.c_str());
-        c = static_cast<char>(i);
-        d = static_cast<double>(i);
-        f = static_cast<float>(i);
+        printInt(static_cast<long int>(i));
+        printChar(static_cast<long int>(i));
+        printDouble( static_cast<long double>(i));
+        printFloat(static_cast<long double>(i));
         break;
     case DOUBLE:
-        d = atof(input.c_str());
-        c = static_cast<char>(d);
-        i = static_cast<int>(d);
-        f = static_cast<float>(d);
+        /* not yet implemented */
         break;
     case FLOAT:
-        f = static_cast<float>(atof(input.c_str()));
-        c = static_cast<char>(f);
-        i = static_cast<int>(f);
-        d = static_cast<double>(f);
+        /* not yet implemented */
         break;
     case INFNEG:
         std::cout << "char:   non displayable\n"
@@ -229,8 +305,6 @@ void ScalarConverter::convert(std::string const & input)
     case NON_TYPE:
         throw NoTypeIdentifiedException();
     }
-
-    printConversion(c, i, d, f);
 }
 
 // -------------------------------------------------------------------------- //
