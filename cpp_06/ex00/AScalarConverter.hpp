@@ -15,18 +15,15 @@
 
 class AScalarConverter
 {
-
   public:
-    
     /* static functions */
     static void convert(std::string const & input);
 
   private:
-
     /* constructors */
-    AScalarConverter            ();
-    AScalarConverter            (AScalarConverter const & src);
-    ~AScalarConverter           ();
+    AScalarConverter();
+    AScalarConverter(AScalarConverter const & src);
+    ~AScalarConverter();
     AScalarConverter & operator=(AScalarConverter const & rhs);
 
     /* exceptions */
@@ -50,13 +47,12 @@ class AScalarConverter
     };
     class NoTypeIdentifiedException : public std::exception
     {
-        public:
-            char const * what() const throw()
-            {
-                return "ScalarConverter: no type identifiable!";
-            }
+      public:
+        char const * what() const throw()
+        {
+            return "ScalarConverter: no type identifiable!";
+        }
     };
-
 };
 
 #endif // ASCALARCONVERTER_HPP

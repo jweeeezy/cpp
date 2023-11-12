@@ -9,8 +9,8 @@
 // -------------------------------------------------------------------------- //
 
 #include "Base.hpp" // needed for Base class
-#include <string>   // needed for std::string
 #include <iostream> // needed for std::cout
+#include <string>   // needed for std::string
 
 #define YELLOW "\033[33m"
 #define RESET  "\033[0m"

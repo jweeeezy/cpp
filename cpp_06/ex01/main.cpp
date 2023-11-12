@@ -59,7 +59,7 @@ int main()
     std::cout << iptr << "\n";
 
     test_log("Deserialising the uintptr_t var");
-    Data *dptr = ASerializer::deserialize(iptr);
+    Data * dptr = ASerializer::deserialize(iptr);
     std::cout << dptr << "\n";
 
     test_log("Printing Data with dptr");

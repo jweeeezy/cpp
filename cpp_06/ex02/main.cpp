@@ -21,8 +21,8 @@
 #include <unistd.h>  // needed for sleep
 
 #define YELLOW "\033[33m"
-#define GREEN "\033[32m"
-#define RESET "\033[0m"
+#define GREEN  "\033[32m"
+#define RESET  "\033[0m"
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> log function */
 
@@ -41,10 +41,7 @@ static inline void log_test(std::string const & message)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> helper functions */
 
-void generate_seed()
-{
-    std::srand(static_cast<unsigned>(std::time(NULL)));
-}
+void generate_seed() { std::srand(static_cast<unsigned>(std::time(NULL))); }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> subject functions */
 
@@ -53,17 +50,17 @@ Base * generate(void)
     int choice = std::rand() % 3;
     switch (choice)
     {
-    case 0:
-        log_debug("generate: Case A");
-        return new A;
-    case 1:
-        log_debug("generate: Case B");
-        return new B;
-    case 2:
-        log_debug("generate: Case C");
-        return new C;
-    default:
-        throw std::runtime_error("Randomisation failed\n");
+        case 0:
+            log_debug("generate: Case A");
+            return new A;
+        case 1:
+            log_debug("generate: Case B");
+            return new B;
+        case 2:
+            log_debug("generate: Case C");
+            return new C;
+        default:
+            throw std::runtime_error("Randomisation failed\n");
     }
 }
 
@@ -90,26 +87,35 @@ void identify(Base & ref)
         (void)dynamic_cast<A &>(ref);
         std::cout << "A\n";
     }
-    catch (std::exception & e) { ; }
+    catch (std::exception & e)
+    {
+        ;
+    }
     try
     {
         (void)dynamic_cast<B &>(ref);
         std::cout << "B\n";
     }
-    catch (std::exception & e) { ; }
+    catch (std::exception & e)
+    {
+        ;
+    }
     try
     {
         (void)dynamic_cast<C &>(ref);
         std::cout << "C\n";
     }
-    catch (std::exception & e) { ; }
+    catch (std::exception & e)
+    {
+        ;
+    }
 }
 
 int main()
 {
     /* set seed for randomisation to current time */
     generate_seed();
-    
+
     {
         log_test("Generating a ptr");
         Base * ptr = generate();
@@ -135,6 +141,7 @@ int main()
 
         delete ptr;
     }
+
     return (EXIT_SUCCESS);
 }
 

@@ -10,12 +10,12 @@
 
 #include "AScalarConverter.hpp" // needed for Type struct
 #include <iostream>             // needed for std::cout
-#include <sstream>              // needed for std::istringstream
 #include <limits>               // needed for std::numeric_limits()
+#include <sstream>              // needed for std::istringstream
 
-#define PREFIX_CHAR "char:   "
-#define PREFIX_INT "int:    "
-#define PREFIX_FLOAT "float:  "
+#define PREFIX_CHAR   "char:   "
+#define PREFIX_INT    "int:    "
+#define PREFIX_FLOAT  "float:  "
 #define PREFIX_DOUBLE "double: "
 
 enum Type
