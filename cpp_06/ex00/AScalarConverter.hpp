@@ -13,7 +13,7 @@
 
 #include <string> // needed for std::string
 
-class ScalarConverter
+class AScalarConverter
 {
 
   public:
@@ -24,10 +24,10 @@ class ScalarConverter
   private:
 
     /* constructors */
-    ScalarConverter();
-    ScalarConverter(ScalarConverter const & src);
-    ~ScalarConverter();
-    ScalarConverter & operator=(ScalarConverter const & rhs);
+    AScalarConverter();
+    AScalarConverter(AScalarConverter const & src);
+    ~AScalarConverter();
+    AScalarConverter & operator=(AScalarConverter const & rhs);
 
     /* exceptions */
     class StringException : public std::exception

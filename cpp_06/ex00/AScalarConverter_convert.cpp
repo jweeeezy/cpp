@@ -261,7 +261,7 @@ void printFloat(long double value)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> convert function */
 
-void ScalarConverter::convert(std::string const & input)
+void AScalarConverter::convert(std::string const & input)
 {
     std::istringstream iss(input);
     char c;

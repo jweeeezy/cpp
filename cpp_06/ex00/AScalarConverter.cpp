@@ -26,19 +26,19 @@ static inline void log_debug(std::string const & message)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
 
-ScalarConverter::ScalarConverter() { log_debug("default constructor called"); }
+AScalarConverter::AScalarConverter() { log_debug("default constructor called"); }
 
-ScalarConverter::ScalarConverter(ScalarConverter const & src)
+AScalarConverter::AScalarConverter(AScalarConverter const & src)
 {
     (void)src;
     log_debug("copy constructor called");
 }
 
-ScalarConverter::~ScalarConverter() { log_debug("destructor called"); }
+AScalarConverter::~AScalarConverter() { log_debug("destructor called"); }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> operator overloads */
 
-ScalarConverter & ScalarConverter::operator=(ScalarConverter const & rhs)
+AScalarConverter & AScalarConverter::operator=(AScalarConverter const & rhs)
 {
     (void)rhs;
     return *this;

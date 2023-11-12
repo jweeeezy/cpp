@@ -31,7 +31,7 @@ int main(int argc, char ** argv)
     }
     try
     {
-        ScalarConverter::convert(argv[1]);
+        AScalarConverter::convert(argv[1]);
     }
     catch (std::exception const & e)
     {
