@@ -9,9 +9,9 @@
 // -------------------------------------------------------------------------- //
 
 #include "AScalarConverter.hpp" // needed for Type struct
-#include <cstdlib>              // needed for atoi(), atof()
 #include <iostream>             // needed for std::cout
 #include <sstream>              // needed for std::istringstream
+#include <limits>               // needed for std::numeric_limits()
 
 #define PREFIX_CHAR "char:   "
 #define PREFIX_INT "int:    "
