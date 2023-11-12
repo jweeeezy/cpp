@@ -21,20 +21,6 @@ class ScalarConverter
     /* static functions */
     static void convert(std::string const & input);
 
-    enum Type
-    {
-        CHAR,
-        INTEGER,
-        DOUBLE,
-        FLOAT,
-        INFNEG,
-        INFPOS,
-        NANF,
-        STRING,
-        NON_TYPE,
-        NON_PRINTABLE,
-    };
-
   private:
 
     /* constructors */
@@ -49,7 +35,7 @@ class ScalarConverter
       public:
         char const * what() const throw()
         {
-            return "ScalarConverter: Multi-Character Strings are "
+            return "ScalarConverter: multi-character strings are "
                    "invalid input!";
         }
     };
@@ -58,7 +44,7 @@ class ScalarConverter
       public:
         char const * what() const throw()
         {
-            return "ScalarConverter: Non displayable characters "
+            return "ScalarConverter: non-displayable characters "
                    "are invalid input!";
         }
     };
@@ -67,14 +53,11 @@ class ScalarConverter
         public:
             char const * what() const throw()
             {
-                return "ScalarConverter: No type identifiable!";
+                return "ScalarConverter: no type identifiable!";
             }
     };
 
 };
-
-std::ostream & operator<<(std::ostream & os,
-                          ScalarConverter::Type const & type);
 
 #endif // ASCALARCONVERTER_HPP
 

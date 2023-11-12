@@ -44,36 +44,4 @@ ScalarConverter & ScalarConverter::operator=(ScalarConverter const & rhs)
     return *this;
 }
 
-std::ostream & operator<<(std::ostream & os, ScalarConverter::Type const & type)
-{
-    switch (type)
-    {
-    case ScalarConverter::NON_PRINTABLE:
-        os << "NON_PRINTABLE!";
-        break;
-    case ScalarConverter::FLOAT:
-        os << "FLOAT!";
-        break;
-    case ScalarConverter::DOUBLE:
-        os << "DOUBLE!";
-        break;
-    case ScalarConverter::INTEGER:
-        os << "INTEGER!";
-        break;
-    case ScalarConverter::NON_TYPE:
-        os << "NON_TYPE!";
-        break;
-    case ScalarConverter::STRING:
-        os << "STRING!";
-        break;
-    case ScalarConverter::CHAR:
-        os << "CHAR!";
-        break;
-    default:
-        os << "UNKNOWN_TYPE";
-        break;
-    }
-    return os;
-}
-
 // -------------------------------------------------------------------------- //

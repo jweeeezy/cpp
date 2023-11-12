@@ -11,15 +11,58 @@
 #include "AScalarConverter.hpp" // needed for Type struct
 #include <cstdlib>              // needed for atoi(), atof()
 #include <iostream>             // needed for std::cout
-#include <limits>
-#include <sstream> // needed for std::istringstream
+#include <sstream>              // needed for std::istringstream
 
 #define PREFIX_CHAR "char:   "
 #define PREFIX_INT "int:    "
 #define PREFIX_FLOAT "float:  "
 #define PREFIX_DOUBLE "double: "
 
+enum Type
+{
+    CHAR,
+    INTEGER,
+    DOUBLE,
+    FLOAT,
+    INFNEG,
+    INFPOS,
+    NANF,
+    STRING,
+    NON_TYPE,
+    NON_PRINTABLE,
+};
+
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> helper functions */
+
+static bool isNan(std::string const & input)
+{
+    if (input == "nanf" || input == "nan" || input == "NANF" || input == "NAN")
+    {
+        return true;
+    }
+    return false;
+}
+
+static bool isInfPos(std::string const & input)
+{
+    if (input == "inf" || input == "inff" || input == "+inf" ||
+        input == "+inff" || input == "INF" || input == "INFF" ||
+        input == "+INF" || input == "+INFF")
+    {
+        return true;
+    }
+    return false;
+}
+
+static bool isInfNeg(std::string const & input)
+{
+    if (input == "-inf" || input == "-inff" || input == "-INF" ||
+        input == "-INFF")
+    {
+        return true;
+    }
+    return false;
+}
 
 static bool isPrintable(std::string const & input)
 {
@@ -30,46 +73,6 @@ static bool isPrintable(std::string const & input)
         {
             return false;
         }
-    }
-    return true;
-}
-
-// void printConversion(char c, int i, double d, float f)
-//{
-//
-//     if (c < 32 || c == 127)
-//     {
-//         std::cout << "char:   "
-//                   << "Non displayable\n";
-//     }
-//     else
-//     {
-//         std::cout << "char:   '" << c << "'\n";
-//     }
-//     std::cout << "int:    " << i << "\n";
-//     std::cout << "float:  " << f << "f\n";
-//     std::cout << "double: " << d << "\n";
-// }
-
-static bool hasTrailingF(std::string const & input)
-{
-    if (*(input.end() - 1) == 'f')
-    {
-        return true;
-    }
-    return false;
-}
-
-static bool isNumber(std::string const & input)
-{
-    if (input.find_first_not_of("0123456789-+.f") != std::string::npos)
-    {
-        return false;
-    }
-    if (input.length() <= 1 &&
-        (hasTrailingF(input) == true || input.compare(".") == 0))
-    {
-        return false;
     }
     return true;
 }
@@ -95,111 +98,115 @@ static bool hasDot(std::string const & input)
     return false;
 }
 
-static bool isNan(std::string const & input)
+static bool hasMultipleF(std::string const & input)
 {
-    if (input == "nanf" || input == "nan" || input == "NANF" || input == "NAN")
+    size_t counter = 0;
+    for (std::string::const_iterator it = input.begin(); it != input.end();
+         ++it)
+    {
+        if (*it == 'f')
+        {
+            ++counter;
+            if (counter > 1)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+static bool hasTrailingF(std::string const & input)
+{
+    if (*(input.end() - 1) == 'f')
     {
         return true;
     }
     return false;
 }
 
-static bool isInfNeg(std::string const & input)
+static bool isNumber(std::string const & input)
 {
-    if (input == "-inf" || input == "-inff" || input == "-INF" ||
-        input == "-INFF")
+    if (input.find_first_not_of("0123456789-+.f") != std::string::npos)
     {
-        return true;
+        return false;
     }
-    return false;
+    if (input.length() <= 1 &&
+        (hasTrailingF(input) == true || input.compare(".") == 0))
+    {
+        return false;
+    }
+    return true;
 }
 
-static bool isInfPos(std::string const & input)
+static long double getFloat(std::string const & input)
 {
-    if (input == "inf" || input == "inff" || input == "+inf" ||
-        input == "+inff" || input == "INF" || input == "INFF" ||
-        input == "+INF" || input == "+INFF")
-    {
-        return true;
-    }
-    return false;
+    long double f;
+    std::istringstream iss(input.substr(0, input.size() - 1));
+    iss >> f;
+    return f;
 }
 
-static ScalarConverter::Type identifyType(std::string const & input)
+static Type identifyType(std::string const & input)
 {
     if (isNan(input) == true)
     {
-        return (ScalarConverter::NANF);
+        return (NANF);
     }
     if (isInfNeg(input) == true)
     {
-        return (ScalarConverter::INFNEG);
+        return (INFNEG);
     }
     if (isInfPos(input) == true)
     {
-        return (ScalarConverter::INFPOS);
+        return (INFPOS);
     }
     if (isPrintable(input) == false)
     {
-        return (ScalarConverter::NON_PRINTABLE);
+        return (NON_PRINTABLE);
     }
     if (isNumber(input) == true)
     {
+        if (hasMultipleF(input) == true)
+        {
+            return (NON_TYPE);
+        }
         if (hasTrailingF(input) == true)
         {
-            return (ScalarConverter::FLOAT);
+            return (FLOAT);
         }
-        else if (hasDot(input) == true)
+        if (hasDot(input) == true)
         {
-            return (ScalarConverter::DOUBLE);
+            return (DOUBLE);
         }
-        else
+        if (input.find("f") != std::string::npos ||
+            input.find(".") != std::string::npos)
         {
-            if (input.find("f") != std::string::npos ||
-                input.find(".") != std::string::npos)
-            {
-                return (ScalarConverter::NON_TYPE);
-            }
-            return (ScalarConverter::INTEGER);
+            return (NON_TYPE);
         }
+        return (INTEGER);
     }
-    else
+    if (input.length() >= 2)
     {
-        if (input.length() >= 2)
-        {
-            return (ScalarConverter::STRING);
-        }
-        return (ScalarConverter::CHAR);
+        return (STRING);
     }
-}
-
-int stringToInt(std::string const & input)
-{
-    int value;
-    std::istringstream stream(input);
-
-    if (stream >> value)
-    {
-    }
-
-    std::cout << value;
-    return value;
+    return (CHAR);
 }
 
 void printChar(long int value)
 {
-    if (value < std::numeric_limits<char>::min() ||
-        value > std::numeric_limits<char>::max())
-    {
-        std::cout << PREFIX_CHAR << "overflow/underflow\n";
-    }
-    else if (value < 32 || value > 127)
+    if ((value < 32 && value > 0) || (value > 126 && value <= 255))
     {
         std::cout << PREFIX_CHAR << "non_displayable\n";
     }
+    else if (value < std::numeric_limits<char>::min() ||
+             value > std::numeric_limits<char>::max())
+    {
+        std::cout << PREFIX_CHAR << "overflow/underflow\n";
+    }
     else
     {
-        std::cout << PREFIX_CHAR << static_cast<char>(value) << "\n";
+        std::cout << PREFIX_CHAR << "'" << static_cast<char>(value) << "'\n";
     }
 }
 
@@ -251,50 +258,61 @@ void printFloat(long double value)
         std::cout << "\n";
     }
 }
+
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> convert function */
 
 void ScalarConverter::convert(std::string const & input)
 {
+    std::istringstream iss(input);
     char c;
-    int  i;
+    long int i;
+    long double d;
 
     switch (identifyType(input))
     {
     case CHAR:
-        c = static_cast<char>(input[0]);
+        iss >> c;
         printChar(c);
         printInt(static_cast<long int>(c));
-        printDouble( static_cast<long double>(c));
         printFloat(static_cast<long double>(c));
+        printDouble(static_cast<long double>(c));
         break;
     case INTEGER:
-        i = atoi(input.c_str());
-        printInt(static_cast<long int>(i));
-        printChar(static_cast<long int>(i));
-        printDouble( static_cast<long double>(i));
+        iss >> i;
+        printChar(i);
+        printInt(i);
         printFloat(static_cast<long double>(i));
+        printDouble(static_cast<long double>(i));
         break;
     case DOUBLE:
-        /* not yet implemented */
+        iss >> d;
+        printChar(static_cast<long int>(d));
+        printInt(static_cast<long int>(d));
+        printFloat(d);
+        printDouble(d);
         break;
     case FLOAT:
-        /* not yet implemented */
+        d = getFloat(input);
+        printChar(static_cast<long int>(d));
+        printInt(static_cast<long int>(d));
+        printFloat(d);
+        printDouble(d);
         break;
     case INFNEG:
-        std::cout << "char:   non displayable\n"
-                  << "int:    nnn displayable\n"
+        std::cout << "char:   impossible\n"
+                  << "int:    impossible\n"
                   << "double: -inf\n"
                   << "float:  -inff\n";
         return;
     case INFPOS:
-        std::cout << "char:   non displayable\n"
-                  << "int:    non displayable\n"
+        std::cout << "char:   impossible\n"
+                  << "int:    impossible\n"
                   << "double: +inf\n"
                   << "float:  +inff\n";
         return;
     case NANF:
-        std::cout << "char:   non displayable\n"
-                  << "int:    non displayable\n"
+        std::cout << "char:   impossible\n"
+                  << "int:    impossible\n"
                   << "double: nan\n"
                   << "float:  nanf\n";
         return;
