@@ -17,14 +17,19 @@
 class ASerializer
 {
   public:
+    
+    /* static functions */
     static uintptr_t serialize  (Data * ptr);
     static Data *    deserialize(uintptr_t raw);
 
   private:
+    
+    /* constructors */
     ASerializer            ();
     ASerializer            (const ASerializer & src);
     ~ASerializer           ();
     ASerializer & operator=(const ASerializer & rhs);
+
 };
 
 #endif // ASERIALIZER_HPP

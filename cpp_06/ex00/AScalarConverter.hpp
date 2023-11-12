@@ -24,9 +24,9 @@ class AScalarConverter
   private:
 
     /* constructors */
-    AScalarConverter();
-    AScalarConverter(AScalarConverter const & src);
-    ~AScalarConverter();
+    AScalarConverter            ();
+    AScalarConverter            (AScalarConverter const & src);
+    ~AScalarConverter           ();
     AScalarConverter & operator=(AScalarConverter const & rhs);
 
     /* exceptions */

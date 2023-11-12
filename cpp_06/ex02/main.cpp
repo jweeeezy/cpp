@@ -26,7 +26,7 @@
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> log function */
 
-static inline void debug_log(std::string const & message)
+static inline void log_debug(std::string const & message)
 {
     (void)message;
     #ifdef DEBUG
@@ -34,7 +34,7 @@ static inline void debug_log(std::string const & message)
     #endif // DEBUG
 }
 
-static inline void test_log(std::string const & message)
+static inline void log_test(std::string const & message)
 {
     std::cout << GREEN << "\n< " << message << " >" << RESET << std::endl;
 }
@@ -54,13 +54,13 @@ Base * generate(void)
     switch (choice)
     {
     case 0:
-        debug_log("generate: Case A");
+        log_debug("generate: Case A");
         return new A;
     case 1:
-        debug_log("generate: Case B");
+        log_debug("generate: Case B");
         return new B;
     case 2:
-        debug_log("generate: Case C");
+        log_debug("generate: Case C");
         return new C;
     default:
         throw std::runtime_error("Randomisation failed\n");
@@ -111,7 +111,7 @@ int main()
     generate_seed();
     
     {
-        test_log("Generating a ptr");
+        log_test("Generating a ptr");
         Base * ptr = generate();
         Base & ref = *ptr;
 
@@ -126,7 +126,7 @@ int main()
     generate_seed();
 
     {
-        test_log("Generating a ref to a ptr");
+        log_test("Generating a ref to a ptr");
         Base & ref = *generate();
         Base * ptr = &ref;
 

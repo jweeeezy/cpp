@@ -13,9 +13,7 @@
 
 #include "Base.hpp" // needed for Base class
 
-class A : public Base
-{
-};
+class A : public Base {};
 
 #endif // A_HPP
 

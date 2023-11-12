@@ -15,7 +15,7 @@
 #define YELLOW "\033[33m"
 #define RESET  "\033[0m"
 
-static inline void debug_log(std::string const & message)
+static inline void log_debug(std::string const & message)
 {
     (void)message;
     #ifdef DEBUG
@@ -23,6 +23,6 @@ static inline void debug_log(std::string const & message)
     #endif // DEBUG
 }
 
-Base::~Base() { debug_log("destructor called"); }
+Base::~Base() { log_debug("destructor called"); }
 
 // -------------------------------------------------------------------------- //
