@@ -270,58 +270,58 @@ void AScalarConverter::convert(std::string const & input)
 
     switch (identifyType(input))
     {
-    case CHAR:
-        iss >> c;
-        printChar(c);
-        printInt(static_cast<long int>(c));
-        printFloat(static_cast<long double>(c));
-        printDouble(static_cast<long double>(c));
-        break;
-    case INTEGER:
-        iss >> i;
-        printChar(i);
-        printInt(i);
-        printFloat(static_cast<long double>(i));
-        printDouble(static_cast<long double>(i));
-        break;
-    case DOUBLE:
-        iss >> d;
-        printChar(static_cast<long int>(d));
-        printInt(static_cast<long int>(d));
-        printFloat(d);
-        printDouble(d);
-        break;
-    case FLOAT:
-        d = getFloat(input);
-        printChar(static_cast<long int>(d));
-        printInt(static_cast<long int>(d));
-        printFloat(d);
-        printDouble(d);
-        break;
-    case INFNEG:
-        std::cout << "char:   impossible\n"
-                  << "int:    impossible\n"
-                  << "double: -inf\n"
-                  << "float:  -inff\n";
-        return;
-    case INFPOS:
-        std::cout << "char:   impossible\n"
-                  << "int:    impossible\n"
-                  << "double: +inf\n"
-                  << "float:  +inff\n";
-        return;
-    case NANF:
-        std::cout << "char:   impossible\n"
-                  << "int:    impossible\n"
-                  << "double: nan\n"
-                  << "float:  nanf\n";
-        return;
-    case STRING:
-        throw StringException();
-    case NON_PRINTABLE:
-        throw NonPrintableException();
-    case NON_TYPE:
-        throw NoTypeIdentifiedException();
+        case CHAR:
+            iss >> c;
+            printChar(c);
+            printInt(static_cast<long int>(c));
+            printFloat(static_cast<long double>(c));
+            printDouble(static_cast<long double>(c));
+            break;
+        case INTEGER:
+            iss >> i;
+            printChar(i);
+            printInt(i);
+            printFloat(static_cast<long double>(i));
+            printDouble(static_cast<long double>(i));
+            break;
+        case DOUBLE:
+            iss >> d;
+            printChar(static_cast<long int>(d));
+            printInt(static_cast<long int>(d));
+            printFloat(d);
+            printDouble(d);
+            break;
+        case FLOAT:
+            d = getFloat(input);
+            printChar(static_cast<long int>(d));
+            printInt(static_cast<long int>(d));
+            printFloat(d);
+            printDouble(d);
+            break;
+        case INFNEG:
+            std::cout << "char:   impossible\n"
+                      << "int:    impossible\n"
+                      << "double: -inf\n"
+                      << "float:  -inff\n";
+            return;
+        case INFPOS:
+            std::cout << "char:   impossible\n"
+                      << "int:    impossible\n"
+                      << "double: +inf\n"
+                      << "float:  +inff\n";
+            return;
+        case NANF:
+            std::cout << "char:   impossible\n"
+                      << "int:    impossible\n"
+                      << "double: nan\n"
+                      << "float:  nanf\n";
+            return;
+        case STRING:
+            throw StringException();
+        case NON_PRINTABLE:
+            throw NonPrintableException();
+        case NON_TYPE:
+            throw NoTypeIdentifiedException();
     }
 }
 
