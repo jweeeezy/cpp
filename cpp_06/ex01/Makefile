@@ -1,7 +1,8 @@
 #/ -------------------------------------------------------------------------- //
 
 NAME      = serialization
-SRC_FILES = main.cpp
+SRC_FILES = main.cpp \
+            ASerializer.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
 CC        = c++
 DEBUG_FLAG= $(shell echo $$DEBUG_FLAG)
