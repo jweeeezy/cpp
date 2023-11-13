@@ -4,38 +4,34 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  whatever.hpp                                                        //
+// file:  Array.hpp                                                           //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#ifndef WHATEVER_HPP
-#define WHATEVER_HPP
+#ifndef ARRAY_HPP
+#define ARRAY_HPP
 
-template <typename T> void swap(T & a, T & b)
+#include <cstdlib> // needed for size_t
+
+template <typename T> class Array
 {
-    T tmp = a;
-    a = b;
-    b = tmp;
+  public:
+    /* constructors */
+    Array();
+    Array(unsigned int n);
+    Array(const Array & src);
+    ~Array();
+    Array & operator=(const Array & rhs);
+
+    /* member functions */
+    size_t size() const;
+
+  private:
+    /* member variables */
+    T *    element;
+    size_t no_elements;
 };
 
-template <typename T> T const & min(T const & a, T const & b)
-{
-    if (a <= b)
-    {
-        return a;
-    }
-    return b;
-};
-
-template <typename T> T const & max(T const & a, T const & b)
-{
-    if (a >= b)
-    {
-        return a;
-    }
-    return b;
-}
-
-#endif // WHATEVER_HPP
+#endif
 
 // -------------------------------------------------------------------------- //
