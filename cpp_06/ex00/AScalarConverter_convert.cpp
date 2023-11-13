@@ -195,7 +195,7 @@ static Type identifyType(std::string const & input)
 
 void printChar(long int value)
 {
-    if ((value < 32 && value > 0) || (value > 126 && value <= 255))
+    if ((value < 32) || (value > 126 && value <= 255))
     {
         std::cout << PREFIX_CHAR << "non_displayable\n";
     }
@@ -225,14 +225,14 @@ void printInt(long int value)
 
 void printDouble(long double value)
 {
-    if (value < std::numeric_limits<double>::min() ||
-        value > std::numeric_limits<double>::max())
+    if (fabs(value) < std::numeric_limits<double>::min() ||
+        fabs(value) > std::numeric_limits<double>::max())
     {
         std::cout << PREFIX_DOUBLE << "overflow/underflow\n";
     }
     else
     {
-        std::cout << PREFIX_DOUBLE << value;
+        std::cout << PREFIX_DOUBLE << static_cast<double>(value);
         if (value == static_cast<int>(value))
         {
             std::cout << ".0";
@@ -243,14 +243,14 @@ void printDouble(long double value)
 
 void printFloat(long double value)
 {
-    if (value < std::numeric_limits<float>::min() ||
-        value > std::numeric_limits<float>::max())
+    if (fabs(value) < std::numeric_limits<float>::min() ||
+        fabs(value) > std::numeric_limits<float>::max())
     {
         std::cout << PREFIX_FLOAT << "overflow/underflow\n";
     }
     else
     {
-        std::cout << PREFIX_FLOAT << value;
+        std::cout << PREFIX_FLOAT << static_cast<float>(value);
         if (value == static_cast<int>(value))
         {
             std::cout << ".0f";
