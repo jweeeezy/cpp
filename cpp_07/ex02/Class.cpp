@@ -25,7 +25,7 @@ static inline void log_debug(std::string const & message)
 
 Class::Class() : content("123") { log_debug("Default constructor called"); }
 
-Class::Class(const Class & src)
+Class::Class(Class const & src)
 {
     (void)src;
     log_debug("copy constructor called");
@@ -33,7 +33,7 @@ Class::Class(const Class & src)
 
 Class::~Class() { log_debug("destructor called"); }
 
-Class & Class::operator=(const Class & src)
+Class & Class::operator=(Class const & src)
 {
     log_debug("assignment operator called");
     (void)src;

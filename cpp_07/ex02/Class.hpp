@@ -18,9 +18,9 @@ class Class
   public:
     /* constructors */
     Class();
-    Class(const Class & src);
+    Class(Class const & src);
     ~Class();
-    Class & operator=(const Class & rhs);
+    Class & operator=(Class const & rhs);
 
     /* member variables */
     std::string content;
