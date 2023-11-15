@@ -12,6 +12,7 @@
 #include <iostream>             // needed for std::cout
 #include <limits>               // needed for std::numeric_limits()
 #include <sstream>              // needed for std::istringstream
+#include <math.h>               // needed for fabs()
 
 #define PREFIX_CHAR   "char:   "
 #define PREFIX_INT    "int:    "
@@ -125,6 +126,23 @@ static bool hasTrailingF(std::string const & input)
     return false;
 }
 
+static bool hasMultipleSigns(std::string const & input)
+{
+    size_t sign_counter = 0;
+    for (std::string::const_iterator it = input.begin(); it != input.end(); ++it)
+    {
+        if (*it == '+' || *it == '-')
+        {
+            ++sign_counter;
+            if (sign_counter > 1)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 static bool isNumber(std::string const & input)
 {
     if (input.find_first_not_of("0123456789-+.f") != std::string::npos)
@@ -149,6 +167,10 @@ static long double getFloat(std::string const & input)
 
 static Type identifyType(std::string const & input)
 {
+    if (input.empty() == true || input == " ")
+    {
+        return (NON_TYPE);
+    }
     if (isNan(input) == true)
     {
         return (NANF);
@@ -167,6 +189,10 @@ static Type identifyType(std::string const & input)
     }
     if (isNumber(input) == true)
     {
+        if (hasMultipleSigns(input) == true)
+        {
+            return (NON_TYPE);
+        }
         if (hasMultipleF(input) == true)
         {
             return (NON_TYPE);
