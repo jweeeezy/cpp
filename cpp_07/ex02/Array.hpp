@@ -46,7 +46,7 @@ template <typename T> class Array
         element = new T[no_elements];
     };
 
-    Array(Array const & src) : element(NULL), no_elements(src.no_elements)
+    Array(Array const & src) : no_elements(src.no_elements)
     {
         log_debug("copy constructor called");
         element     = new T[no_elements];
