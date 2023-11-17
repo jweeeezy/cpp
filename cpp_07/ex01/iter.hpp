@@ -22,7 +22,7 @@ template <typename T, typename Func> void iter(T & arr, size_t length, Func f)
     }
 };
 
-template <typename T> void print(const T & elem) { std::cout << elem << " "; }
+template <typename T> void print(T const & elem) { std::cout << elem << " "; }
 
 template <typename T> void multiplicate_by_2(T & elem) { elem *= 2; }
 
