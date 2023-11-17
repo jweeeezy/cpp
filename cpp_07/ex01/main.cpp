@@ -32,7 +32,7 @@ int main(void)
     test_log("Multiplicating by 2 with ::iter function");
     ::iter(c_arr, 10, ::multiplicate_by_2<int>);
 
-    test_log("Printin with ::iter function");
+    test_log("Printing with ::iter function");
     ::iter(c_arr, 10, ::print<int>);
     std::cout << "\n\n";
 
