@@ -24,9 +24,9 @@
 static inline void log_debug(std::string const & message)
 {
     (void)message;
-#ifdef DEBUG
+    #ifdef DEBUG
     std::cout << YELLOW << "Array: " << message << RESET << "\n";
-#endif // DEBUG
+    #endif // DEBUG
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> Array class */
