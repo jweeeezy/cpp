@@ -4,27 +4,33 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  main.cpp                                                            //
+// file:  Span.hpp                                                            //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "Span.hpp" // needed for Span class
-#include <cstdlib>  // needed for MACROS
-#include <iostream> // needed for std::cout
+#ifndef SPAN_HPP
+#define SPAN_HPP
 
-int main(void)
+#include <vector> // needed for std::vector
+
+class Span
 {
-    Span sp(5);
+  public:
+    Span();
+    Span(unsigned int N);
+    Span(const Span & src);
+    ~Span();
+    Span & operator=(const Span & rhs);
 
-    sp.addNumber(50);
-    sp.addNumber(-20);
-    sp.addNumber(20);
-    sp.addNumber(100);
-    sp.addNumber(-1000);
+    void         addNumber(int number);
+    unsigned int shortestSpan();
+    unsigned int longestSpan();
+    
+  private:
+    unsigned int     _max_n;
+    std::vector<int> _numbers;
+};
 
-    std::cout << sp.longestSpan() << "\n";
-
-    return (EXIT_SUCCESS);
-}
+#endif // SPAN_HPP
 
 // -------------------------------------------------------------------------- //
