@@ -65,28 +65,21 @@ Span & Span::operator=(Span const & rhs)
 
 void Span::addNumber(int number)
 {
-    if (_numbers.size() < _max_n)
-    {
-        _numbers.push_back(number);
-    }
-    else
+    if (_numbers.size() >= _max_n)
     {
         throw TooManyNumbersException();
     }
+    _numbers.push_back(number);
 }
 
-void Span::addNumbersByVector(std::vector<int>::const_iterator begin,
-                              std::vector<int>::const_iterator end)
+void Span::addNumbersByVector(t_vec_int_cit begin, t_vec_int_cit end)
 {
-    std::vector<int> sequence(begin, end);
-    if (_numbers.size() + sequence.size() <= _max_n)
-    {
-        _numbers.insert(_numbers.end(), sequence.begin(), sequence.end());
-    }
-    else
+    t_vec_int sequence(begin, end);
+    if (_numbers.size() + sequence.size() > _max_n)
     {
         throw TooManyNumbersException();
     }
+    _numbers.insert(_numbers.end(), sequence.begin(), sequence.end());
 }
 
 unsigned int Span::shortestSpan() const
@@ -96,7 +89,7 @@ unsigned int Span::shortestSpan() const
         throw NoViableSpanException();
     }
 
-    std::vector<int> sorted_numbers = _numbers;
+    t_vec_int sorted_numbers = _numbers;
     std::sort(sorted_numbers.begin(), sorted_numbers.end());
 
     unsigned int shortest_span =
@@ -120,7 +113,7 @@ unsigned int Span::longestSpan() const
     {
         throw NoViableSpanException();
     }
-    std::vector<int> sorted_numbers = _numbers;
+    t_vec_int sorted_numbers = _numbers;
     std::sort(sorted_numbers.begin(), sorted_numbers.end());
     return static_cast<unsigned int>(sorted_numbers.back() -
                                      sorted_numbers.front());
@@ -129,18 +122,15 @@ unsigned int Span::longestSpan() const
 std::string const Span::getNumbers() const
 {
     std::stringstream ss;
-    for (std::vector<int>::const_iterator it = _numbers.begin();
-         it != _numbers.end();
-         ++it)
+    t_vec_int_cit     end = _numbers.end();
+    for (t_vec_int_cit it = _numbers.begin(); it != end; ++it)
     {
-        if (it + 1 != _numbers.end())
-        {
-            ss << *it << " ";
-        }
-        else
+        if (it + 1 == end)
         {
             ss << *it;
+            break;
         }
+        ss << *it << " ";
     }
     return ss.str();
 }

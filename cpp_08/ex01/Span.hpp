@@ -16,6 +16,10 @@
 
 class Span
 {
+  private:
+    /* typedefs */
+    typedef std::vector<int>                 t_vec_int;
+    typedef std::vector<int>::const_iterator t_vec_int_cit;
 
   public:
     /* constructors */
@@ -26,11 +30,10 @@ class Span
     Span & operator=(const Span & rhs);
 
     /* member functions */
-    void              addNumber(int number);
-    void              addNumbersByVector(std::vector<int>::const_iterator begin,
-                                         std::vector<int>::const_iterator end);
-    unsigned int      shortestSpan() const;
-    unsigned int      longestSpan() const;
+    void         addNumber(int number);
+    void         addNumbersByVector(t_vec_int_cit begin, t_vec_int_cit end);
+    unsigned int shortestSpan() const;
+    unsigned int longestSpan() const;
     std::string const getNumbers() const;
 
   private:
@@ -53,10 +56,10 @@ class Span
     };
 
     /* member variables */
-    unsigned int     _max_n;
-    std::vector<int> _numbers;
+    unsigned int _max_n;
+    t_vec_int    _numbers;
 };
+
 #endif // SPAN_HPP
 
-// --------------------------------------------------------------------------
-// //
+// -------------------------------------------------------------------------- //

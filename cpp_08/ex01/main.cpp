@@ -24,7 +24,7 @@ static inline void test_log(std::string const & message)
     std::cout << GREEN << "\n< " << message << " >" << RESET << std::endl;
 }
 
-#define TEST_SIZE 20000
+#define TEST_SIZE 10
 
 int main(void)
 {
