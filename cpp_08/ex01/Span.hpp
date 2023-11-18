@@ -34,6 +34,7 @@ class Span
     void         addNumbersByVector(t_vec_int_cit begin, t_vec_int_cit end);
     unsigned int shortestSpan() const;
     unsigned int longestSpan() const;
+
     std::string const getNumbers() const;
 
   private:

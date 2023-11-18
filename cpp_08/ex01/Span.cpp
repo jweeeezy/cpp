@@ -41,8 +41,9 @@ Span::Span(const Span & src) : _max_n(src._max_n)
 {
     log_debug("copy constructor called");
     _numbers.clear();
-    std::copy(
-        src._numbers.begin(), src._numbers.end(), std::back_inserter(_numbers));
+    std::copy(src._numbers.begin(),
+              src._numbers.end(),
+              std::back_inserter(_numbers));
 }
 
 Span::~Span() { log_debug("destructor called"); }
