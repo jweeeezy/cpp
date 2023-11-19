@@ -9,9 +9,11 @@
 // -------------------------------------------------------------------------- //
 
 #include <cstdlib> // needed for MACROS
+#include "MutantStack.hpp"
 
 int	main(void)
 {
+    MutantStack<int> ms;
 	return (EXIT_SUCCESS);
 }
 

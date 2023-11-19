@@ -13,14 +13,17 @@
 
 #include <stack> // needed for std::stack
 
-template <typename T> 
-class MutantStack : public std::stack<T>
+template <typename T> class MutantStack : public std::stack<T>
 {
   public:
-    MutantStack();
-    MutantStack(MutantStack const & src);
-    ~MutantStack();
-    MutantStack & operator=(MutantStack const & rhs);
+    MutantStack(){};
+    MutantStack(MutantStack const & src) { (void)src; };
+    ~MutantStack(){};
+    MutantStack & operator=(MutantStack const & rhs)
+    {
+        (void)rhs;
+        return *this;
+    };
 
   private:
 };
