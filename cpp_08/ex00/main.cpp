@@ -8,16 +8,15 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include <cstdlib> // needed for MACROS
-#include <deque>   // needed for std::deque
-#include <exception>
-#include <iostream> // needed for std::cout
-#include <list>     // needed for std::list
-#include <map>      // needed for std::map
-#include <string>   // needed for std::string
-#include <vector>   // needed for std::vector
-
 #include "easyfind.hpp" // needed for easyfind()
+#include <cstdlib>      // needed for MACROS
+#include <deque>        // needed for std::deque
+#include <exception>    // needed for std::exception
+#include <iostream>     // needed for std::cout
+#include <list>         // needed for std::list
+#include <map>          // needed for std::map
+#include <string>       // needed for std::string
+#include <vector>       // needed for std::vector
 
 #define GREEN "\033[32m"
 #define RESET "\033[0m"
