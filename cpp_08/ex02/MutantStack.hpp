@@ -4,15 +4,27 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  main.cpp                                                            //
+// file:  MutantStack.hpp                                                     //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include <cstdlib> // needed for MACROS
+#ifndef MUTANTSTACK_HPP
+#define MUTANTSTACK_HPP
 
-int	main(void)
+#include <stack> // needed for std::stack
+
+template <typename T> 
+class MutantStack : public std::stack<T>
 {
-	return (EXIT_SUCCESS);
-}
+  public:
+    MutantStack();
+    MutantStack(MutantStack const & src);
+    ~MutantStack();
+    MutantStack & operator=(MutantStack const & rhs);
+
+  private:
+};
+
+#endif // MUTANTSTACK_HPP
 
 // -------------------------------------------------------------------------- //
