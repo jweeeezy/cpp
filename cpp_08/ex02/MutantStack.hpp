@@ -31,24 +31,18 @@ static inline void debug_log(std::string const & message)
 
 template <typename T> class MutantStack : public std::stack<T>
 {
-    
-    /* @note inheriting from std:: containers is not advised 
+
+    /* @note inheriting from std:: containers is not advised
      * (non virtual destructors) */
 
   public:
     /* constructors */
-    MutantStack()
-    {
-        debug_log("default constructor called\n");
-    }
+    MutantStack() { debug_log("default constructor called\n"); }
     MutantStack(MutantStack const & src) : std::stack<T>(src)
     {
         debug_log("copy constructor called\n");
     }
-    ~MutantStack() 
-    {
-        debug_log("destructor called\n");
-    }
+    ~MutantStack() { debug_log("destructor called\n"); }
     MutantStack & operator=(MutantStack const & rhs)
     {
         debug_log("assignment operator called\n");
@@ -58,17 +52,22 @@ template <typename T> class MutantStack : public std::stack<T>
         }
         return *this;
     };
-    
-    /* iterators */
-    typedef typename std::stack<T>::container_type   t_stack_ct;;
-    typedef typename t_stack_ct::iterator            iterator;
-    typedef typename t_stack_ct::const_iterator      const_iterator;
-    
-    iterator       begin()       { return this->c.begin(); }
-    iterator       end()         { return this->c.end(); }
-    const_iterator begin() const { return this->c.begin(); }
-    const_iterator end()   const { return this->c.end(); }
 
+    /* iterators */
+    typedef typename std::stack<T>::container_type      t_stack_ct;
+    typedef typename t_stack_ct::iterator               iterator;
+    typedef typename t_stack_ct::const_iterator         const_iterator;
+    typedef typename t_stack_ct::reverse_iterator       reverse_iterator;
+    typedef typename t_stack_ct::const_reverse_iterator const_reverse_iterator;
+
+    iterator               begin()        { return this->c.begin(); }
+    iterator               end()          { return this->c.end(); }
+    const_iterator         begin()  const { return this->c.begin(); }
+    const_iterator         end()    const { return this->c.end(); }
+    reverse_iterator       rbegin()       { return this->c.rbegin(); }
+    reverse_iterator       rend()         { return this->c.rend(); }
+    const_reverse_iterator rbegin() const { return this->c.rbegin(); }
+    const_reverse_iterator rend()   const { return this->c.rend(); }
 };
 
 #endif // MUTANTSTACK_HPP
