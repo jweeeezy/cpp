@@ -12,34 +12,17 @@
 #include <cstdlib>         // needed for MACROS
 #include <list>            // needed for std::list
 
-void test_list()
+#define GREEN "\033[32m"
+#define RESET "\033[0m"
+
+static inline void test_log(std::string const & message)
 {
-    std::list<int> lst;
-    lst.push_back(5);
-    lst.push_back(17);
-    std::cout << lst.back() << std::endl;
-    lst.pop_back();
-    std::cout << lst.back() << std::endl;
-    lst.push_back(3);
-    lst.push_back(5);
-    lst.push_back(737);
-    //[...]
-    lst.push_back(0);
-    std::list<int>::iterator it  = lst.begin();
-    std::list<int>::iterator ite = lst.end();
-    ++it;
-    --it;
-    while (it != ite)
-    {
-        std::cout << *it << std::endl;
-        ++it;
-    }
-    std::list<int> l(lst);
+    std::cout << GREEN << "\n< " << message << " >" << RESET << "\n";
 }
 
 void test_ms()
 {
-
+    test_log("Testing with MutantStack class");
     MutantStack<int> mstack;
     mstack.push(5);
     mstack.push(17);
@@ -63,10 +46,35 @@ void test_ms()
     std::stack<int> s(mstack);
 }
 
+void test_list()
+{
+    test_log("Testing with std::list class");
+    std::list<int> lst;
+    lst.push_back(5);
+    lst.push_back(17);
+    std::cout << lst.back() << std::endl;
+    lst.pop_back();
+    std::cout << lst.back() << std::endl;
+    lst.push_back(3);
+    lst.push_back(5);
+    lst.push_back(737);
+    //[...]
+    lst.push_back(0);
+    std::list<int>::iterator it  = lst.begin();
+    std::list<int>::iterator ite = lst.end();
+    ++it;
+    --it;
+    while (it != ite)
+    {
+        std::cout << *it << std::endl;
+        ++it;
+    }
+    std::list<int> l(lst);
+}
+
 int main(void)
 {
     test_ms();
-    std::cout << "\n";
     test_list();
     return (EXIT_SUCCESS);
 }
