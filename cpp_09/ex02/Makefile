@@ -1,6 +1,6 @@
 #/ -------------------------------------------------------------------------- //
 
-NAME      = program
+NAME      = pmergeme
 SRC_FILES = main.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
 CC        = c++
