@@ -15,6 +15,33 @@
 
 #define EXPECTED_ARGC 2
 
+static bool has_trailing_f(std::string const & input)
+{
+    if (*(input.end() - 1) == 'f')
+    {
+        return true;
+    }
+    return false;
+}
+
+static bool has_multiple_F(std::string const & input)
+{
+    size_t counter = 0;
+    for (std::string::const_iterator it = input.begin(); it != input.end();
+         ++it)
+    {
+        if (*it == 'f')
+        {
+            ++counter;
+            if (counter > 1)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 std::string remove_whitespaces(std::string const & str)
 {
     size_t start = str.find_first_not_of(" \t\n\r");
@@ -125,7 +152,7 @@ int main(int argc, char ** argv)
                     std::cerr << "Some date formatting error!\n";
                     return (EXIT_FAILURE);
             }
-            std::cout << token << "\n";
+            // std::cout << token << "\n";
         }
         // std::cout << date << month << year << "\n";
         /* note check if pos + 1 is not the end */
@@ -138,9 +165,27 @@ int main(int argc, char ** argv)
 
         std::string second_half =
             remove_whitespaces(line.substr(pos + 1, line.size()));
-        std::cout << second_half << "\n";
-        /* test with floats/ints */
-        /* edge cases for these numbers */
+
+        if (second_half.empty() == true)
+        {
+            std::cerr << "Some formatting error in input file\n";
+            return (EXIT_FAILURE);
+        }
+
+        //        if (second_half.size() > 4)
+        //        {
+        //            std::cerr << "Value is too high!\n";
+        //        }
+
+        /* @note check for f (use cpp06 functions) */
+        /* --> float */
+
+        /* else */
+        /* --> int */
+
+        /* check if > 1000 */
+
+        /* check for max and min */
     }
 
     return (EXIT_SUCCESS);
