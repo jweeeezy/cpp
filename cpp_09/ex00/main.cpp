@@ -15,6 +15,17 @@
 
 #define EXPECTED_ARGC 2
 
+std::string remove_whitespaces(std::string const & str)
+{
+    size_t start = str.find_first_not_of(" \t\n\r");
+    size_t end   = str.find_last_not_of(" \t\n\r");
+    if (start == std::string::npos || end == std::string::npos)
+    {
+        return "";
+    }
+    return str.substr(start, end - start + 1);
+}
+
 int main(int argc, char ** argv)
 {
     if (argc != EXPECTED_ARGC)
@@ -72,8 +83,15 @@ int main(int argc, char ** argv)
         std::string       month;
         std::string       date;
 
-        while (std::getline(ss, token, '-'))
+        /* @note mb use std::isstream no check types? */
+        bool eol = false;
+        while (eol == false)
         {
+            if (std::getline(ss, token, '-').eof() == true)
+            {
+                eol = true;
+            }
+            token = remove_whitespaces(token);
             if (token.empty() == true)
             {
                 std::cerr << "some token.empty() error";
@@ -83,26 +101,23 @@ int main(int argc, char ** argv)
             switch (i)
             {
                 case 1:
-                    year = token;
-                    if (year.size() != 4)
+                    if (token.size() != 4)
                     {
                         std::cerr << "Error: Wrong year format!\n";
                         return (EXIT_FAILURE);
                     }
                     break;
                 case 2:
-                    month = token;
-                    if (month.size() != 2)
+                    if (token.size() != 2)
                     {
                         std::cerr << "Error: Wrong month format!\n";
                         return (EXIT_FAILURE);
                     }
                     break;
                 case 3:
-                    date = token.substr(0, token.find(" "));
-                    if (date.size() != 2)
+                    if (token.substr(0, token.find(" ")).size() != 2)
                     {
-                        std::cerr << "Error: Wrong month format!\n";
+                        std::cerr << "Error: Wrong day format!\n";
                         return (EXIT_FAILURE);
                     }
                     break;
@@ -112,9 +127,18 @@ int main(int argc, char ** argv)
             }
             std::cout << token << "\n";
         }
-        std::cout << date << month << year << "\n";
+        // std::cout << date << month << year << "\n";
+        /* note check if pos + 1 is not the end */
 
-        std::string second_half = line.substr(pos, line.size());
+        if (pos + 1 == line.size())
+        {
+            std::cerr << "Some formatting error in input file\n";
+            return (EXIT_FAILURE);
+        }
+
+        std::string second_half =
+            remove_whitespaces(line.substr(pos + 1, line.size()));
+        std::cout << second_half << "\n";
         /* test with floats/ints */
         /* edge cases for these numbers */
     }
