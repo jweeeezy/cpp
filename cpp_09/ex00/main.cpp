@@ -8,58 +8,20 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include <cstdlib>  // needed for MACROS
-#include <fstream>  // needed for std::ifstream
-#include <iostream> // needed for std::cerr
-#include <sstream>  // needed for std::stringstream
+#include "utils.hpp" // needed for has_*(), is_*(), remove_whitespaces()
+
+#include <cstdlib>   // needed for MACROS
+#include <fstream>   // needed for std::ifstream
+#include <iostream>  // needed for std::cerr
+#include <sstream>   // needed for std::stringstream
 
 #define EXPECTED_ARGC 2
-
-static bool has_trailing_f(std::string const & input)
-{
-    if (*(input.end() - 1) == 'f')
-    {
-        return true;
-    }
-    return false;
-}
-
-static bool has_multiple_F(std::string const & input)
-{
-    size_t counter = 0;
-    for (std::string::const_iterator it = input.begin(); it != input.end();
-         ++it)
-    {
-        if (*it == 'f')
-        {
-            ++counter;
-            if (counter > 1)
-            {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-std::string remove_whitespaces(std::string const & str)
-{
-    size_t start = str.find_first_not_of(" \t\n\r");
-    size_t end   = str.find_last_not_of(" \t\n\r");
-    if (start == std::string::npos || end == std::string::npos)
-    {
-        return "";
-    }
-    return str.substr(start, end - start + 1);
-}
 
 int main(int argc, char ** argv)
 {
     if (argc != EXPECTED_ARGC)
     {
-        std::cerr << "Usage:\n[ ./btc <filename> ]";
-        return (EXIT_FAILURE);
-        /* @note how is usage usually displayed? */
+        /* exception */
     }
     std::string arg = argv[1];
     if (arg.empty() == true)
@@ -85,6 +47,8 @@ int main(int argc, char ** argv)
         return (EXIT_FAILURE);
     }
 
+    /* @note prob throw exceptions instead of printing error */
+
     while (std::getline(file_input, line))
     {
         size_t pos = line.find("|");
@@ -93,7 +57,13 @@ int main(int argc, char ** argv)
             std::cerr << "Error: Wrong Input file format!\n";
             return (EXIT_FAILURE);
         }
+
         std::string first_half = line.substr(0, pos);
+        if (first_half.empty() == true)
+        {
+            std::cerr << "Error: Wrong Input file format!\n";
+            return (EXIT_FAILURE);
+        }
 
         if (first_half == "date " || first_half == "Date ")
         {
