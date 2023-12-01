@@ -11,8 +11,8 @@
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 
-#include <map>     // needed for std::map
-#include <string>  // needed for std::string
+#include <map>    // needed for std::map
+#include <string> // needed for std::string
 
 class BitcoinExchange
 {
@@ -60,6 +60,12 @@ class BitcoinExchange
                    "expected format: date        ,exchange_rate\n"
                    "                 [YYYY-MM-DD],[int/float]\n";
         }
+    };
+
+    class EmptyDatabaseException : public std::exception
+    {
+      public:
+        char const * what() const throw() { return "error: empty database!\n"; }
     };
 
     class BadInputFileException : public std::exception

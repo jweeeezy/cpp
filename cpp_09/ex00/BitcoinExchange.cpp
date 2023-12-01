@@ -11,9 +11,8 @@
 #include "BitcoinExchange.hpp" // needed for BitcoinExchange class
 #include <cstdlib>             // needed for strtod
 #include <fstream>             // needed for std::ifstream
+#include <iostream>            // needed for std::cout, std::cerr
 #include <sstream>             // needed for std::stringstream
-
-#include <iostream>            // @note DEBUG!
 
 #define YELLOW "\033[33m"
 #define RESET  "\033[0m"
@@ -120,19 +119,20 @@ BitcoinExchange & BitcoinExchange::operator=(BitcoinExchange const & rhs)
 
 void BitcoinExchange::convert(char const * file_input)
 {
+    if (_database.empty() == true)
+    {
+        throw EmptyDatabaseException();
+    }
 
-    /*@note check if map is empty */
-
-    /* @note could make this a temp var too */
-    std::ifstream _inputf(file_input);
-    if (!_inputf)
+    std::ifstream f_input(file_input);
+    if (!f_input)
     {
         throw BadInputFileException();
     }
 
     std::string line;
 
-    while (std::getline(_inputf, line))
+    while (std::getline(f_input, line))
     {
         size_t pos = line.find("|");
         if (pos == std::string::npos)
