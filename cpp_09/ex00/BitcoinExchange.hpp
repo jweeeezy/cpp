@@ -12,6 +12,7 @@
 #define BITCOINEXCHANGE_HPP
 
 #include <fstream> // needed for std::ifstream
+#include <map>     // needed for std::map
 #include <string>  // needed for std::string
 
 class BitcoinExchange
@@ -19,7 +20,7 @@ class BitcoinExchange
 
   public:
     void convert(char const * file_input);
-    
+
     BitcoinExchange(char const * file_database);
     BitcoinExchange(BitcoinExchange const & src);
     ~BitcoinExchange();
@@ -34,6 +35,16 @@ class BitcoinExchange
         char const * what() const throw() { return "error: bad database!\n"; }
     };
 
+    class BadDatabaseFormatException : public std::exception
+    {
+      public:
+        char const * what() const throw()
+        {
+            return "error: bad database "
+                   "format!\ndate,exchange_rate\n[YYYY-MM-DD],[int/float]";
+        }
+    };
+
     class BadInputFileException : public std::exception
     {
       public:
@@ -46,7 +57,7 @@ class BitcoinExchange
         char const * what() const throw()
         {
             return "error: bad input file format\nusage: date | "
-                   "value\nYYYY-MM-DD | [int/float]";
+                   "value\n[YYYY-MM-DD] | [int/float]";
         }
     };
 
@@ -56,10 +67,10 @@ class BitcoinExchange
     bool        has_trailing_f(std::string const & input);
     bool        has_dot(std::string const & input);
     bool        is_number(std::string const & input);
-    std::string remove_whitespaces(std::string const & str);
+    std::string trim_whitespaces(std::string const & str);
+    std::string remove_dash(std::string const & str);
 
-    std::ifstream _databasef;
-    std::ifstream _inputf; /* @note temp var instead ?? */
+    std::map<int, double> _database;
 };
 
 #endif // BITCOINEXCHANGE_HPP
