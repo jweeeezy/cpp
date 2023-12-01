@@ -14,8 +14,29 @@
 
 #include <iostream> // @note DEBUG!
 
+#define YELLOW "\033[33m"
+#define RESET  "\033[0m"
+
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> non-class functions */
+
+static inline void log_debug(std::string const & message)
+{
+    (void)message;
+#ifdef DEBUG
+    std::cout << YELLOW << "BitcoinExchange: " << message << RESET << "\n";
+#endif // DEBUG
+}
+
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructors */
+
+BitcoinExchange::BitcoinExchange()
+{
+    log_debug("default constructor called\n");
+}
+
 BitcoinExchange::BitcoinExchange(char const * file_database)
 {
+    log_debug("database constructor called\n");
     std::ifstream f_database(file_database);
     if (!f_database)
     {
@@ -23,7 +44,6 @@ BitcoinExchange::BitcoinExchange(char const * file_database)
     }
 
     std::string line;
-
     while (std::getline(f_database, line))
     {
         size_t pos = line.find(",");
@@ -77,17 +97,31 @@ BitcoinExchange::BitcoinExchange(char const * file_database)
     }
 }
 
-BitcoinExchange::BitcoinExchange() {}
-BitcoinExchange::BitcoinExchange(BitcoinExchange const & src) { (void)src; }
-BitcoinExchange::~BitcoinExchange() {}
+BitcoinExchange::BitcoinExchange(BitcoinExchange const & src)
+    : _database(src._database)
+{
+    log_debug("copy constructor called\n");
+}
+
+BitcoinExchange::~BitcoinExchange() { log_debug("destructor called\n"); }
+
 BitcoinExchange & BitcoinExchange::operator=(BitcoinExchange const & rhs)
 {
-    (void)rhs;
+    log_debug("assignment operator called\n");
+    if (this != &rhs)
+    {
+        _database = rhs._database;
+    }
     return *this;
 }
 
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> member functions */
+
 void BitcoinExchange::convert(char const * file_input)
 {
+
+    /*@note check if map is empty */
+
     /* @note could make this a temp var too */
     std::ifstream _inputf(file_input);
     if (!_inputf)

@@ -24,12 +24,11 @@ class BitcoinExchange
     void print_database();
 
     /* public constructors */
+    BitcoinExchange();
     BitcoinExchange(char const * file_database);
     BitcoinExchange(BitcoinExchange const & src);
-    /* @note need to implement! */
     ~BitcoinExchange();
     BitcoinExchange & operator=(BitcoinExchange const & rhs);
-    /* @note need to implement! */
 
   private:
     /* private utility member functions */
