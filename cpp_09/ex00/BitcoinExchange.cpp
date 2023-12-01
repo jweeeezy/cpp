@@ -43,16 +43,28 @@ BitcoinExchange::BitcoinExchange(char const * file_database)
         {
             continue;
         }
-
-        first_half = remove_dash(first_half);
-        /* @note still need to check for yyyy, mm, dd */
-        int date = std::atoi(first_half.c_str());
-        (void)date;
-
+        int date;
+        try
+        {
+            std::stringstream ss(first_half);
+            date = std::atoi(parse_date(ss).c_str());
+            (void) date;
+        }
+        catch (std::exception & e)
+        {
+            throw BadDatabaseFormatException();
+        }
+        if (pos + 1 == line.size())
+        {
+            throw BadDatabaseFormatException();
+        }
         std::string second_half = line.substr(pos + 1, line.size());
-
+        if (is_number(second_half) == false)
+        {
+            throw BadDatabaseFormatException();
+        }
         double exchange_rate = strtod(second_half.c_str(), NULL);
-        (void)exchange_rate;
+        _database[date] = exchange_rate;
     }
 }
 
@@ -142,9 +154,7 @@ void BitcoinExchange::convert(char const * file_input)
                 default:
                     throw BadInputFileFormatException();
             }
-            // std::cout << token << "\n";
         }
-        // std::cout << date << month << year << "\n";
         /* note check if pos + 1 is not the end */
 
         if (pos + 1 == line.size())
