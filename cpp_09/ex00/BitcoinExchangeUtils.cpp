@@ -9,11 +9,22 @@
 // -------------------------------------------------------------------------- //
 
 #include "BitcoinExchange.hpp" // needed for BitcoinExchange class
+#include <iostream>            // needed for std::cout
 #include <sstream>             // needed for std::stringstream
 
-#include <iostream> // @note DEBUGGING
+/* public member functions */
+void BitcoinExchange::print_database()
+{
+    for (std::map<int, double>::const_iterator it = _database.begin();
+         it != _database.end();
+         ++it)
+    {
+        std::cout << it->first << " | " << it->second << "\n";
+    }
+}
 
-bool BitcoinExchange::has_multiple_f(std::string const & input)
+/* private utility member functions */
+bool BitcoinExchange::has_multiple_f(std::string const & input) const
 {
     size_t counter = 0;
     for (std::string::const_iterator it = input.begin(); it != input.end();
@@ -31,7 +42,7 @@ bool BitcoinExchange::has_multiple_f(std::string const & input)
     return false;
 }
 
-bool BitcoinExchange::has_trailing_f(std::string const & input)
+bool BitcoinExchange::has_trailing_f(std::string const & input) const
 {
     if (*(input.end() - 1) == 'f')
     {
@@ -40,7 +51,7 @@ bool BitcoinExchange::has_trailing_f(std::string const & input)
     return false;
 }
 
-bool BitcoinExchange::has_dot(std::string const & input)
+bool BitcoinExchange::has_dot(std::string const & input) const
 {
     if (input.size() >= 3)
     {
@@ -62,7 +73,7 @@ bool BitcoinExchange::has_dot(std::string const & input)
     return false;
 }
 
-bool BitcoinExchange::is_number(std::string const & input)
+bool BitcoinExchange::is_number(std::string const & input) const
 {
     if (input.find_first_not_of("0123456789-+.f") != std::string::npos)
     {
@@ -76,31 +87,19 @@ bool BitcoinExchange::is_number(std::string const & input)
     return true;
 }
 
-std::string const BitcoinExchange::trim_whitespaces(std::string const & str)
+std::string const
+BitcoinExchange::trim_whitespaces(std::string const & input) const
 {
-    size_t start = str.find_first_not_of(" \t\n\r");
-    size_t end   = str.find_last_not_of(" \t\n\r");
+    size_t start = input.find_first_not_of(" \t\n\r");
+    size_t end   = input.find_last_not_of(" \t\n\r");
     if (start == std::string::npos || end == std::string::npos)
     {
         return "";
     }
-    return str.substr(start, end - start + 1);
+    return input.substr(start, end - start + 1);
 }
 
-// std::string const BitcoinExchange::remove_dash(std::string const & str)
-//{
-//    std::stringstream ss;
-//    for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
-//    {
-//        if (*it != '-')
-//        {
-//            ss << *it;
-//        }
-//    }
-//    return ss.str();
-//}
-
-std::string const BitcoinExchange::parse_date(std::stringstream & input)
+std::string const BitcoinExchange::parse_date(std::stringstream & input) const
 {
     std::string token;
     std::string year;
@@ -147,14 +146,17 @@ std::string const BitcoinExchange::parse_date(std::stringstream & input)
     return std::string(year + month + day);
 }
 
-void BitcoinExchange::print_database()
-{
-    for (std::map<int, double>::const_iterator it = _database.begin();
-         it != _database.end();
-         ++it)
-    {
-        std::cout << it->first << " | " << it->second << "\n";
-    }
-}
+// std::string const BitcoinExchange::remove_dash(std::string const & str)
+//{
+//    std::stringstream ss;
+//    for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
+//    {
+//        if (*it != '-')
+//        {
+//            ss << *it;
+//        }
+//    }
+//    return ss.str();
+//}
 
 // -------------------------------------------------------------------------- //

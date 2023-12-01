@@ -19,17 +19,34 @@ class BitcoinExchange
 {
 
   public:
+    /* public member functions */
     void convert(char const * file_input);
     void print_database();
 
+    /* public constructors */
     BitcoinExchange(char const * file_database);
     BitcoinExchange(BitcoinExchange const & src);
+    /* @note need to implement! */
     ~BitcoinExchange();
     BitcoinExchange & operator=(BitcoinExchange const & rhs);
+    /* @note need to implement! */
 
   private:
-    BitcoinExchange();
+    /* private utility member functions */
+    bool              has_multiple_f(std::string const & input) const;
+    bool              has_trailing_f(std::string const & input) const;
+    bool              has_dot(std::string const & input) const;
+    bool              is_number(std::string const & input) const;
+    std::string const parse_date(std::stringstream & input) const;
+    std::string const trim_whitespaces(std::string const & str) const;
+    // std::string const remove_dash(std::string const & str);
+    /* @note not needed i guess */
 
+    /* private member variables */
+    std::map<int, double> _database;
+
+  private:
+    /* exceptions */
     class BadDatabaseException : public std::exception
     {
       public:
@@ -63,19 +80,6 @@ class BitcoinExchange
                    "       [YYYY-MM-DD]|[int/float]";
         }
     };
-
-  private:
-    /* utility functions */
-    std::string const parse_date(std::stringstream & input);
-    bool              has_multiple_f(std::string const & input);
-    bool              has_trailing_f(std::string const & input);
-    bool              has_dot(std::string const & input);
-    bool              is_number(std::string const & input);
-    std::string const trim_whitespaces(std::string const & str);
-    // std::string const remove_dash(std::string const & str);
-    /* @note not needed i guess */
-
-    std::map<int, double> _database;
 };
 
 #endif // BITCOINEXCHANGE_HPP
