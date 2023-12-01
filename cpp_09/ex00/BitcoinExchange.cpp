@@ -22,18 +22,19 @@ BitcoinExchange::BitcoinExchange(char const * file_database)
         throw BadDatabaseException();
     }
 
-    /* format:
-     * date,value
-     * [YYYY-MM-DD],[exchange].[rate] */
-
     std::string line;
+
     while (std::getline(f_database, line))
     {
         size_t pos = line.find(",");
+        int    date;
+        double exchange_rate;
+
         if (pos == std::string::npos)
         {
             throw BadDatabaseFormatException();
         }
+
         std::string first_half = line.substr(0, pos);
         if (first_half.empty() == true)
         {
@@ -43,12 +44,14 @@ BitcoinExchange::BitcoinExchange(char const * file_database)
         {
             continue;
         }
-        int date;
         try
         {
             std::stringstream ss(first_half);
             date = std::atoi(parse_date(ss).c_str());
-            (void) date;
+            if (date <= 0)
+            {
+                throw BadDatabaseFormatException();
+            }
         }
         catch (std::exception & e)
         {
@@ -58,12 +61,18 @@ BitcoinExchange::BitcoinExchange(char const * file_database)
         {
             throw BadDatabaseFormatException();
         }
+
         std::string second_half = line.substr(pos + 1, line.size());
         if (is_number(second_half) == false)
         {
             throw BadDatabaseFormatException();
         }
-        double exchange_rate = strtod(second_half.c_str(), NULL);
+        exchange_rate = strtod(second_half.c_str(), NULL);
+        if (exchange_rate == 0 && second_half != "0")
+        {
+            /* @note check for 0 ? */
+            std::cerr << "error: exchange_rate too big\n";
+        }
         _database[date] = exchange_rate;
     }
 }
