@@ -11,7 +11,6 @@
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 
-#include <fstream> // needed for std::ifstream
 #include <map>     // needed for std::map
 #include <string>  // needed for std::string
 

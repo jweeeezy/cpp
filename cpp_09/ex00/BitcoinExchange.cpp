@@ -10,9 +10,10 @@
 
 #include "BitcoinExchange.hpp" // needed for BitcoinExchange class
 #include <cstdlib>             // needed for strtod
+#include <fstream>             // needed for std::ifstream
 #include <sstream>             // needed for std::stringstream
 
-#include <iostream> // @note DEBUG!
+#include <iostream>            // @note DEBUG!
 
 #define YELLOW "\033[33m"
 #define RESET  "\033[0m"

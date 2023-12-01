@@ -24,11 +24,6 @@ int main(int argc, char ** argv)
     try
     {
         BitcoinExchange btc("data.csv");
-        BitcoinExchange cpy;
-        
-        cpy = btc;
-        cpy.print_database();
-
         btc.convert(argv[1]);
     }
     catch (std::exception & e)
