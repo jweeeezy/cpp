@@ -9,7 +9,6 @@
 // -------------------------------------------------------------------------- //
 
 #include "BitcoinExchange.hpp" // needed for BitcoinExchange class
-#include <cstdlib>             // needed for strtod
 #include <fstream>             // needed for std::ifstream
 #include <iostream>            // needed for std::cout, std::cerr
 #include <sstream>             // needed for std::stringstream
@@ -46,54 +45,21 @@ BitcoinExchange::BitcoinExchange(char const * file_database)
     std::string line;
     while (std::getline(f_database, line))
     {
-        size_t pos = line.find(",");
-        int    date;
-        double exchange_rate;
-
-        if (pos == std::string::npos)
-        {
-            throw BadDatabaseFormatException();
-        }
-
-        std::string first_half = line.substr(0, pos);
-        if (first_half.empty() == true)
-        {
-            throw BadDatabaseFormatException();
-        }
-        if (first_half == "date" || first_half == "Date")
-        {
-            continue;
-        }
         try
         {
-            std::stringstream ss(first_half);
-            date = std::atoi(parse_date(ss).c_str());
-            if (date <= 0)
+            t_split_line split_line = split_line_by(line, ",");
+            if (split_line.left == "date" || split_line.left == "Date")
             {
-                throw BadDatabaseFormatException();
+                continue;
             }
+            int date = parse_date(split_line.left);
+            double exchange_rate = parse_exchange_rate(split_line.right);
+            _database[date] = exchange_rate;
         }
         catch (std::exception & e)
         {
             throw BadDatabaseFormatException();
         }
-        if (pos + 1 == line.size())
-        {
-            throw BadDatabaseFormatException();
-        }
-
-        std::string second_half = line.substr(pos + 1, line.size());
-        if (is_number(second_half) == false)
-        {
-            throw BadDatabaseFormatException();
-        }
-        exchange_rate = strtod(second_half.c_str(), NULL);
-        if (exchange_rate == 0 && second_half != "0")
-        {
-            /* @note check for 0 ? */
-            std::cerr << "error: exchange_rate too big\n";
-        }
-        _database[date] = exchange_rate;
     }
 }
 

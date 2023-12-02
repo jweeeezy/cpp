@@ -9,6 +9,7 @@
 // -------------------------------------------------------------------------- //
 
 #include "BitcoinExchange.hpp" // needed for BitcoinExchange class
+#include <cstdlib>             // needed for strtod
 #include <iostream>            // needed for std::cout
 #include <sstream>             // needed for std::stringstream
 
@@ -99,18 +100,31 @@ BitcoinExchange::trim_whitespaces(std::string const & input) const
     return input.substr(start, end - start + 1);
 }
 
-std::string const BitcoinExchange::parse_date(std::stringstream & input) const
+double BitcoinExchange::parse_exchange_rate(std::string const & input) const
 {
-    std::string token;
-    std::string year;
-    std::string month;
-    std::string day;
-    size_t      i   = 0;
-    bool        eol = false;
+    if (is_number(input) == false)
+    {
+        throw std::exception();
+    }
+    double exchange_rate = strtod(input.c_str(), NULL);
+    if (exchange_rate == 0 && input != "0")
+    {
+        throw std::exception();
+    }
+    return exchange_rate;
+}
+
+int BitcoinExchange::parse_date(std::string const & input) const
+{
+    std::stringstream stream_input(input);
+    std::stringstream stream_date;
+    std::string       token;
+    size_t            i   = 0;
+    bool              eol = false;
 
     while (eol == false)
     {
-        if (std::getline(input, token, '-').eof() == true)
+        if (std::getline(stream_input, token, '-').eof() == true)
         {
             eol = true;
         }
@@ -119,31 +133,60 @@ std::string const BitcoinExchange::parse_date(std::stringstream & input) const
         switch (i)
         {
             case 1:
-                if (token.size() != 4)
+                if (token.size() != CHAR_COUNT_YEAR ||
+                    is_number(token) == false)
                 {
                     throw std::exception();
                 }
-                year = token;
+                stream_date << token;
                 break;
             case 2:
-                if (token.size() != 2)
+                if (token.size() != CHAR_COUNT_MONTH ||
+                    is_number(token) == false)
                 {
                     throw std::exception();
                 }
-                month = token;
+                stream_date << token;
                 break;
             case 3:
-                if (token.substr(0, token.find(" ")).size() != 2)
+                if (token.size() != CHAR_COUNT_DAY || is_number(token) == false)
                 {
                     throw std::exception();
                 }
-                day = token;
+                stream_date << token;
                 break;
             default:
                 throw std::exception();
         }
     }
-    return std::string(year + month + day);
+    int date;
+    stream_date >> date;
+    if (stream_date.fail() || date < 0)
+    {
+        throw std::exception();
+    }
+    return date;
+}
+
+BitcoinExchange::t_split_line
+BitcoinExchange::split_line_by(std::string const & line,
+                               std::string const & delimiter)
+{
+    size_t pos = line.find(delimiter);
+    if (pos == std::string::npos || pos + 1 == line.size())
+    {
+        throw std::exception();
+    }
+    std::string first_half  = trim_whitespaces(line.substr(0, pos));
+    std::string second_half = trim_whitespaces(line.substr(pos + 1));
+    if (first_half.empty() == true || second_half.empty() == true)
+    {
+        throw std::exception();
+    }
+    t_split_line split_line;
+    split_line.left  = first_half;
+    split_line.right = second_half;
+    return split_line;
 }
 
 // std::string const BitcoinExchange::remove_dash(std::string const & str)
