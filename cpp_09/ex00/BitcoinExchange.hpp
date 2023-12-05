@@ -23,12 +23,12 @@ class BitcoinExchange
 
   public:
     /* public member functions */
-    void convert(char const * file_input);
+    void convert(char const * path_input);
     void print_database();
 
     /* public constructors */
     BitcoinExchange();
-    BitcoinExchange(char const * file_database);
+    BitcoinExchange(char const * path_database);
     BitcoinExchange(BitcoinExchange const & src);
     ~BitcoinExchange();
     BitcoinExchange & operator=(BitcoinExchange const & rhs);

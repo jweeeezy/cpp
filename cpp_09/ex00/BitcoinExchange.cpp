@@ -11,7 +11,6 @@
 #include "BitcoinExchange.hpp" // needed for BitcoinExchange class
 #include <cfloat>              // needed for DBL_MAX
 #include <climits>             // needed for INT_MAX
-#include <cmath>               // needed for std::isnan, std::isinf
 #include <cstdlib>             // needed for strtod
 #include <fstream>             // needed for std::ifstream
 #include <iostream>            // needed for std::cout, std::cerr
@@ -37,17 +36,17 @@ BitcoinExchange::BitcoinExchange()
     log_debug("default constructor called\n");
 }
 
-BitcoinExchange::BitcoinExchange(char const * file_database)
+BitcoinExchange::BitcoinExchange(char const * path_database)
 {
     log_debug("database constructor called\n");
-    std::ifstream f_database(file_database);
-    if (!f_database)
+    std::ifstream file_database(path_database);
+    if (!file_database)
     {
         throw BadDatabaseException();
     }
 
     std::string line;
-    while (std::getline(f_database, line))
+    while (std::getline(file_database, line))
     {
         try
         {
@@ -88,21 +87,21 @@ BitcoinExchange & BitcoinExchange::operator=(BitcoinExchange const & rhs)
 }
 
 /* public member functions */
-void BitcoinExchange::convert(char const * file_input)
+void BitcoinExchange::convert(char const * path_input)
 {
     if (_database.empty() == true)
     {
         throw EmptyDatabaseException();
     }
 
-    std::ifstream f_input(file_input);
-    if (!f_input)
+    std::ifstream file_input(path_input);
+    if (!file_input)
     {
         throw BadInputFileException();
     }
 
     std::string line;
-    while (std::getline(f_input, line))
+    while (std::getline(file_input, line))
     {
         try
         {
