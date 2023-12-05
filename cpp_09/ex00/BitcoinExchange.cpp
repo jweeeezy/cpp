@@ -52,9 +52,9 @@ BitcoinExchange::BitcoinExchange(char const * file_database)
             {
                 continue;
             }
-            int date = parse_date(split_line.left);
+            int    date          = parse_date(split_line.left);
             double exchange_rate = parse_exchange_rate(split_line.right);
-            _database[date] = exchange_rate;
+            _database[date]      = exchange_rate;
         }
         catch (std::exception & e)
         {
@@ -97,103 +97,43 @@ void BitcoinExchange::convert(char const * file_input)
     }
 
     std::string line;
-
     while (std::getline(f_input, line))
     {
-        size_t pos = line.find("|");
-        if (pos == std::string::npos)
+        try
         {
-            throw BadInputFileFormatException();
-        }
-
-        std::string first_half = line.substr(0, pos);
-        if (first_half.empty() == true)
-        {
-            throw BadInputFileFormatException();
-        }
-
-        if (first_half == "date " || first_half == "Date ")
-        {
-            continue;
-        }
-        /* test date older than database */
-        /* test wrong month/year/day */
-        /* edge cases for these numbers */
-
-        std::stringstream ss(first_half);
-        unsigned int      i = 0;
-        std::string       token;
-        std::string       year;
-        std::string       month;
-        std::string       date;
-
-        /* @note mb use std::isstream no check types? */
-        bool eol = false;
-        while (eol == false)
-        {
-            if (std::getline(ss, token, '-').eof() == true)
+            t_split_line split_line = split_line_by(line, "|");
+            if (split_line.left == "date" || split_line.left == "Date")
             {
-                eol = true;
+                continue;
             }
-            token = trim_whitespaces(token);
-            if (token.empty() == true)
+            int    date  = parse_date(split_line.left);
+            double value = parse_exchange_rate(split_line.right);
+            if (value < 0)
             {
-                throw BadInputFileFormatException();
+                std::cerr << "error: Not a positive number.\n";
             }
-            ++i;
-            switch (i)
+            std::map<int, double>::const_iterator it  = _database.end();
+            int                                   end = it->first;
+            int                                   i   = date;
+            while (it == _database.end())
             {
-                case 1:
-                    if (token.size() != 4)
-                    {
-                        throw BadInputFileFormatException();
-                    }
-                    break;
-                case 2:
-                    if (token.size() != 2)
-                    {
-                        throw BadInputFileFormatException();
-                    }
-                    break;
-                case 3:
-                    if (token.substr(0, token.find(" ")).size() != 2)
-                    {
-                        throw BadInputFileFormatException();
-                    }
-                    break;
-                default:
-                    throw BadInputFileFormatException();
+                it = _database.find(i);
+                --i;
+                if (i < end)
+                {
+                    std::cerr << "Tried all dates\n";
+                    return;
+                }
             }
-        }
-        /* note check if pos + 1 is not the end */
+            long double result = value * it->second;
 
-        if (pos + 1 == line.size())
+            std::cout << it->first << " => " << value << " = "
+                      << result << "\n";
+        }
+        catch (std::exception & e)
         {
-            throw BadInputFileFormatException();
+            std::cerr << "Bad Input file format!\n";
         }
-
-        std::string second_half =
-            trim_whitespaces(line.substr(pos + 1, line.size()));
-
-        if (second_half.empty() == true)
-        {
-            throw BadInputFileFormatException();
-        }
-
-        //        if (second_half.size() > 4)
-        //        {
-        //            std::cerr << "Value is too high!\n";
-        //        }
-
-        /* @note check for f (use cpp06 functions) */
-        /* --> float */
-
-        /* else */
-        /* --> int */
-
-        /* check if > 1000 */
-
-        /* check for max and min */
     }
 }
 
