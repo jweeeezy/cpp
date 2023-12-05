@@ -53,7 +53,7 @@ BitcoinExchange::BitcoinExchange(char const * file_database)
                 continue;
             }
             int    date          = parse_date(split_line.left);
-            double exchange_rate = parse_exchange_rate(split_line.right);
+            double exchange_rate = parse_value(split_line.right);
             _database[date]      = exchange_rate;
         }
         catch (std::exception & e)
@@ -106,15 +106,17 @@ void BitcoinExchange::convert(char const * file_input)
             {
                 continue;
             }
+
             int    date  = parse_date(split_line.left);
-            double value = parse_exchange_rate(split_line.right);
+            double value = parse_value(split_line.right);
             if (value < 0)
             {
                 std::cerr << "error: Not a positive number.\n";
             }
-            std::map<int, double>::const_iterator it  = _database.end();
-            int                                   end = it->first;
-            int                                   i   = date;
+
+            t_database_cit it  = _database.end();
+            int            end = it->first;
+            int            i   = date;
             while (it == _database.end())
             {
                 it = _database.find(i);
@@ -125,10 +127,10 @@ void BitcoinExchange::convert(char const * file_input)
                     return;
                 }
             }
-            long double result = value * it->second;
 
-            std::cout << it->first << " => " << value << " = "
-                      << result << "\n";
+            long double result = value * it->second;
+            std::cout << it->first << " => " << value << " = " << result
+                      << "\n";
         }
         catch (std::exception & e)
         {

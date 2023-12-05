@@ -100,7 +100,7 @@ BitcoinExchange::trim_whitespaces(std::string const & input) const
     return input.substr(start, end - start + 1);
 }
 
-double BitcoinExchange::parse_exchange_rate(std::string const & input) const
+double BitcoinExchange::parse_value(std::string const & input) const
 {
     if (is_number(input) == false)
     {
@@ -188,18 +188,5 @@ BitcoinExchange::split_line_by(std::string const & line,
     split_line.right = second_half;
     return split_line;
 }
-
-// std::string const BitcoinExchange::remove_dash(std::string const & str)
-//{
-//    std::stringstream ss;
-//    for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
-//    {
-//        if (*it != '-')
-//        {
-//            ss << *it;
-//        }
-//    }
-//    return ss.str();
-//}
 
 // -------------------------------------------------------------------------- //

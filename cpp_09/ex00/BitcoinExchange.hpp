@@ -48,14 +48,15 @@ class BitcoinExchange
     bool              has_dot(std::string const & input) const;
     bool              is_number(std::string const & input) const;
     int               parse_date(std::string const & input) const;
-    double            parse_exchange_rate(std::string const & input) const;
+    double            parse_value(std::string const & input) const;
     std::string const trim_whitespaces(std::string const & str) const;
 
-    // std::string const remove_dash(std::string const & str);
-    /* @note not needed i guess */
+    /* typedefs */
+    typedef std::map<int, double>      t_database;
+    typedef t_database::const_iterator t_database_cit;
 
     /* private member variables */
-    std::map<int, double> _database;
+    t_database _database;
 
   private:
     /* exceptions */
