@@ -9,6 +9,9 @@
 // -------------------------------------------------------------------------- //
 
 #include "BitcoinExchange.hpp" // needed for BitcoinExchange class
+#include <cfloat>              // needed for DBL_MAX
+#include <climits>             // needed for INT_MAX
+#include <cmath>               // needed for std::isnan, std::isinf
 #include <cstdlib>             // needed for strtod
 #include <fstream>             // needed for std::ifstream
 #include <iostream>            // needed for std::cout
@@ -38,24 +41,17 @@ void BitcoinExchange::convert(char const * file_input)
             {
                 continue;
             }
-
-            int date = parse_date(split_line.left);
-            /* handle error */
-
+            int    date  = parse_date(split_line.left);
             double value = parse_value(split_line.right);
-            /* handle error */
 
-            t_database_cit it = find_date_in_database(date);
-            /* handle error */
-
-            long double result = value * it->second;
-            /* check for max and min values */
-            std::cout << it->first << " => " << value << " = " << result
-                      << "\n";
+            t_database_cit it     = find_date_in_database(date);
+            long double    result = value * it->second;
+            std::cout << convert_date_to_str(it->first) << " => " << value
+                      << " = " << result << "\n";
         }
         catch (std::exception & e)
         {
-            std::cerr << e.what();
+            std::cerr << "error: " << e.what() << "\n";
         }
     }
 }
@@ -71,7 +67,6 @@ void BitcoinExchange::print_database()
 }
 
 /* private utility member functions */
-
 /*@note might not be needed */
 bool BitcoinExchange::has_multiple_f(std::string const & input) const
 {
@@ -124,7 +119,15 @@ bool BitcoinExchange::has_dot(std::string const & input) const
 
 bool BitcoinExchange::is_number(std::string const & input) const
 {
-    /* need to adapt this so for just number and then double/floats */
+    if (input.find_first_not_of("0123456789") != std::string::npos)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool BitcoinExchange::is_double(std::string const & input) const
+{
     if (input.find_first_not_of("0123456789-+.f") != std::string::npos)
     {
         return false;
@@ -151,14 +154,27 @@ BitcoinExchange::trim_whitespaces(std::string const & input) const
 
 double BitcoinExchange::parse_value(std::string const & input) const
 {
-    if (is_number(input) == false)
+    if (is_double(input) == false)
     {
-        throw std::exception();
+        throw std::invalid_argument("value is not a valid number! " +
+                                    format_arg_for_output(input));
     }
     double exchange_rate = strtod(input.c_str(), NULL);
     if (exchange_rate == 0 && input != "0")
     {
-        throw std::exception();
+        throw std::invalid_argument("value conversion failed! " +
+                                    format_arg_for_output(input));
+    }
+    if (exchange_rate < 0)
+    {
+        throw std::invalid_argument("value is not a positive number! " +
+                                    format_arg_for_output(input));
+    }
+    if (static_cast<long>(exchange_rate) > INT_MAX ||
+        static_cast<long double>(exchange_rate > DBL_MAX))
+    {
+        throw std::invalid_argument("value is too big of a number! " +
+                                    format_arg_for_output(input));
     }
     return exchange_rate;
 }
@@ -185,7 +201,8 @@ int BitcoinExchange::parse_date(std::string const & input) const
                 if (token.size() != CHAR_COUNT_YEAR ||
                     is_number(token) == false)
                 {
-                    throw std::exception();
+                    throw std::invalid_argument("wrong year format!" +
+                                                format_arg_for_output(token));
                 }
                 stream_date << token;
                 break;
@@ -193,44 +210,50 @@ int BitcoinExchange::parse_date(std::string const & input) const
                 if (token.size() != CHAR_COUNT_MONTH ||
                     is_number(token) == false)
                 {
-                    throw std::exception();
+                    throw std::invalid_argument("wrong month format! " +
+                                                format_arg_for_output(token));
                 }
                 stream_date << token;
                 break;
             case 3:
                 if (token.size() != CHAR_COUNT_DAY || is_number(token) == false)
                 {
-                    throw std::exception();
+                    throw std::invalid_argument("wrong day format! " +
+                                                format_arg_for_output(token));
                 }
                 stream_date << token;
                 break;
             default:
-                throw std::exception();
+                throw std::invalid_argument("wrong date format! " +
+                                            format_arg_for_output(token));
         }
     }
     int date;
     stream_date >> date;
     if (stream_date.fail() || date < 0)
     {
-        throw std::exception();
+        throw std::invalid_argument("date conversion failed! " +
+                                    format_arg_for_output(stream_date.str()));
     }
     return date;
 }
 
 BitcoinExchange::t_split_line
 BitcoinExchange::split_line_by(std::string const & line,
-                               std::string const & delimiter)
+                               std::string const & delimiter) const
 {
     size_t pos = line.find(delimiter);
     if (pos == std::string::npos || pos + 1 == line.size())
     {
-        throw std::exception();
+        throw std::invalid_argument("no delimiter found! " +
+                                    format_arg_for_output(line));
     }
     std::string first_half  = trim_whitespaces(line.substr(0, pos));
     std::string second_half = trim_whitespaces(line.substr(pos + 1));
     if (first_half.empty() == true || second_half.empty() == true)
     {
-        throw std::exception();
+        throw std::invalid_argument("trim whitespaces failed! " +
+                                    format_arg_for_output(line));
     }
     t_split_line split_line;
     split_line.left  = first_half;
@@ -249,10 +272,32 @@ BitcoinExchange::find_date_in_database(int date_to_find) const
         --date_to_find;
         if (date_to_find < first_date)
         {
-            throw std::exception();
+            throw std::invalid_argument("no earlier date in database found!");
         }
     }
     return it;
+}
+
+std::string const BitcoinExchange::convert_date_to_str(int date) const
+{
+    std::string temp;
+    {
+        std::stringstream ss;
+        ss << date;
+        temp = ss.str();
+    }
+    std::stringstream ss;
+    ss << temp.substr(0, 4) << "-" << temp.substr(4, 2) << "-"
+       << temp.substr(6, 2);
+    return ss.str();
+}
+
+std::string const
+BitcoinExchange::format_arg_for_output(std::string const & input) const
+{
+    std::stringstream ss;
+    ss << "< " << input << " >";
+    return ss.str();
 }
 
 // -------------------------------------------------------------------------- //

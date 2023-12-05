@@ -58,7 +58,9 @@ BitcoinExchange::BitcoinExchange(char const * file_database)
         }
         catch (std::exception & e)
         {
-            throw BadDatabaseFormatException();
+            std::stringstream ss;
+            ss << "error: " << e.what() << "\n";
+            throw std::runtime_error(ss.str());
         }
     }
 }

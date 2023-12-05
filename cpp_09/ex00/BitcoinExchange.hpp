@@ -34,6 +34,7 @@ class BitcoinExchange
     BitcoinExchange & operator=(BitcoinExchange const & rhs);
 
   private:
+    /* structs */
     typedef struct s_split_line
     {
         std::string left;
@@ -45,17 +46,19 @@ class BitcoinExchange
     typedef t_database::const_iterator t_database_cit;
 
     /* private utility member functions */
-    t_split_line   split_line_by(std::string const & line,
-                                 std::string const & delimiter);
-    bool           has_multiple_f(std::string const & input) const;
-    bool           has_trailing_f(std::string const & input) const;
-    bool           has_dot(std::string const & input) const;
-    bool           is_number(std::string const & input) const;
-    int            parse_date(std::string const & input) const;
-    double         parse_value(std::string const & input) const;
-    t_database_cit find_date_in_database(int date_to_find) const;
-
+    bool              has_multiple_f(std::string const & input) const;
+    bool              has_trailing_f(std::string const & input) const;
+    bool              has_dot(std::string const & input) const;
+    bool              is_number(std::string const & input) const;
+    bool              is_double(std::string const & input) const;
     std::string const trim_whitespaces(std::string const & str) const;
+    t_split_line      split_line_by(std::string const & line,
+                                    std::string const & delimiter) const;
+    int               parse_date(std::string const & input) const;
+    double            parse_value(std::string const & input) const;
+    std::string const convert_date_to_str(int date) const;
+    std::string const format_arg_for_output(std::string const & input) const;
+    t_database_cit    find_date_in_database(int date_to_find) const;
 
     /* private member variables */
     t_database _database;
@@ -67,39 +70,15 @@ class BitcoinExchange
       public:
         char const * what() const throw() { return "error: bad database!\n"; }
     };
-
-    class BadDatabaseFormatException : public std::exception
-    {
-      public:
-        char const * what() const throw()
-        {
-            return "error: bad database format!\n\n"
-                   "expected format: date        ,exchange_rate\n"
-                   "                 [YYYY-MM-DD],[int/float]\n";
-        }
-    };
-
     class EmptyDatabaseException : public std::exception
     {
       public:
         char const * what() const throw() { return "error: empty database!\n"; }
     };
-
     class BadInputFileException : public std::exception
     {
       public:
         char const * what() const throw() { return "error: bad input file!\n"; }
-    };
-
-    class BadInputFileFormatException : public std::exception
-    {
-      public:
-        char const * what() const throw()
-        {
-            return "error: bad input file format\n\n"
-                   "usage: date        |value\n"
-                   "       [YYYY-MM-DD]|[int/float]";
-        }
     };
 };
 
