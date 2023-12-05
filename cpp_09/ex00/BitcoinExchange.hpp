@@ -40,20 +40,22 @@ class BitcoinExchange
         std::string right;
     } t_split_line;
 
-    /* private utility member functions */
-    t_split_line      split_line_by(std::string const & line,
-                                    std::string const & delimiter);
-    bool              has_multiple_f(std::string const & input) const;
-    bool              has_trailing_f(std::string const & input) const;
-    bool              has_dot(std::string const & input) const;
-    bool              is_number(std::string const & input) const;
-    int               parse_date(std::string const & input) const;
-    double            parse_value(std::string const & input) const;
-    std::string const trim_whitespaces(std::string const & str) const;
-
     /* typedefs */
     typedef std::map<int, double>      t_database;
     typedef t_database::const_iterator t_database_cit;
+
+    /* private utility member functions */
+    t_split_line   split_line_by(std::string const & line,
+                                 std::string const & delimiter);
+    bool           has_multiple_f(std::string const & input) const;
+    bool           has_trailing_f(std::string const & input) const;
+    bool           has_dot(std::string const & input) const;
+    bool           is_number(std::string const & input) const;
+    int            parse_date(std::string const & input) const;
+    double         parse_value(std::string const & input) const;
+    t_database_cit find_date_in_database(int date_to_find) const;
+
+    std::string const trim_whitespaces(std::string const & str) const;
 
     /* private member variables */
     t_database _database;

@@ -10,10 +10,56 @@
 
 #include "BitcoinExchange.hpp" // needed for BitcoinExchange class
 #include <cstdlib>             // needed for strtod
+#include <fstream>             // needed for std::ifstream
 #include <iostream>            // needed for std::cout
 #include <sstream>             // needed for std::stringstream
 
 /* public member functions */
+void BitcoinExchange::convert(char const * file_input)
+{
+    if (_database.empty() == true)
+    {
+        throw EmptyDatabaseException();
+    }
+
+    std::ifstream f_input(file_input);
+    if (!f_input)
+    {
+        throw BadInputFileException();
+    }
+
+    std::string line;
+    while (std::getline(f_input, line))
+    {
+        try
+        {
+            t_split_line split_line = split_line_by(line, "|");
+            if (split_line.left == "date" || split_line.left == "Date")
+            {
+                continue;
+            }
+
+            int date = parse_date(split_line.left);
+            /* handle error */
+
+            double value = parse_value(split_line.right);
+            /* handle error */
+
+            t_database_cit it = find_date_in_database(date);
+            /* handle error */
+
+            long double result = value * it->second;
+            /* check for max and min values */
+            std::cout << it->first << " => " << value << " = " << result
+                      << "\n";
+        }
+        catch (std::exception & e)
+        {
+            std::cerr << e.what();
+        }
+    }
+}
+
 void BitcoinExchange::print_database()
 {
     for (std::map<int, double>::const_iterator it = _database.begin();
@@ -25,6 +71,8 @@ void BitcoinExchange::print_database()
 }
 
 /* private utility member functions */
+
+/*@note might not be needed */
 bool BitcoinExchange::has_multiple_f(std::string const & input) const
 {
     size_t counter = 0;
@@ -76,6 +124,7 @@ bool BitcoinExchange::has_dot(std::string const & input) const
 
 bool BitcoinExchange::is_number(std::string const & input) const
 {
+    /* need to adapt this so for just number and then double/floats */
     if (input.find_first_not_of("0123456789-+.f") != std::string::npos)
     {
         return false;
@@ -187,6 +236,23 @@ BitcoinExchange::split_line_by(std::string const & line,
     split_line.left  = first_half;
     split_line.right = second_half;
     return split_line;
+}
+
+BitcoinExchange::t_database_cit
+BitcoinExchange::find_date_in_database(int date_to_find) const
+{
+    t_database_cit it         = _database.end();
+    int            first_date = _database.begin()->first;
+    while (it == _database.end())
+    {
+        it = _database.find(date_to_find);
+        --date_to_find;
+        if (date_to_find < first_date)
+        {
+            throw std::exception();
+        }
+    }
+    return it;
 }
 
 // -------------------------------------------------------------------------- //
