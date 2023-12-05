@@ -154,7 +154,7 @@ BitcoinExchange::trim_whitespaces(std::string const & input) const
 
 double BitcoinExchange::parse_value(std::string const & input) const
 {
-    if (is_double(input) == false)
+    if (is_double(input) == false || has_multiple_f(input) == true)
     {
         throw std::invalid_argument("value is not a valid number! " +
                                     format_arg_for_output(input));

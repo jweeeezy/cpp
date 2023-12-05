@@ -35,13 +35,14 @@ class BitcoinExchange
 
   private:
     /* structs */
-    typedef struct s_split_line
+    struct s_split_line
     {
         std::string left;
         std::string right;
-    } t_split_line;
+    };
 
     /* typedefs */
+    typedef struct s_split_line        t_split_line;
     typedef std::map<int, double>      t_database;
     typedef t_database::const_iterator t_database_cit;
 
