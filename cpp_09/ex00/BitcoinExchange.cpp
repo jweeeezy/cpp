@@ -424,13 +424,13 @@ BitcoinExchange::t_database_cit
 BitcoinExchange::find_date_in_database(int date_to_find) const
 {
     int first_date = _database.begin()->first;
+    if (date_to_find < first_date)
+    {
+        throw std::invalid_argument("no earlier date in database found!");
+    }
     while (_database.find(date_to_find) == _database.end())
     {
         --date_to_find;
-        if (date_to_find < first_date)
-        {
-            throw std::invalid_argument("no earlier date in database found!");
-        }
     }
     return _database.find(date_to_find);
 }
