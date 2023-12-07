@@ -113,6 +113,11 @@ void BitcoinExchange::convert(char const * path_input)
 
             int         date   = parse_date(split_line.left);
             double      value  = parse_value(split_line.right);
+            if (static_cast<int>(value) > 1000)
+            {
+                throw std::invalid_argument("value is too big of a number!");
+            }
+
             long double result = value * find_date_in_database(date)->second;
 
             std::cout << convert_date_to_str(date) << " => " << value << " = "
