@@ -111,8 +111,8 @@ void BitcoinExchange::convert(char const * path_input)
                 continue;
             }
 
-            int         date   = parse_date(split_line.left);
-            double      value  = parse_value(split_line.right);
+            int    date  = parse_date(split_line.left);
+            double value = parse_value(split_line.right);
             if (static_cast<int>(value) > 1000)
             {
                 throw std::invalid_argument("value is too big of a number!");
@@ -423,18 +423,16 @@ BitcoinExchange::format_arg_for_output(std::string const & input) const
 BitcoinExchange::t_database_cit
 BitcoinExchange::find_date_in_database(int date_to_find) const
 {
-    t_database_cit it         = _database.end();
-    int            first_date = _database.begin()->first;
-    while (it == _database.end())
+    int first_date = _database.begin()->first;
+    while (_database.find(date_to_find) == _database.end())
     {
-        it = _database.find(date_to_find);
         --date_to_find;
         if (date_to_find < first_date)
         {
             throw std::invalid_argument("no earlier date in database found!");
         }
     }
-    return it;
+    return _database.find(date_to_find);
 }
 
 // -------------------------------------------------------------------------- //

@@ -46,7 +46,6 @@ class BitcoinExchange
     typedef std::map<int, double>      t_database;
     typedef t_database::const_iterator t_database_cit;
 
-    /* @note should they even be in the class? */
     /* private utility member functions */
     bool              has_multiple_f(std::string const & input) const;
     bool              has_trailing_f(std::string const & input) const;
