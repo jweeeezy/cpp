@@ -360,7 +360,8 @@ int BitcoinExchange::parse_date(std::string const & input) const
     }
     if (check_valid_date(date) == false)
     {
-        throw std::invalid_argument("invalid date");
+        throw std::invalid_argument("invalid date! " +
+                                    format_arg_for_output(stream_date.str()));
     }
     return date;
 }
