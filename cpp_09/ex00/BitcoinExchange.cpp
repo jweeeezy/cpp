@@ -110,13 +110,13 @@ void BitcoinExchange::convert(char const * path_input)
             {
                 continue;
             }
-            int    date  = parse_date(split_line.left);
-            double value = parse_value(split_line.right);
 
-            t_database_cit it     = find_date_in_database(date);
-            long double    result = value * it->second;
-            std::cout << convert_date_to_str(it->first) << " => " << value
-                      << " = " << result << "\n";
+            int         date   = parse_date(split_line.left);
+            double      value  = parse_value(split_line.right);
+            long double result = value * find_date_in_database(date)->second;
+
+            std::cout << convert_date_to_str(date) << " => " << value << " = "
+                      << result << "\n";
         }
         catch (std::exception & e)
         {
