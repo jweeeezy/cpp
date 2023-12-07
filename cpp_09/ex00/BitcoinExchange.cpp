@@ -243,6 +243,65 @@ BitcoinExchange::split_line_by(std::string const & line,
     return split_line;
 }
 
+bool BitcoinExchange::is_leap_year(int year) const
+{
+    if (year % 4 == 0)
+    {
+        if (year % 100 == 0)
+        {
+            return year % 400 == 0;
+        }
+        return true;
+    }
+    return false;
+}
+
+bool BitcoinExchange::check_valid_date(int date) const
+{
+    std::stringstream ss;
+    ss << date;
+    std::string str_year  = ss.str().substr(0, 4);
+    std::string str_month = ss.str().substr(4, 2);
+    std::string str_day   = ss.str().substr(6, 2);
+
+    int year  = std::atoi(str_year.c_str());
+    int month = std::atoi(str_month.c_str());
+    int day   = std::atoi(str_day.c_str());
+
+    bool leap_year = is_leap_year(year);
+
+    if (month > 12 || day > 31)
+    {
+        return false;
+    }
+    if (month == 2)
+    {
+        if (leap_year == false && day > 28)
+        {
+            return false;
+        }
+        if (leap_year == true && day > 29)
+        {
+            return false;
+        }
+    }
+    else if (month == 4 || month == 6 || month == 9 || month == 11)
+    {
+        if (day > 30)
+        {
+            return false;
+        }
+    }
+    else
+    {
+        if (day > 31)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 int BitcoinExchange::parse_date(std::string const & input) const
 {
     std::stringstream stream_input(input);
@@ -298,6 +357,10 @@ int BitcoinExchange::parse_date(std::string const & input) const
     {
         throw std::invalid_argument("date conversion failed! " +
                                     format_arg_for_output(stream_date.str()));
+    }
+    if (check_valid_date(date) == false)
+    {
+        throw std::invalid_argument("invalid date");
     }
     return date;
 }

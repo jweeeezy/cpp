@@ -46,6 +46,7 @@ class BitcoinExchange
     typedef std::map<int, double>      t_database;
     typedef t_database::const_iterator t_database_cit;
 
+    /* @note should they even be in the class? */
     /* private utility member functions */
     bool              has_multiple_f(std::string const & input) const;
     bool              has_trailing_f(std::string const & input) const;
@@ -55,6 +56,8 @@ class BitcoinExchange
     std::string const trim_whitespaces(std::string const & str) const;
     t_split_line      split_line_by(std::string const & line,
                                     std::string const & delimiter) const;
+    bool              is_leap_year(int year) const;
+    bool              check_valid_date(int date) const;
     int               parse_date(std::string const & input) const;
     double            parse_value(std::string const & input) const;
     std::string const convert_date_to_str(int date) const;
