@@ -428,11 +428,12 @@ BitcoinExchange::find_date_in_database(int date_to_find) const
     {
         throw std::invalid_argument("no earlier date in database found!");
     }
-    while (_database.find(date_to_find) == _database.end())
+    t_database_cit it = _database.find(date_to_find);
+    while (it == _database.end())
     {
-        --date_to_find;
+        it = _database.find(--date_to_find);
     }
-    return _database.find(date_to_find);
+    return it;
 }
 
 // -------------------------------------------------------------------------- //
