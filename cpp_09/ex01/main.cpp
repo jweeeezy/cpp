@@ -16,11 +16,22 @@
 
 #define EXPECTED_ARGC 2
 
+#define DIGITS      "0123456789"
+#define EXPRESSIONS "+-/*"
+
 /* struct for parsing */
 struct s_calculation
 {
     std::string numbers;
     std::string expressions;
+};
+
+enum expressions
+{
+    MULTIPLICATE,
+    DIVIDE,
+    ADD,
+    SUBSTRACT
 };
 
 /* used for debugging only */
@@ -73,7 +84,8 @@ struct s_calculation part_arguments(std::string const & str)
 {
     std::stringstream expressions;
     std::stringstream numbers;
-    for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
+    for (std::string::const_reverse_iterator it = str.rbegin();
+         it != str.rend(); ++it)
     {
         if (is_char_of(*it, "0123456789") == true)
         {
@@ -90,6 +102,7 @@ struct s_calculation part_arguments(std::string const & str)
     if (tmp.numbers.size() != tmp.expressions.size() + 1)
     {
         throw std::runtime_error("Disbalance!");
+        /* @note expressive error message */
     }
     return tmp;
 }
@@ -114,6 +127,89 @@ static std::stack<char> extract_arguments(std::string const & str)
     return ordered_args;
 }
 
+static int next_calculation(int result, int number, int expression)
+{
+    switch (expression)
+    {
+        case MULTIPLICATE:
+            std::cout << result << " * " << number << "\n";
+            result *= number;
+            break;
+        case DIVIDE:
+            std::cout << result << " / " << number << "\n";
+            result /= number;
+            break;
+        case ADD:
+            std::cout << result << " + " << number << "\n";
+            result += number;
+            break;
+        case SUBSTRACT:
+            std::cout << result << " - " << number << "\n";
+            result -= number;
+            break;
+        default:
+            throw std::runtime_error("What the fuck\n");
+    }
+    return result;
+}
+
+static int calculate_result(std::stack<char> args)
+{
+    size_t            size_full  = args.size();
+    size_t            size       = size_full;
+    int               result     = 0;
+    int               expression = 4;
+    std::stringstream ss;
+    while (size > 0)
+    {
+        char tmp = args.top();
+        if (is_char_of(tmp, "0123456789") == true)
+        {
+            if (size == size_full) /* first iteration */
+            {
+                std::stringstream ss;
+                ss << tmp;
+
+                int number;
+                ss >> number;
+                result = number;
+                std::cout << number << "\n";
+            }
+            else
+            {
+                std::stringstream ss;
+                ss << tmp;
+
+                int number;
+                ss >> number;
+                result = next_calculation(result, number, expression);
+            }
+        }
+        else
+        {
+            if (tmp == '*')
+            {
+                expression = MULTIPLICATE;
+            }
+            else if (tmp == '/')
+            {
+                expression = DIVIDE;
+            }
+            else if (tmp == '+')
+            {
+                expression = ADD;
+            }
+            else if (tmp == '-')
+            {
+                expression = SUBSTRACT;
+            }
+        }
+        args.pop();
+        --size;
+    }
+    return result;
+}
+
 int main(int argc, char ** argv)
 {
     if (argc != EXPECTED_ARGC)
@@ -123,23 +219,23 @@ int main(int argc, char ** argv)
     }
 
     std::string const & arg = argv[1];
-
     if (check_valid_chars(arg) == false || check_valid_spacing(arg) == false)
     {
         std::cerr << "error!\n";
         return (EXIT_FAILURE);
     }
+
     try
     {
         std::stack<char> args = extract_arguments(arg);
-        print(args);
+        int result = calculate_result(args);
+        std::cout << "Result: " << result;
     }
     catch (std::exception & e)
     {
         std::cerr << e.what() << "\n";
         return (EXIT_FAILURE);
     }
-
     return (EXIT_SUCCESS);
 }
 
