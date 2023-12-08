@@ -8,7 +8,7 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include <cstdlib> // needed for MACROS
+#include <cstdlib>  // needed for MACROS
 #include <iostream> // needed for std::cout, std::cerr
 #include <sstream>  // needed for std::stringstream
 #include <stack>    // needed for std::stack
@@ -16,11 +16,24 @@
 
 #define EXPECTED_ARGC 2
 
-/* MACROS for parsing */
-#define NUMBER  false
-#define EXPRESS true
+/* struct for parsing */
+struct s_calculation
+{
+    std::string numbers;
+    std::string expressions;
+};
 
-bool is_char_of(char c, std::string const & set)
+/* used for debugging only */
+void print(std::stack<char> tmp)
+{
+    while (tmp.empty() == false)
+    {
+        std::cout << tmp.top() << "\n";
+        tmp.pop();
+    }
+}
+
+static bool is_char_of(char c, std::string const & set)
 {
     for (std::string::const_iterator it = set.begin(); it != set.end(); ++it)
     {
@@ -32,7 +45,7 @@ bool is_char_of(char c, std::string const & set)
     return false;
 }
 
-bool check_valid_spacing(std::string const & str)
+static bool check_valid_spacing(std::string const & str)
 {
     std::string::const_iterator end = str.end();
     for (std::string::const_iterator it = str.begin(); it != end; ++it)
@@ -46,7 +59,7 @@ bool check_valid_spacing(std::string const & str)
     return true;
 }
 
-bool check_valid_chars(std::string const & str)
+static bool check_valid_chars(std::string const & str)
 {
     size_t pos = str.find_first_not_of("0123456789 +-/*");
     if (pos != std::string::npos)
@@ -55,12 +68,6 @@ bool check_valid_chars(std::string const & str)
     }
     return true;
 }
-
-struct s_calculation
-{
-    std::string numbers;
-    std::string expressions;
-};
 
 struct s_calculation part_arguments(std::string const & str)
 {
@@ -87,17 +94,7 @@ struct s_calculation part_arguments(std::string const & str)
     return tmp;
 }
 
-char get_next_char(std::string const & str)
-{
-    static std::string::const_iterator it = str.begin();
-    if (it != str.end())
-    {
-        return *it++;
-    }
-    return 'A';
-}
-
-std::stack<char> order_arguments(struct s_calculation const & arguments)
+static std::stack<char> order_arguments(struct s_calculation const & arguments)
 {
     std::stack<char> tmp_stack;
 
@@ -110,20 +107,11 @@ std::stack<char> order_arguments(struct s_calculation const & arguments)
     return tmp_stack;
 }
 
-std::stack<char> extract_arguments(std::string const & str)
+static std::stack<char> extract_arguments(std::string const & str)
 {
-    s_calculation const & split_args = part_arguments(str);
+    s_calculation const &    split_args   = part_arguments(str);
     std::stack<char> const & ordered_args = order_arguments(split_args);
     return ordered_args;
-}
-
-void print(std::stack<char> tmp)
-{
-    while (tmp.empty() == false)
-    {
-        std::cout << tmp.top() << "\n";
-        tmp.pop();
-    }
 }
 
 int main(int argc, char ** argv)
