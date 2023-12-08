@@ -8,14 +8,17 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include <cstdlib>  // needed for MACROS
+#include <cstdlib> // needed for MACROS
 #include <iostream> // needed for std::cout, std::cerr
+#include <sstream>  // needed for std::stringstream
 #include <stack>    // needed for std::stack
 #include <string>   // needed for std::string
 
 #define EXPECTED_ARGC 2
-#define NUMBER        false
-#define EXPRESS       true
+
+/* MACROS for parsing */
+#define NUMBER  false
+#define EXPRESS true
 
 bool is_char_of(char c, std::string const & set)
 {
@@ -53,27 +56,74 @@ bool check_valid_chars(std::string const & str)
     return true;
 }
 
-std::stack<char> extract_arguments(std::string const & str)
+struct s_calculation
 {
-    std::stack<char> tmp;
-    bool             no_or_expr = NUMBER;
+    std::string numbers;
+    std::string expressions;
+};
+
+struct s_calculation part_arguments(std::string const & str)
+{
+    std::stringstream expressions;
+    std::stringstream numbers;
     for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
     {
-        if (*it != ' ')
+        if (is_char_of(*it, "0123456789") == true)
         {
-            if (is_char_of(*it, "0123456789") == true && no_or_expr == NUMBER)
-            {
-                tmp.push(*it);
-                no_or_expr = !no_or_expr;
-            }
-            else if (is_char_of(*it, "*-/+") == true && no_or_expr == EXPRESS)
-            {
-                tmp.push(*it);
-                no_or_expr = !no_or_expr;
-            }
+            numbers << *it;
+        }
+        else if (is_char_of(*it, "*-/+") == true)
+        {
+            expressions << *it;
         }
     }
+    s_calculation tmp;
+    tmp.numbers     = numbers.str();
+    tmp.expressions = expressions.str();
+    if (tmp.numbers.size() != tmp.expressions.size() + 1)
+    {
+        throw std::runtime_error("Disbalance!");
+    }
     return tmp;
+}
+
+char get_next_char(std::string const & str)
+{
+    static std::string::const_iterator it = str.begin();
+    if (it != str.end())
+    {
+        return *it++;
+    }
+    return 'A';
+}
+
+std::stack<char> order_arguments(struct s_calculation const & arguments)
+{
+    std::stack<char> tmp_stack;
+
+    for (size_t i = 0; i != arguments.numbers.size(); ++i)
+    {
+        tmp_stack.push(arguments.numbers[i]);
+        if (i < arguments.expressions.size())
+            tmp_stack.push(arguments.expressions[i]);
+    }
+    return tmp_stack;
+}
+
+std::stack<char> extract_arguments(std::string const & str)
+{
+    s_calculation const & split_args = part_arguments(str);
+    std::stack<char> const & ordered_args = order_arguments(split_args);
+    return ordered_args;
+}
+
+void print(std::stack<char> tmp)
+{
+    while (tmp.empty() == false)
+    {
+        std::cout << tmp.top() << "\n";
+        tmp.pop();
+    }
 }
 
 int main(int argc, char ** argv)
@@ -91,13 +141,15 @@ int main(int argc, char ** argv)
         std::cerr << "error!\n";
         return (EXIT_FAILURE);
     }
-
-    std::stack<char> expr = extract_arguments(arg);
-    
-    while (expr.empty() == false)
+    try
     {
-        std::cout << expr.top() << "\n";
-        expr.pop();
+        std::stack<char> args = extract_arguments(arg);
+        print(args);
+    }
+    catch (std::exception & e)
+    {
+        std::cerr << e.what() << "\n";
+        return (EXIT_FAILURE);
     }
 
     return (EXIT_SUCCESS);
