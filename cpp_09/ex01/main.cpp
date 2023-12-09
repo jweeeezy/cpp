@@ -12,41 +12,78 @@
 #include <iostream> // needed for std::cout, std::cerr
 #include <sstream>  // needed for std::stringstream
 #include <stack>    // needed for std::stack
-#include <string>   // needed for std::string
+#include <stdexcept>
+#include <string> // needed for std::string
 
 #define EXPECTED_ARGC 2
 
-/* @note use these MACROS */
 #define DIGITS    std::string("0123456789")
 #define OPERATORS std::string("+-/*")
 
-/* @note typedefs */
-/* @note implement a RPN class ? */
+#define YELLOW "\033[33m"
+#define RESET  "\033[0m"
 
-/* struct for parsing */
-struct s_calculation
-{
-    std::string numbers;     /* @note operands */
-    std::string expressions; /* @note operators */
-};
-
-enum expressions
+enum operators
 {
     MULTIPLICATE,
     DIVIDE,
     ADD,
-    SUBSTRACT
+    SUBSTRACT,
+    NON_TYPE
 };
 
-/* used for debugging only */
-void print(std::stack<char> tmp)
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> utility functions */
+
+static int get_operator(char c)
 {
-    while (tmp.empty() == false)
+    if (c == '*')
     {
-        std::cout << tmp.top() << "\n";
-        tmp.pop();
+        return MULTIPLICATE;
     }
+    else if (c == '/')
+    {
+        return DIVIDE;
+    }
+    else if (c == '+')
+    {
+        return ADD;
+    }
+    else if (c == '-')
+    {
+        return SUBSTRACT;
+    }
+    return NON_TYPE;
 }
+
+void log_debug(std::string const & message)
+{
+    (void)message;
+#ifdef DEBUG
+    std::cout << YELLOW << message << RESET << "\n";
+#endif // DEBUG
+}
+
+static int log_exit(std::string const & message)
+{
+    std::cerr << "error: " << message << "\n";
+    return (EXIT_FAILURE);
+}
+
+static std::string const itostr(int number)
+{
+    std::stringstream ss;
+    ss << number;
+    return ss.str();
+}
+
+static int get_top_number(std::stack<int> & pile)
+{
+    int tmp = pile.top();
+    pile.pop();
+    return tmp;
+}
+
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> parsing functions */
 
 static bool is_char_of(char c, std::string const & set)
 {
@@ -84,146 +121,81 @@ static bool check_valid_chars(std::string const & str)
     return true;
 }
 
-struct s_calculation part_arguments(std::string const & str)
+static std::string const parse_arguments(char const * arg)
 {
-    /* @note needs new logic */
-    std::stringstream expressions;
-    std::stringstream numbers;
-    for (std::string::const_reverse_iterator it = str.rbegin();
-         it != str.rend(); ++it)
+    std::string const & tmp = arg;
+    if (check_valid_chars(arg) == false)
     {
-        if (is_char_of(*it, DIGITS) == true)
-        {
-            numbers << *it;
-        }
-        else if (is_char_of(*it, OPERATORS) == true)
-        {
-            expressions << *it;
-        }
+        throw std::invalid_argument("invalid character!");
     }
-    s_calculation tmp;
-    tmp.numbers = numbers.str();
-    tmp.expressions = expressions.str();
-    if (tmp.numbers.size() != tmp.expressions.size() + 1)
+    if (check_valid_spacing(arg) == false)
     {
-        throw std::runtime_error("Disbalance!");
-        /* @note expressive error message */
+        throw std::invalid_argument("invalid spacing!");
     }
     return tmp;
+    /* @note need to check order / count of operands / operators */
 }
 
-static std::stack<char> order_arguments(struct s_calculation const & arguments)
-{
-    std::stack<char> tmp_stack;
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> RPN calculation functions */
 
-    for (size_t i = 0; i != arguments.numbers.size(); ++i)
-    {
-        tmp_stack.push(arguments.numbers[i]);
-        if (i < arguments.expressions.size())
-        {
-            tmp_stack.push(arguments.expressions[i]);
-        }
-    }
-    return tmp_stack;
-}
-
-static std::stack<char> extract_arguments(std::string const & str)
+static int next_calculation(int no_right, int no_left, int expression)
 {
-    /* @note prob dont need this function */
-    /* @note additional parsing: check if the order is correct */
-    s_calculation const &    split_args = part_arguments(str);
-    std::stack<char> const & ordered_args = order_arguments(split_args);
-    return ordered_args;
-}
-
-static int next_calculation(int result, int number, int expression)
-{
+    /* hint: no_right gets passed first because its the first no on the stack */
     switch (expression)
     {
         case MULTIPLICATE:
-            std::cout << result << " * " << number << "\n";
-            result *= number;
+            log_debug(itostr(no_left) + " * " + itostr(no_right));
+            no_left *= no_right;
             break;
         case DIVIDE:
-            std::cout << result << " / " << number << "\n";
-            result /= number;
+            log_debug(itostr(no_left) + " / " + itostr(no_right));
+            no_left /= no_right;
             break;
         case ADD:
-            std::cout << result << " + " << number << "\n";
-            result += number;
+            log_debug(itostr(no_left) + " + " + itostr(no_right));
+            no_left += no_right;
             break;
         case SUBSTRACT:
-            std::cout << result << " - " << number << "\n";
-            result -= number;
+            log_debug(itostr(no_left) + " - " + itostr(no_right));
+            no_left -= no_right;
             break;
+        case NON_TYPE:
+            throw std::runtime_error("NON_TYPE case in switch statement");
         default:
-            throw std::runtime_error("What the fuck\n");
+            throw std::runtime_error("default case in switch statement");
     }
-    return result;
+    return no_left;
 }
 
-static int calculate_result(std::stack<char> args)
+static int calculate(std::string const & input)
 {
-    size_t            size_full = args.size();
-    size_t            size = size_full;
-    int               result = 0;
-    int               expression = 0;
-    std::stringstream ss;
-    while (size > 0)
+    std::stack<int> pile;
+    int             result = 0;
+
+    for (std::string::const_iterator it = input.begin(); it != input.end();
+         ++it)
     {
-        char tmp = args.top();
-        if (is_char_of(tmp, DIGITS) == true)
+        if (is_char_of(*it, DIGITS))
         {
-            if (size == size_full)
-            {
-                std::stringstream ss;
-                ss << tmp;
+            std::stringstream ss;
 
-                int number;
-                ss >> number;
-                result = number;
-                std::cout << number << "\n";
-            }
-            else
-            {
-                std::stringstream ss;
-                ss << tmp;
-
-                int number;
-                ss >> number;
-                result = next_calculation(result, number, expression);
-            }
+            ss << *it;
+            int number;
+            ss >> number;
+            pile.push(number);
         }
-        else
+        else if (is_char_of(*it, OPERATORS))
         {
-            if (tmp == '*')
-            {
-                expression = MULTIPLICATE;
-            }
-            else if (tmp == '/')
-            {
-                expression = DIVIDE;
-            }
-            else if (tmp == '+')
-            {
-                expression = ADD;
-            }
-            else if (tmp == '-')
-            {
-                expression = SUBSTRACT;
-            }
+            result = next_calculation(get_top_number(pile),
+                                      get_top_number(pile),
+                                      get_operator(*it));
+            pile.push(result);
         }
-        args.pop();
-        --size;
     }
     return result;
 }
 
-int log_exit(std::string const & message)
-{
-    std::cerr << "error: " << message << "\n";
-    return (EXIT_FAILURE);
-}
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> main functions */
 
 int main(int argc, char ** argv)
 {
@@ -231,33 +203,15 @@ int main(int argc, char ** argv)
     {
         return log_exit("missing argument!");
     }
-
-    std::string const & arg = argv[1];
-
-    if (check_valid_chars(arg) == false)
-    {
-        return log_exit("invalid character!");
-    }
-    if (check_valid_spacing(arg) == false)
-    {
-        return log_exit("invalid spacing!");
-    }
-
     try
     {
-        /* @note can actually make this an int bcs i only need to store two
-         * operands at once ?! */
-
-        /* @note sth like --> std::cout << RPN::calculate(arg) << "\n"; */
-        std::stack<char> args = extract_arguments(arg);
-        int              result = calculate_result(args);
-        std::cout << "Result: " << result;
+        int result = calculate(parse_arguments(argv[1]));
+        std::cout << result;
     }
     catch (std::exception & e)
     {
         return log_exit(e.what());
     }
-
     return (EXIT_SUCCESS);
 }
 
