@@ -17,8 +17,8 @@
 #define EXPECTED_ARGC 2
 
 /* @note use these MACROS */
-#define DIGITS      "0123456789"
-#define EXPRESSIONS "+-/*"
+#define DIGITS    std::string("0123456789")
+#define OPERATORS std::string("+-/*")
 
 /* @note typedefs */
 /* @note implement a RPN class ? */
@@ -26,8 +26,8 @@
 /* struct for parsing */
 struct s_calculation
 {
-    std::string numbers;
-    std::string expressions;
+    std::string numbers;     /* @note operands */
+    std::string expressions; /* @note operators */
 };
 
 enum expressions
@@ -65,7 +65,7 @@ static bool check_valid_spacing(std::string const & str)
     std::string::const_iterator end = str.end();
     for (std::string::const_iterator it = str.begin(); it != end; ++it)
     {
-        if (is_char_of(*it, "0123456789+-/*") == true && it + 1 != end &&
+        if (is_char_of(*it, DIGITS + OPERATORS) == true && it + 1 != end &&
             *(it + 1) != ' ')
         {
             return false;
@@ -76,7 +76,7 @@ static bool check_valid_spacing(std::string const & str)
 
 static bool check_valid_chars(std::string const & str)
 {
-    size_t pos = str.find_first_not_of("0123456789 +-/*");
+    size_t pos = str.find_first_not_of(DIGITS + OPERATORS + " ");
     if (pos != std::string::npos)
     {
         return false;
@@ -92,11 +92,11 @@ struct s_calculation part_arguments(std::string const & str)
     for (std::string::const_reverse_iterator it = str.rbegin();
          it != str.rend(); ++it)
     {
-        if (is_char_of(*it, "0123456789") == true)
+        if (is_char_of(*it, DIGITS) == true)
         {
             numbers << *it;
         }
-        else if (is_char_of(*it, "*-/+") == true)
+        else if (is_char_of(*it, OPERATORS) == true)
         {
             expressions << *it;
         }
@@ -172,7 +172,7 @@ static int calculate_result(std::stack<char> args)
     while (size > 0)
     {
         char tmp = args.top();
-        if (is_char_of(tmp, "0123456789") == true)
+        if (is_char_of(tmp, DIGITS) == true)
         {
             if (size == size_full)
             {
