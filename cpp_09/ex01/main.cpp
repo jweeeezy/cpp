@@ -16,8 +16,12 @@
 
 #define EXPECTED_ARGC 2
 
+/* @note use these MACROS */
 #define DIGITS      "0123456789"
 #define EXPRESSIONS "+-/*"
+
+/* @note typedefs */
+/* @note implement a RPN class ? */
 
 /* struct for parsing */
 struct s_calculation
@@ -82,6 +86,7 @@ static bool check_valid_chars(std::string const & str)
 
 struct s_calculation part_arguments(std::string const & str)
 {
+    /* @note needs new logic */
     std::stringstream expressions;
     std::stringstream numbers;
     for (std::string::const_reverse_iterator it = str.rbegin();
@@ -97,7 +102,7 @@ struct s_calculation part_arguments(std::string const & str)
         }
     }
     s_calculation tmp;
-    tmp.numbers     = numbers.str();
+    tmp.numbers = numbers.str();
     tmp.expressions = expressions.str();
     if (tmp.numbers.size() != tmp.expressions.size() + 1)
     {
@@ -115,14 +120,18 @@ static std::stack<char> order_arguments(struct s_calculation const & arguments)
     {
         tmp_stack.push(arguments.numbers[i]);
         if (i < arguments.expressions.size())
+        {
             tmp_stack.push(arguments.expressions[i]);
+        }
     }
     return tmp_stack;
 }
 
 static std::stack<char> extract_arguments(std::string const & str)
 {
-    s_calculation const &    split_args   = part_arguments(str);
+    /* @note prob dont need this function */
+    /* @note additional parsing: check if the order is correct */
+    s_calculation const &    split_args = part_arguments(str);
     std::stack<char> const & ordered_args = order_arguments(split_args);
     return ordered_args;
 }
@@ -155,17 +164,17 @@ static int next_calculation(int result, int number, int expression)
 
 static int calculate_result(std::stack<char> args)
 {
-    size_t            size_full  = args.size();
-    size_t            size       = size_full;
-    int               result     = 0;
-    int               expression = 4;
+    size_t            size_full = args.size();
+    size_t            size = size_full;
+    int               result = 0;
+    int               expression = 0;
     std::stringstream ss;
     while (size > 0)
     {
         char tmp = args.top();
         if (is_char_of(tmp, "0123456789") == true)
         {
-            if (size == size_full) /* first iteration */
+            if (size == size_full)
             {
                 std::stringstream ss;
                 ss << tmp;
@@ -210,32 +219,45 @@ static int calculate_result(std::stack<char> args)
     return result;
 }
 
+int log_exit(std::string const & message)
+{
+    std::cerr << "error: " << message << "\n";
+    return (EXIT_FAILURE);
+}
+
 int main(int argc, char ** argv)
 {
     if (argc != EXPECTED_ARGC)
     {
-        std::cerr << "error: missing argument!\n";
-        return (EXIT_FAILURE);
+        return log_exit("missing argument!");
     }
 
     std::string const & arg = argv[1];
-    if (check_valid_chars(arg) == false || check_valid_spacing(arg) == false)
+
+    if (check_valid_chars(arg) == false)
     {
-        std::cerr << "error!\n";
-        return (EXIT_FAILURE);
+        return log_exit("invalid character!");
+    }
+    if (check_valid_spacing(arg) == false)
+    {
+        return log_exit("invalid spacing!");
     }
 
     try
     {
+        /* @note can actually make this an int bcs i only need to store two
+         * operands at once ?! */
+
+        /* @note sth like --> std::cout << RPN::calculate(arg) << "\n"; */
         std::stack<char> args = extract_arguments(arg);
-        int result = calculate_result(args);
+        int              result = calculate_result(args);
         std::cout << "Result: " << result;
     }
     catch (std::exception & e)
     {
-        std::cerr << e.what() << "\n";
-        return (EXIT_FAILURE);
+        return log_exit(e.what());
     }
+
     return (EXIT_SUCCESS);
 }
 
