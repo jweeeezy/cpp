@@ -11,6 +11,8 @@
 #include <cstdlib>  // needed for MACROS
 #include <iostream> // needed for std::cerr
 
+#include "PmergeMe.hpp" // needed for PmergeMe class
+
 #define RED   "\033[1;31m"
 #define RESET "\033[0m"
 
@@ -27,8 +29,6 @@ int main(int argc, char ** argv)
 
     /* @note remove at some point */
     (void)argc;
-    (void)argv;
-
     if (argc < EXPECTED_ARGC)
     {
         return log_exit("not enough arguments!");
@@ -40,6 +40,7 @@ int main(int argc, char ** argv)
 
     try
     {
+        PmergeMe(argv);
     }
     catch (std::exception const & e)
     {
