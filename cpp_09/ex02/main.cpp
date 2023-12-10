@@ -8,18 +8,45 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include <cstdlib> // needed for MACROS
+#include <cstdlib>  // needed for MACROS
+#include <iostream> // needed for std::cerr
 
-#define EXPECTED_ARGC 2
+#define RED   "\033[1;31m"
+#define RESET "\033[0m"
 
-int	main(int argc, char **argv)
+#define EXPECTED_ARGC 3
+
+static int log_exit(std::string const & message)
 {
-	if (argc != EXPECTED_ARGC)
-	{
-		return (EXIT_FAILURE);
-	}
-	(void) argv;
-	return (EXIT_SUCCESS);
+    std::cerr << RED << "error: " << message << RESET << "\n";
+    return (EXIT_FAILURE);
+}
+
+int main(int argc, char ** argv)
+{
+
+    /* @note remove at some point */
+    (void)argc;
+    (void)argv;
+
+    if (argc < EXPECTED_ARGC)
+    {
+        return log_exit("not enough arguments!");
+    }
+
+    /* @note create PmergeMe class */
+    /* mb instantiate with the container to be used ? */
+    /* @note parse integers (positive only!) -> data structure */
+
+    try
+    {
+    }
+    catch (std::exception const & e)
+    {
+        return log_exit(e.what());
+    }
+
+    return (EXIT_SUCCESS);
 }
 
 // -------------------------------------------------------------------------- //

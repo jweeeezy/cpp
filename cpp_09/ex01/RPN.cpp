@@ -29,23 +29,28 @@ int RPN::calculate(char const * arg)
     int             result = 0;
     t_str_c         input  = parse_arguments(arg);
 
-    for (std::string::const_iterator it = input.begin(); it != input.end();
-         ++it)
+    for (t_str_cit it = input.begin(); it != input.end(); ++it)
     {
         if (is_char_of(*it, DIGITS))
         {
             std::stringstream ss;
-
             ss << *it;
+
             int number;
             ss >> number;
+
             pile.push(number);
         }
         else if (is_char_of(*it, OPERATORS))
         {
-            result =
-                next_calculation(get_and_remove_top(pile),
-                                 get_and_remove_top(pile), get_operator(*it));
+            if (pile.size() != 2)
+            {
+                throw std::runtime_error("illegal notation at position " +
+                                         itostr(it - input.begin()) + "!");
+            }
+            result = next_operation(get_and_remove_top(pile),
+                                    get_and_remove_top(pile),
+                                    get_operator(*it));
             pile.push(result);
         }
     }
@@ -54,7 +59,7 @@ int RPN::calculate(char const * arg)
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> private static member functions */
 
-void RPN::log_debug(std::string const & message)
+void RPN::log_debug(t_str_c & message)
 {
     (void)message;
 #ifdef DEBUG
@@ -62,9 +67,9 @@ void RPN::log_debug(std::string const & message)
 #endif // DEBUG
 }
 
-bool RPN::is_char_of(char c, std::string const & set)
+bool RPN::is_char_of(char c, t_str_c & set)
 {
-    for (std::string::const_iterator it = set.begin(); it != set.end(); ++it)
+    for (t_str_cit it = set.begin(); it != set.end(); ++it)
     {
         if (*it == c)
         {
@@ -74,7 +79,7 @@ bool RPN::is_char_of(char c, std::string const & set)
     return false;
 }
 
-bool RPN::check_valid_chars(std::string const & str)
+bool RPN::check_valid_chars(t_str_c & str)
 {
     size_t pos = str.find_first_not_of(DIGITS + OPERATORS + " ");
     if (pos != std::string::npos)
@@ -84,10 +89,10 @@ bool RPN::check_valid_chars(std::string const & str)
     return true;
 }
 
-bool RPN::check_valid_spacing(std::string const & str)
+bool RPN::check_valid_spacing(t_str_c & str)
 {
-    std::string::const_iterator end = str.end();
-    for (std::string::const_iterator it = str.begin(); it != end; ++it)
+    t_str_cit end = str.end();
+    for (t_str_cit it = str.begin(); it != end; ++it)
     {
         if (is_char_of(*it, DIGITS + OPERATORS) == true && it + 1 != end &&
             *(it + 1) != ' ')
@@ -98,26 +103,29 @@ bool RPN::check_valid_spacing(std::string const & str)
     return true;
 }
 
-std::string const RPN::itostr(int number)
+RPN::t_str_c RPN::itostr(int number)
 {
     std::stringstream ss;
     ss << number;
     return ss.str();
 }
 
-std::string const RPN::parse_arguments(char const * arg)
+RPN::t_str_c RPN::parse_arguments(char const * arg)
 {
-    std::string const & tmp = arg;
-    if (check_valid_chars(arg) == false)
+    t_str_c & tmp = arg;
+    if (tmp.empty() == true)
+    {
+        throw std::invalid_argument("empty string!");
+    }
+    if (check_valid_chars(tmp) == false)
     {
         throw std::invalid_argument("invalid character!");
     }
-    if (check_valid_spacing(arg) == false)
+    if (check_valid_spacing(tmp) == false)
     {
         throw std::invalid_argument("invalid spacing!");
     }
     return tmp;
-    /* @note need to check order / count of operands / operators */
 }
 
 int RPN::get_operator(char c)
@@ -148,7 +156,7 @@ int RPN::get_and_remove_top(std::stack<int> & pile)
     return tmp;
 }
 
-int RPN::next_calculation(int no_right, int no_left, int expression)
+int RPN::next_operation(int no_right, int no_left, int expression)
 {
     /* hint: no_right gets passed first because its the first no on the stack */
     switch (expression)
@@ -158,6 +166,10 @@ int RPN::next_calculation(int no_right, int no_left, int expression)
             no_left *= no_right;
             break;
         case DIVIDE:
+            if (no_right == 0)
+            {
+                throw std::runtime_error("division by zero not allowed!");
+            }
             log_debug(itostr(no_left) + " / " + itostr(no_right));
             no_left /= no_right;
             break;

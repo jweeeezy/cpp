@@ -17,7 +17,7 @@
 #define DIGITS    std::string("0123456789")
 #define OPERATORS std::string("+-/*")
 
-#define RED   "\033[31m"
+#define RED   "\033[1;31m"
 #define RESET "\033[0m"
 
 static int log_exit(std::string const & message)
