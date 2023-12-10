@@ -40,7 +40,7 @@ int main(int argc, char ** argv)
 
     try
     {
-        PmergeMe(argv);
+        PmergeMe obj(argc -1, argv);
     }
     catch (std::exception const & e)
     {

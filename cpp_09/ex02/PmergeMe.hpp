@@ -11,14 +11,22 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
+#include <string> // needed for std::string
+
 class PmergeMe
 {
-
   public:
-    PmergeMe(char const ** argv);
+    PmergeMe(int argc, char ** argv);
+    PmergeMe();
     PmergeMe(PmergeMe const & src);
     ~PmergeMe();
     PmergeMe & operator=(PmergeMe const & rhs);
+
+    void log_debug(std::string const & message) const;
+
+    void parse_arguments(char ** argv);
+
+    int _argc;
 };
 
 #endif // PMERGEME
