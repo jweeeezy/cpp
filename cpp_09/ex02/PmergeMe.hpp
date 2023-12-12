@@ -27,6 +27,8 @@ class PmergeMe
     void parse_arguments(char ** argv);
 
     int _argc;
+    /* @note prob a template Container ? */
+        /* or just an overloaded constructor */
 };
 
 #endif // PMERGEME

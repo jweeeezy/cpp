@@ -7,24 +7,23 @@
 // file:  PmergeMe.cpp                                                        //
 //                                                                            //
 // -------------------------------------------------------------------------- //
+
+#include <iostream> // needed for std::cerr
+
 #include "PmergeMe.hpp" // needed for PmergeMe class
-#include <iostream>     // needed for std::cerr
 
 #define YELLOW "\033[033m"
 #define RESET  "\033[0m"
 
 void PmergeMe::log_debug(std::string const & message) const
 {
-    (void) message;
+    (void)message;
 #ifdef DEBUG
     std::cerr << YELLOW << "PmergeMe: " << message << RESET << "\n";
 #endif // DEBUG
 }
 
-PmergeMe::PmergeMe()
-{
-    log_debug("default constructor called");
-}
+PmergeMe::PmergeMe() { log_debug("default constructor called"); }
 
 PmergeMe::PmergeMe(PmergeMe const & src)
 {
@@ -38,10 +37,7 @@ PmergeMe::PmergeMe(int argc, char ** argv) : _argc(argc)
     parse_arguments(argv);
 }
 
-PmergeMe::~PmergeMe()
-{
-    log_debug("destructor called");
-}
+PmergeMe::~PmergeMe() { log_debug("destructor called"); }
 
 PmergeMe & PmergeMe::operator=(PmergeMe const & rhs)
 {
@@ -54,7 +50,7 @@ PmergeMe & PmergeMe::operator=(PmergeMe const & rhs)
 
 void PmergeMe::parse_arguments(char ** argv)
 {
-    for (int i = 1; i <= _argc ; ++i)
+    for (int i = 1; i <= _argc; ++i)
     {
         int tmp = std::atoi(argv[i]);
         std::cout << tmp << " ";

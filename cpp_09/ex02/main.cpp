@@ -27,8 +27,6 @@ static int log_exit(std::string const & message)
 int main(int argc, char ** argv)
 {
 
-    /* @note remove at some point */
-    (void)argc;
     if (argc < EXPECTED_ARGC)
     {
         return log_exit("not enough arguments!");
@@ -40,7 +38,7 @@ int main(int argc, char ** argv)
 
     try
     {
-        PmergeMe obj(argc -1, argv);
+        PmergeMe obj(argc - 1, argv);
     }
     catch (std::exception const & e)
     {
