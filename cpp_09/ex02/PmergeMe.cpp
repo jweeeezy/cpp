@@ -35,7 +35,10 @@ PmergeMe::PmergeMe(PmergeMe const & src)
 PmergeMe::PmergeMe(int argc, char ** argv) : _argc(argc)
 {
     log_debug("parsing constructor called");
-    parse_arguments(argv);
+    t_vec_str_c args = parse_arguments(argv);
+#ifdef DEBUG
+    log_vector(args);
+#endif // DEBUG
 }
 
 PmergeMe::~PmergeMe() { log_debug("destructor called"); }
@@ -59,7 +62,7 @@ bool is_positive_number(t_str_c & input)
     return true;
 }
 
-t_vec_str_c PmergeMe::str_split_by(t_str_c & str, t_str_c & delimiter)
+t_vec_str_c PmergeMe::str_split_by(t_str_c & str, t_str_c & delimiter) const
 {
     t_vec_str vec;
     t_str     tmp(str);
@@ -70,7 +73,10 @@ t_vec_str_c PmergeMe::str_split_by(t_str_c & str, t_str_c & delimiter)
         {
             pos = tmp.size();
         }
-        vec.push_back(tmp.substr(0, pos));
+        if (pos != 0)
+        {
+            vec.push_back(tmp.substr(0, pos));
+        }
         if (pos == tmp.size())
         {
             break;
@@ -83,7 +89,7 @@ t_vec_str_c PmergeMe::str_split_by(t_str_c & str, t_str_c & delimiter)
     return vec;
 }
 
-t_vec_str_c PmergeMe::split_quotated_strings(char ** argv)
+t_vec_str_c PmergeMe::split_quotated_strings(char ** argv) const
 {
     t_vec_str vec;
     for (int i = 1; i <= _argc; ++i)
@@ -94,9 +100,23 @@ t_vec_str_c PmergeMe::split_quotated_strings(char ** argv)
     return vec;
 }
 
-t_vec_str_c PmergeMe::parse_arguments(char ** argv)
+void PmergeMe::log_vector(t_vec_str_c vec) const
+{
+    std::cout << "[vec] ";
+    for (t_vec_str_cit it = vec.begin(); it != vec.end(); ++it)
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << "\n";
+}
+
+t_vec_str_c PmergeMe::parse_arguments(char ** argv) const
 {
     t_vec_str_c vec = split_quotated_strings(argv);
+    if (vec.empty() == true)
+    {
+        throw std::invalid_argument("empty arguments!");
+    }
     for (t_vec_str_cit it = vec.begin(); it != vec.end(); ++it)
     {
         if (is_positive_number(*it) == false)

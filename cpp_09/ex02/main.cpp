@@ -16,7 +16,7 @@
 #define RED   "\033[1;31m"
 #define RESET "\033[0m"
 
-#define EXPECTED_ARGC 3
+#define EXPECTED_ARGC 2
 
 static int log_exit(std::string const & message)
 {

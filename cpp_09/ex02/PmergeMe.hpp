@@ -33,10 +33,11 @@ class PmergeMe
     PmergeMe & operator=(PmergeMe const & rhs);
 
     void log_debug(t_str_c & message) const;
+    void log_vector(t_vec_str_c vec) const;
 
-    t_vec_str_c str_split_by(t_str_c & str, t_str_c & delimiter);
-    t_vec_str_c split_quotated_strings(char ** argv);
-    t_vec_str_c parse_arguments(char ** argv);
+    t_vec_str_c str_split_by(t_str_c & str, t_str_c & delimiter) const;
+    t_vec_str_c split_quotated_strings(char ** argv) const;
+    t_vec_str_c parse_arguments(char ** argv) const;
 
   private:
     int _argc;
