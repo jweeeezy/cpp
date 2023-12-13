@@ -81,10 +81,7 @@ t_vec_str_c PmergeMe::str_split_by(t_str_c & str, t_str_c & delimiter) const
         {
             break;
         }
-        else
-        {
-            tmp = tmp.substr(pos + 1, tmp.size());
-        }
+        tmp = tmp.substr(pos + 1, tmp.size());
     }
     return vec;
 }
@@ -102,12 +99,12 @@ t_vec_str_c PmergeMe::split_quotated_strings(char ** argv) const
 
 void PmergeMe::log_vector(t_vec_str_c vec) const
 {
-    std::cout << "[vec] ";
+    std::cerr << "[vec] ";
     for (t_vec_str_cit it = vec.begin(); it != vec.end(); ++it)
     {
-        std::cout << *it << " ";
+        std::cerr << *it << " ";
     }
-    std::cout << "\n";
+    std::cerr << "\n";
 }
 
 t_vec_str_c PmergeMe::parse_arguments(char ** argv) const
