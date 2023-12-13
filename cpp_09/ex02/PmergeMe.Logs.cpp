@@ -4,37 +4,36 @@
 //                                                                            //
 // name:  jakob willert (jwillert)                                            //
 // mail:  jwillert@student.42heilbronn.de                                     //
-// file:  PmergeMe.cpp                                                        //
+// file:  PmergeMe.Logs.cpp                                                   //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
 #include "PmergeMe.hpp" // needed for PmergeMe class, typedefs, std::vector
+#include <iostream>     // needed for std::cerr
 
-PmergeMe::PmergeMe() { log_debug("default constructor called"); }
-PmergeMe::~PmergeMe() { log_debug("destructor called"); }
-PmergeMe::PmergeMe(PmergeMe const & src)
+#define YELLOW "\033[033m"
+#define RESET  "\033[0m"
+
+void PmergeMe::log_debug(t_str_c & message) const
 {
-    log_debug("copy constructor called");
-    *this = src;
+    (void)message;
+#ifdef DEBUG
+    std::cerr << YELLOW << "PmergeMe: " << message << RESET << "\n";
+#endif // DEBUG
 }
 
-PmergeMe & PmergeMe::operator=(PmergeMe const & rhs)
+void PmergeMe::log_vector(t_vec_str_c & vec, t_str_c & name) const
 {
-    log_debug("assignment operator called");
-    if (this != &rhs)
+    (void)vec;
+    (void)name;
+#ifdef DEBUG
+    std::cerr << YELLOW << "[" << name << "]";
+    for (t_vec_str_cit it = vec.begin(); it != vec.end(); ++it)
     {
-        /* @note no deep copy i guess ? */
-        _argc = rhs._argc;
-        _argv = rhs._argv;
+        std::cerr << *it << " ";
     }
-    return *this;
-}
-
-PmergeMe::PmergeMe(int argc, char ** argv) : _argc(argc), _argv(argv)
-{
-    log_debug("parsing constructor called");
-    t_vec_str_c args = parse_arguments();
-    log_vector(args, "arguments");
+    std::cerr << "\n" << RESET;
+#endif // DEBUG
 }
 
 // -------------------------------------------------------------------------- //

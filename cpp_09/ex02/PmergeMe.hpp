@@ -40,8 +40,6 @@ class PmergeMe
     void log_debug(t_str_c & message) const;
     void log_vector(t_vec_str_c & vec, t_str_c & name) const;
 
-    t_vec_str_c str_split_by(t_str_c & str, t_str_c & delimiter) const;
-    t_vec_str_c split_quotated_strings() const;
     t_vec_str_c parse_arguments() const;
 
     int     _argc;
