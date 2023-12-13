@@ -32,17 +32,20 @@ class PmergeMe
     ~PmergeMe();
     PmergeMe & operator=(PmergeMe const & rhs);
 
-    void log_debug(t_str_c & message) const;
-    void log_vector(t_vec_str_c vec) const;
-
-    t_vec_str_c str_split_by(t_str_c & str, t_str_c & delimiter) const;
-    t_vec_str_c split_quotated_strings(char ** argv) const;
-    t_vec_str_c parse_arguments(char ** argv) const;
+    /* @note this is where time measuring should start */
+    void sort_with_deque(t_vec_str_c &) const;
+    void sort_with_vector(t_vec_str_c &) const;
 
   private:
-    int _argc;
-    /* @note prob a template Container ? */
-    /* or just an overloaded constructor */
+    void log_debug(t_str_c & message) const;
+    void log_vector(t_vec_str_c & vec, t_str_c & name) const;
+
+    t_vec_str_c str_split_by(t_str_c & str, t_str_c & delimiter) const;
+    t_vec_str_c split_quotated_strings() const;
+    t_vec_str_c parse_arguments() const;
+
+    int     _argc;
+    char ** _argv;
 };
 
 #endif // PMERGEME
