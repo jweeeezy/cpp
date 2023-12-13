@@ -14,9 +14,6 @@
 
 #define EXPECTED_ARGC 2
 
-#define DIGITS    std::string("0123456789")
-#define OPERATORS std::string("+-/*")
-
 #define RED   "\033[1;31m"
 #define RESET "\033[0m"
 
