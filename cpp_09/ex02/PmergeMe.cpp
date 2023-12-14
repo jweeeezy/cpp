@@ -23,9 +23,9 @@ PmergeMe & PmergeMe::operator=(PmergeMe const & rhs)
     log_debug("assignment operator called");
     if (this != &rhs)
     {
-        /* @note no deep copy i guess ? */
         _argc = rhs._argc;
         _argv = rhs._argv;
+        _args = rhs._args;
     }
     return *this;
 }
