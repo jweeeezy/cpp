@@ -32,8 +32,15 @@ int main(int argc, char ** argv)
     try
     {
         PmergeMe obj(argc - 1, argv);
+
+        /* @note implement timer class */
         obj.sort_with_deque();
-        obj.sort_with_vector();
+        /* @note stop time, print time */
+
+        /* @note start time */
+        obj.sort_with_list();
+        /* @note stop time, print time */
+
     }
     catch (std::exception const & e)
     {

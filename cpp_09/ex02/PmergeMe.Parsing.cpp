@@ -76,6 +76,7 @@ void PmergeMe::parse_arguments()
 //            throw std::invalid_argument("only positive integers allowed!");
 //        }
 //        _args.push_back(tmp);
+//        /* use std::find to check if duplicate ! *
     }
 }
 
