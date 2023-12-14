@@ -46,6 +46,7 @@ class PmergeMe
     /* @note this is where time measuring should start */
     void sort_with_vector() const;
     void sort_with_deque() const;
+    void sort_with_list() const;
 
   private:
     void log_debug(t_str_c & message) const;

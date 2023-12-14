@@ -45,4 +45,25 @@ void PmergeMe::sort_with_deque() const
     log_deque(deq, "deque");
 }
 
+void PmergeMe::sort_with_list() const
+{
+
+    /* group elements into n / 2 pairs,
+     * leave one element unpaired if necessary */
+
+    /* perform n/2 comparisons, one per pair,
+     * to determine the larger of the two elements in each pair */
+
+    /* recursively sort the n/2 larger elements from each pair,
+     * creating a sorted sequence S in ascending order */
+
+    /* insert at the start of S the element that was paired with
+     * the first and smallest element of S */
+
+    /* insert the remaining n / 2 - 1 elements of X \ S into S,
+     * one at a time, with a specially chosen insertion.
+     * use binary search in subsequences of S to determine the position
+     * at which each element should be inserted */
+}
+
 // -------------------------------------------------------------------------- //
