@@ -50,7 +50,7 @@ class PmergeMe
     void log_debug(t_str_c & message) const;
     void log_vector(t_vec_str_c & vec, t_str_c & name) const;
     void log_vector(t_vec_int_c & vec, t_str_c & name) const;
-    void log_deque(std::deque<int> & deq, t_str_c & name) const;
+    void log_deque(t_deq_int_c & deq, t_str_c & name) const;
 
     void parse_arguments();
 

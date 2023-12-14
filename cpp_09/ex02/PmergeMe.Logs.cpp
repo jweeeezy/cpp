@@ -49,15 +49,13 @@ void PmergeMe::log_vector(t_vec_int_c & vec, t_str_c & name) const
     std::cerr << "\n" << RESET;
 #endif // DEBUG
 }
-void PmergeMe::log_deque(std::deque<int> & deq, t_str_c & name) const
+void PmergeMe::log_deque(t_deq_int_c & deq, t_str_c & name) const
 {
     (void)deq;
     (void)name;
 #ifdef DEBUG
     std::cerr << YELLOW << "[" << name << "] ";
-    for (std::deque<int>::const_iterator it = deq.begin();
-         it != deq.end();
-         ++it)
+    for (t_deq_int_cit it = deq.begin(); it != deq.end(); ++it)
     {
         std::cerr << *it << " ";
     }
