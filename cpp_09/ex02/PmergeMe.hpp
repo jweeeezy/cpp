@@ -15,6 +15,7 @@
 #include <string> // needed for std::string
 #include <vector> // needed for std::vector
 
+/*@note typedefs deque */
 /* typedefs */
 typedef std::string t_str;
 typedef t_str const t_str_c;
@@ -23,7 +24,13 @@ typedef std::vector<t_str>        t_vec_str;
 typedef t_vec_str const           t_vec_str_c;
 typedef t_vec_str::const_iterator t_vec_str_cit;
 
-/*@note typedefs deque */
+typedef std::vector<int>          t_vec_int;
+typedef t_vec_int const           t_vec_int_c;
+typedef t_vec_int::const_iterator t_vec_int_cit;
+
+typedef std::deque<int>           t_deq_int;
+typedef t_deq_int const           t_deq_int_c;
+typedef t_deq_int::const_iterator t_deq_int_cit;
 
 class PmergeMe
 {
@@ -42,13 +49,14 @@ class PmergeMe
   private:
     void log_debug(t_str_c & message) const;
     void log_vector(t_vec_str_c & vec, t_str_c & name) const;
-    void log_deque(std::deque<std::string> & deq, t_str_c & name) const;
+    void log_vector(t_vec_int_c & vec, t_str_c & name) const;
+    void log_deque(std::deque<int> & deq, t_str_c & name) const;
 
     void parse_arguments();
 
     int       _argc;
     char **   _argv;
-    t_vec_str _args;
+    t_vec_int _args;
 };
 
 #endif // PMERGEME

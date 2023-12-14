@@ -39,18 +39,13 @@ PmergeMe::PmergeMe(int argc, char ** argv) : _argc(argc), _argv(argv)
 
 void PmergeMe::sort_with_vector() const
 {
-    std::vector<std::string> vec;
-    for (t_vec_str_cit it = _args.begin(); it != _args.end(); ++it)
-    {
-        vec.push_back(*it);
-    }
-    log_vector(vec, "vector");
+    log_vector(_args, "vector");
 }
 
 void PmergeMe::sort_with_deque() const
 {
-    std::deque<std::string> deq;
-    for (t_vec_str_cit it = _args.begin(); it != _args.end(); ++it)
+    std::deque<int> deq;
+    for (t_vec_int_cit it = _args.begin(); it != _args.end(); ++it)
     {
         deq.push_back(*it);
     }

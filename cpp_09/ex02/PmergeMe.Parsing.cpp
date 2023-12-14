@@ -59,17 +59,23 @@ t_vec_str_c split_quotated_strings(int argc, char ** argv)
 
 void PmergeMe::parse_arguments()
 {
-    _args = split_quotated_strings(_argc, _argv);
-    if (_args.empty() == true)
+    t_vec_str_c vec = split_quotated_strings(_argc, _argv);
+    if (vec.empty() == true)
     {
         throw std::invalid_argument("empty arguments!");
     }
-    for (t_vec_str_cit it = _args.begin(); it != _args.end(); ++it)
+    for (t_vec_str_cit it = vec.begin(); it != vec.end(); ++it)
     {
         if (is_positive_number(*it) == false)
         {
             throw std::invalid_argument("only positive integers allowed!");
         }
+        int tmp = std::atoi(it->c_str());
+        if (tmp <= 0)
+        {
+            throw std::invalid_argument("only positive integers allowed!");
+        }
+        _args.push_back(tmp);
     }
 }
 
