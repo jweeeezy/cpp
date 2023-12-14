@@ -24,6 +24,7 @@ typedef std::vector<t_str>        t_vec_str;
 typedef t_vec_str const           t_vec_str_c;
 typedef t_vec_str::const_iterator t_vec_str_cit;
 
+/* @note i guess i'll use a std::list instead */
 typedef std::vector<int>          t_vec_int;
 typedef t_vec_int const           t_vec_int_c;
 typedef t_vec_int::const_iterator t_vec_int_cit;

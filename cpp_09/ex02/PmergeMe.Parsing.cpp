@@ -70,12 +70,12 @@ void PmergeMe::parse_arguments()
         {
             throw std::invalid_argument("only positive integers allowed!");
         }
-        int tmp = std::atoi(it->c_str());
-        if (tmp <= 0)
-        {
-            throw std::invalid_argument("only positive integers allowed!");
-        }
-        _args.push_back(tmp);
+//        int tmp = std::atoi(it->c_str());
+//        if (tmp <= 0)
+//        {
+//            throw std::invalid_argument("only positive integers allowed!");
+//        }
+//        _args.push_back(tmp);
     }
 }
 
