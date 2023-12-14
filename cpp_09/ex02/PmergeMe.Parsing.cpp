@@ -57,21 +57,20 @@ t_vec_str_c split_quotated_strings(int argc, char ** argv)
     return vec;
 }
 
-t_vec_str_c PmergeMe::parse_arguments() const
+void PmergeMe::parse_arguments()
 {
-    t_vec_str_c vec = split_quotated_strings(_argc, _argv);
-    if (vec.empty() == true)
+    _args = split_quotated_strings(_argc, _argv);
+    if (_args.empty() == true)
     {
         throw std::invalid_argument("empty arguments!");
     }
-    for (t_vec_str_cit it = vec.begin(); it != vec.end(); ++it)
+    for (t_vec_str_cit it = _args.begin(); it != _args.end(); ++it)
     {
         if (is_positive_number(*it) == false)
         {
             throw std::invalid_argument("only positive integers allowed!");
         }
     }
-    return vec;
 }
 
 // -------------------------------------------------------------------------- //

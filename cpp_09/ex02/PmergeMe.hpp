@@ -11,16 +11,19 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
+#include <deque>  // needed for std::deque
 #include <string> // needed for std::string
 #include <vector> // needed for std::vector
 
-/* @note typedefs */
+/* typedefs */
 typedef std::string t_str;
 typedef t_str const t_str_c;
 
 typedef std::vector<t_str>        t_vec_str;
 typedef t_vec_str const           t_vec_str_c;
 typedef t_vec_str::const_iterator t_vec_str_cit;
+
+/*@note typedefs deque */
 
 class PmergeMe
 {
@@ -33,17 +36,19 @@ class PmergeMe
     PmergeMe & operator=(PmergeMe const & rhs);
 
     /* @note this is where time measuring should start */
-    void sort_with_deque(t_vec_str_c &) const;
-    void sort_with_vector(t_vec_str_c &) const;
+    void sort_with_vector() const;
+    void sort_with_deque() const;
 
   private:
     void log_debug(t_str_c & message) const;
     void log_vector(t_vec_str_c & vec, t_str_c & name) const;
+    void log_deque(std::deque<std::string> & deq, t_str_c & name) const;
 
-    t_vec_str_c parse_arguments() const;
+    void parse_arguments();
 
-    int     _argc;
-    char ** _argv;
+    int       _argc;
+    char **   _argv;
+    t_vec_str _args;
 };
 
 #endif // PMERGEME

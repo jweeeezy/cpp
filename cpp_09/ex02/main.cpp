@@ -39,6 +39,8 @@ int main(int argc, char ** argv)
     try
     {
         PmergeMe obj(argc - 1, argv);
+        obj.sort_with_vector();
+        obj.sort_with_deque();
     }
     catch (std::exception const & e)
     {
