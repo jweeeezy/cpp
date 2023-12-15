@@ -56,12 +56,26 @@ StopWatch & StopWatch::operator=(StopWatch const & rhs)
 
 double StopWatch::get_measured_time() const { return _measured_time; }
 
-void StopWatch::start() { _start = std::clock(); }
+void StopWatch::start()
+{
+    _start = std::clock();
+    if (_start == std::clock_t(-1))
+    {
+        throw std::runtime_error(
+            "StopWatch.start(): Cannot retrieve std::clock()");
+    }
+}
 
 void StopWatch::stop()
 {
     _end = std::clock();
+    if (_end == std::clock_t(-1))
+    {
+        throw std::runtime_error(
+            "StopWatch.stop(): Cannot retrieve std::clock()");
+    }
     _measured_time = static_cast<double>(_end - _start) / CLOCKS_PER_MS;
 }
 
-// -------------------------------------------------------------------------- //
+// --------------------------------------------------------------------------
+// //
