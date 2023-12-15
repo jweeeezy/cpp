@@ -43,7 +43,6 @@ class PmergeMe
     ~PmergeMe();
     PmergeMe & operator=(PmergeMe const & rhs);
 
-    /* @note this is where time measuring should start */
     void sort_with_vector() const;
     void sort_with_deque() const;
     void sort_with_list() const;
