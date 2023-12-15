@@ -26,10 +26,12 @@ typedef t_vec_str::const_iterator t_vec_str_cit;
 
 typedef std::list<int>            t_lst_int;
 typedef t_lst_int const           t_lst_int_c;
+typedef t_lst_int::iterator       t_lst_int_it;
 typedef t_lst_int::const_iterator t_lst_int_cit;
 
 typedef std::deque<int>           t_deq_int;
 typedef t_deq_int const           t_deq_int_c;
+typedef t_deq_int::iterator       t_deq_int_it;
 typedef t_deq_int::const_iterator t_deq_int_cit;
 
 class PmergeMe

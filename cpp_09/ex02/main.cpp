@@ -44,7 +44,7 @@ int main(int argc, char ** argv)
         timer_obj.start();
         obj.sort_with_list();
         timer_obj.stop();
-        log_measured_time(timer_obj, "First try");
+        log_measured_time(timer_obj, "Default");
     }
     catch (std::exception const & e)
     {

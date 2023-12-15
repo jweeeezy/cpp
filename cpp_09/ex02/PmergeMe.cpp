@@ -83,28 +83,41 @@ void PmergeMe::sort_with_list() const
 {
     t_lst_int lst;
     bool      even_or_odd = is_even(_args.size());
-
-    t_vec_str_cit it = _args.begin();
-    while (it != _args.end())
+    (void)even_or_odd;
     {
-        int x = get_parsed_int(lst, it);
-        int y = get_parsed_int(lst, it + 1);
-        sort_in_pair(lst, x, y);
-        if (even_or_odd == ODD && it + 3 == _args.end())
+        t_vec_str_cit it = _args.begin();
+        while (it != _args.end())
         {
-            int x = get_parsed_int(lst, it + 2);
-            lst.push_back(x);
-            break;
-        }
-        else if (it != _args.end())
-        {
+            int x = get_parsed_int(lst, it);
+            int y = get_parsed_int(lst, it + 1);
+            sort_in_pair(lst, x, y);
+            if (it + 3 == _args.end())
+            {
+                int x = get_parsed_int(lst, it + 2);
+                lst.push_back(x);
+                break;
+            }
             it += 2;
         }
     }
-
-    /* @Note different loop for odd or implement it in loop? */
-    (void)even_or_odd;
-    log_list(lst, "list");
+    log_list(lst, "step 1 (comparison)");
+    {
+        /* @note need different loops for odd / even i think */
+        t_lst_int_cit start = lst.begin();
+        t_lst_int_cit end = --lst.end();
+        t_lst_int_it  it = lst.begin();
+        while (it != lst.end() && it != lst.end())
+        {
+            ++it;
+            int tmp = *it;
+            lst.push_back(tmp);
+            it = lst.erase(it);
+            ++it;
+        }
+        (void) start;
+        (void) end;
+    }
+    log_list(lst, "step 2 (larger elements)");
 
     /* group elements into n / 2 pairs,
      * leave one element unpaired if necessary */
