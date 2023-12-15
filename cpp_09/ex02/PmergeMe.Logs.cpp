@@ -12,7 +12,7 @@
 
 #ifdef DEBUG
 #include <iostream> // needed for std::cerr
-#endif              // DEBUG
+#endif
 
 #define YELLOW "\033[033m"
 #define RESET  "\033[0m"

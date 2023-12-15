@@ -12,6 +12,9 @@
 #include <algorithm>    // needed for std::find
 #include <list>         // needed for std::list
 
+#define EVEN true
+#define ODD  false
+
 PmergeMe::PmergeMe() { log_debug("default constructor called"); }
 PmergeMe::~PmergeMe() { log_debug("destructor called"); }
 PmergeMe::PmergeMe(PmergeMe const & src)
@@ -45,14 +48,7 @@ void PmergeMe::sort_with_deque() const
     log_deque(deq, "deque");
 }
 
-static bool is_even(size_t n)
-{
-    if (n % 2 == 0)
-    {
-        return true;
-    }
-    return false;
-}
+static bool is_even(size_t n) { return n % 2 == 0; }
 
 static int get_parsed_int(t_lst_int_c & lst, t_vec_str_cit it)
 {
@@ -68,27 +64,46 @@ static int get_parsed_int(t_lst_int_c & lst, t_vec_str_cit it)
     return tmp;
 }
 
+void sort_in_pair(t_lst_int & lst, int x, int y)
+{
+    /* @note not sure if correct order */
+    if (x < y)
+    {
+        lst.push_back(x);
+        lst.push_back(y);
+    }
+    else
+    {
+        lst.push_back(y);
+        lst.push_back(x);
+    }
+}
+
 void PmergeMe::sort_with_list() const
 {
     t_lst_int lst;
-    bool      even = is_even(lst.size());
+    bool      even_or_odd = is_even(_args.size());
 
     t_vec_str_cit it = _args.begin();
     while (it != _args.end())
     {
         int x = get_parsed_int(lst, it);
         int y = get_parsed_int(lst, it + 1);
-        lst.push_back(x);
-        lst.push_back(y);
-        if (it != _args.end())
+        sort_in_pair(lst, x, y);
+        if (even_or_odd == ODD && it + 3 == _args.end())
         {
-            it = it + 2;
+            int x = get_parsed_int(lst, it + 2);
+            lst.push_back(x);
+            break;
+        }
+        else if (it != _args.end())
+        {
+            it += 2;
         }
     }
 
     /* @Note different loop for odd or implement it in loop? */
-
-    (void)even;
+    (void)even_or_odd;
     log_list(lst, "list");
 
     /* group elements into n / 2 pairs,
