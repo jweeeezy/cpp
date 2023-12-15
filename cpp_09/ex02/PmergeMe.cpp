@@ -54,7 +54,7 @@ static bool is_even(size_t n)
     return false;
 }
 
-static int get_parsed_int(std::list<int> const & lst, t_vec_str_cit it)
+static int get_parsed_int(t_lst_int_c & lst, t_vec_str_cit it)
 {
     int tmp = std::atoi(it->c_str());
     if (tmp < 1)
@@ -70,8 +70,8 @@ static int get_parsed_int(std::list<int> const & lst, t_vec_str_cit it)
 
 void PmergeMe::sort_with_list() const
 {
-    std::list<int> lst;
-    bool           even = is_even(lst.size());
+    t_lst_int lst;
+    bool      even = is_even(lst.size());
 
     t_vec_str_cit it = _args.begin();
     while (it != _args.end())

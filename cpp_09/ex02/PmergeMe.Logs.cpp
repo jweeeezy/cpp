@@ -39,13 +39,13 @@ void PmergeMe::log_vector(t_vec_str_c & vec, t_str_c & name) const
 #endif // DEBUG
 }
 
-void PmergeMe::log_list(std::list<int> & lst, t_str_c & name) const
+void PmergeMe::log_list(t_lst_int_c & lst, t_str_c & name) const
 {
     (void)lst;
     (void)name;
 #ifdef DEBUG
     std::cerr << YELLOW << "[" << name << "] ";
-    for (std::list<int>::const_iterator it = lst.begin(); it != lst.end(); ++it)
+    for (t_lst_int_cit it = lst.begin(); it != lst.end(); ++it)
     {
         std::cerr << *it << " ";
     }
