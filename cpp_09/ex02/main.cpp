@@ -42,7 +42,7 @@ int main(int argc, char ** argv)
         PmergeMe  obj(argc - 1, argv);
 
         timer_obj.start();
-        obj.sort_with_deque();
+        obj.sort_with_list();
         timer_obj.stop();
         log_measured_time(timer_obj, "First try");
     }

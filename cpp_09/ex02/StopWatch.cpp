@@ -11,6 +11,10 @@
 #include "StopWatch.hpp" // needed for StopWatch class
 #include <string>        // needed for std::string
 
+#ifdef DEBUG
+#include <iostream> // needed for std::cerr
+#endif              // DEBUG
+
 #define YELLOW "\033[33m"
 #define RESET  "\033[0m"
 
@@ -22,7 +26,7 @@ static inline void log_debug(std::string const & message)
 {
     (void)message;
 #ifdef DEBUG
-    std::cout << YELLOW << "StopWatch: " << message << RESET << "\n";
+    std::cerr << YELLOW << "StopWatch: " << message << RESET << "\n";
 #endif // DEBUG
 }
 

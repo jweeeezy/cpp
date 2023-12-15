@@ -11,7 +11,7 @@
 #ifndef STOPWATCH_HPP
 #define STOPWATCH_HPP
 
-#include <ctime>
+#include <ctime> // needed for std::clock_t, std::clock
 
 class StopWatch
 {
