@@ -110,25 +110,35 @@ t_lst_int PmergeMe::vector_to_lst() const
 
 void PmergeMe::sort_with_list() const
 {
-    t_lst_int lst;
-    bool      even_or_odd = is_even(_args.size());
+    t_lst_int lst = vector_to_lst();
+    log_list(lst, "step 1 (comparison)");
+
+    bool even_or_odd = is_even(_args.size());
 #ifdef DEBUG
     std::cerr << bool_to_string(even_or_odd) << "\n";
 #endif // DEBUG
-    lst = vector_to_lst();
-    log_list(lst, "step 1 (comparison)");
+
     {
         if (even_or_odd == ODD)
         {
-            t_lst_int_cit end = --lst.end();
-            (void)end;
             t_lst_int_it it = lst.begin();
-            while (it != lst.end())
+            int          end = *(--lst.end());
+            int          index = 0;
+            int          stop = 1;
+
+            while (*it != end)
             {
-                ++it;
-                int tmp = *it;
-                lst.push_back(tmp);
-                it = lst.erase(it);
+                if (index == stop)
+                {
+                    int tmp = *it;
+                    std::cerr << "pushes back " << tmp << "\n";
+                    lst.push_back(tmp);
+                    it = lst.erase(it);
+                    stop += 1;
+                    index = 0;
+                    it = lst.begin();
+                }
+                ++index;
                 ++it;
             }
         }
