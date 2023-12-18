@@ -10,6 +10,7 @@
 
 #include "PmergeMe.hpp" // needed for PmergeMe class, typedefs, std::vector
 #include <algorithm>    // needed for std::find
+#include <iostream>     // needed for std::cout, std::cerr
 #include <list>         // needed for std::list
 
 #define EVEN true
@@ -89,7 +90,7 @@ std::string bool_to_string(bool is)
 
 t_lst_int PmergeMe::vector_to_lst() const
 {
-    t_lst_int lst;
+    t_lst_int     lst;
     t_vec_str_cit it = _args.begin();
     while (it != _args.end())
     {
@@ -117,38 +118,53 @@ void PmergeMe::sort_with_list() const
     lst = vector_to_lst();
     log_list(lst, "step 1 (comparison)");
     {
-        t_vec_str_cit it = _args.begin();
-        while (it != _args.end())
+        if (even_or_odd == ODD)
         {
-            int x = get_parsed_int(lst, it);
-            int y = get_parsed_int(lst, it + 1);
-            sort_in_pair(lst, x, y);
-            if (it + 3 == _args.end())
+            t_lst_int_cit end = --lst.end();
+            (void)end;
+            t_lst_int_it it = lst.begin();
+            while (it != lst.end())
             {
-                int x = get_parsed_int(lst, it + 2);
-                lst.push_back(x);
-                break;
+                ++it;
+                int tmp = *it;
+                lst.push_back(tmp);
+                it = lst.erase(it);
+                ++it;
             }
-            it += 2;
         }
-    }
-    log_list(lst, "step 1 (comparison)");
-    {
-        /* @note need different loops for odd / even i think */
-        t_lst_int_cit start = lst.begin();
-        t_lst_int_cit end = --lst.end();
-        t_lst_int_it  it = lst.begin();
-        while (it != lst.end() && it != lst.end())
+        else if (even_or_odd == EVEN)
         {
-            ++it;
+            t_lst_int_it it = lst.begin();
+            int          end = *(--lst.end());
+            int          index = 0;
+            int          stop = 1;
+
+            while (*it != end)
+            {
+                if (index == stop)
+                {
+                    int tmp = *it;
+                    std::cerr << "pushes back " << tmp << "\n";
+                    lst.push_back(tmp);
+                    it = lst.erase(it);
+                    stop += 1;
+                    index = 0;
+                    it = lst.begin();
+                }
+                ++index;
+                ++it;
+            }
             int tmp = *it;
+            std::cerr << "pushes back " << tmp << "\n";
             lst.push_back(tmp);
             it = lst.erase(it);
-            ++it;
+            stop += 1;
+            index = 0;
+            it = lst.begin();
         }
-        (void) start;
-        (void) end;
+        /* @note need different loops for odd / even i think */
     }
+
     log_list(lst, "step 2 (larger elements)");
 
     /* group elements into n / 2 pairs,
