@@ -11,6 +11,7 @@
 #include "PmergeMe.hpp" // needed for PmergeMe class, typedefs, std::vector
 #include <algorithm>    // needed for std::find
 #include <list>         // needed for std::list
+#include <stdexcept>    // needed for std::invalid_argument
 
 #ifdef DEBUG
 #include <iostream> // needed for std::cout, std::cerr
@@ -118,10 +119,11 @@ t_lst_int PmergeMe::vector_to_lst() const
     return lst;
 }
 
-void do_step_2(t_lst_int & lst, t_lst_int_it & it, int & end, int & stop,
-               int & index)
+void do_step_2(
+    t_lst_int & lst, t_lst_int_it & it, int & end, int & stop, int & index)
 {
     int tmp = *it;
+
 #ifdef DEBUG
     std::cerr << "pushes back " << tmp << "\n";
 #endif // DEBUG
@@ -148,7 +150,7 @@ void do_step_2(t_lst_int & lst, t_lst_int_it & it, int & end, int & stop,
     it = lst.erase(it);
     stop += 1;
     index = 0;
-    it = lst.begin();
+    it    = lst.begin();
 }
 
 void PmergeMe::sort_with_list() const
@@ -161,10 +163,14 @@ void PmergeMe::sort_with_list() const
 
     /* step 2 algorithm */
     {
-        t_lst_int_it it = lst.begin();
-        int          end = *(--lst.end());
+        t_lst_int_it it    = lst.begin();
+        int          end   = *(--lst.end());
         int          index = 0;
-        int          stop = 1;
+        int          stop  = 1;
+
+#ifdef DEBUG
+        std::cerr << "stop value: " << end << "\n";
+#endif // DEBUG
 
         while (*it != end)
         {

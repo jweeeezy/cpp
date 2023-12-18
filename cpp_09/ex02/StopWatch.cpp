@@ -9,6 +9,7 @@
 // -------------------------------------------------------------------------- //
 
 #include "StopWatch.hpp" // needed for StopWatch class
+#include <stdexcept>     // needed for std::runtime_error
 #include <string>        // needed for std::string
 
 #ifdef DEBUG
@@ -47,8 +48,8 @@ StopWatch & StopWatch::operator=(StopWatch const & rhs)
     log_debug("assignment operator called");
     if (this != &rhs)
     {
-        _start = rhs._start;
-        _end = rhs._end;
+        _start         = rhs._start;
+        _end           = rhs._end;
         _measured_time = rhs._measured_time;
     }
     return *this;
