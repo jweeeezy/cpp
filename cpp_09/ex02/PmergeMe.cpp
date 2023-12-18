@@ -10,8 +10,11 @@
 
 #include "PmergeMe.hpp" // needed for PmergeMe class, typedefs, std::vector
 #include <algorithm>    // needed for std::find
-#include <iostream>     // needed for std::cout, std::cerr
 #include <list>         // needed for std::list
+
+#ifdef DEBUG
+#include <iostream> // needed for std::cout, std::cerr
+#endif
 
 #define EVEN true
 #define ODD  false
@@ -49,7 +52,22 @@ void PmergeMe::sort_with_deque() const
     log_deque(deq, "deque");
 }
 
-static bool is_even(size_t n) { return n % 2 == 0; }
+std::string bool_to_string(bool is)
+{
+    if (is == ODD)
+        return "<odd>";
+    else
+        return "<even>";
+}
+
+static bool is_even(size_t n)
+{
+    bool is = n % 2 == 0;
+#ifdef DEBUG
+    std::cerr << bool_to_string(is) << " no of elements\n";
+#endif // DEBUG
+    return is;
+}
 
 static int get_parsed_int(t_lst_int_c & lst, t_vec_str_cit it)
 {
@@ -80,14 +98,6 @@ void sort_in_pair(t_lst_int & lst, int x, int y)
     }
 }
 
-std::string bool_to_string(bool is)
-{
-    if (is == ODD)
-        return "ODD";
-    else
-        return "EVEN";
-}
-
 t_lst_int PmergeMe::vector_to_lst() const
 {
     t_lst_int     lst;
@@ -108,78 +118,72 @@ t_lst_int PmergeMe::vector_to_lst() const
     return lst;
 }
 
-void PmergeMe::sort_with_list() const
+void do_step_2(t_lst_int & lst, t_lst_int_it & it, int & end, int & stop,
+               int & index)
 {
-    t_lst_int lst = vector_to_lst();
-    log_list(lst, "step 1 (comparison)");
-
-    bool even_or_odd = is_even(_args.size());
+    int tmp = *it;
 #ifdef DEBUG
-    std::cerr << bool_to_string(even_or_odd) << "\n";
+    std::cerr << "pushes back " << tmp << "\n";
 #endif // DEBUG
 
     {
-        if (even_or_odd == ODD)
+        t_lst_int_it bla = lst.begin();
+        while (*bla != end)
         {
-            t_lst_int_it it = lst.begin();
-            int          end = *(--lst.end());
-            int          index = 0;
-            int          stop = 1;
-
-            while (*it != end)
-            {
-                if (index == stop)
-                {
-                    int tmp = *it;
-                    std::cerr << "pushes back " << tmp << "\n";
-                    lst.push_back(tmp);
-                    it = lst.erase(it);
-                    stop += 1;
-                    index = 0;
-                    it = lst.begin();
-                }
-                ++index;
-                ++it;
-            }
+            ++bla;
         }
-        else if (even_or_odd == EVEN)
         {
-            t_lst_int_it it = lst.begin();
-            int          end = *(--lst.end());
-            int          index = 0;
-            int          stop = 1;
-
-            while (*it != end)
+            t_lst_int_it cpy = bla;
+            ++cpy;
+            while (cpy != lst.end() || tmp > *cpy)
             {
-                if (index == stop)
-                {
-                    int tmp = *it;
-                    std::cerr << "pushes back " << tmp << "\n";
-                    lst.push_back(tmp);
-                    it = lst.erase(it);
-                    stop += 1;
-                    index = 0;
-                    it = lst.begin();
-                }
-                ++index;
-                ++it;
+                ++cpy;
             }
-            int tmp = *it;
-            std::cerr << "pushes back " << tmp << "\n";
-            lst.push_back(tmp);
-            it = lst.erase(it);
-            stop += 1;
-            index = 0;
-            it = lst.begin();
+            lst.insert(cpy, tmp);
+            /* if first value, just push back */
+            /* if next value is bigger, insert here */
+            /* if next value is smaller, advance */
         }
-        /* @note need different loops for odd / even i think */
     }
+    it = lst.erase(it);
+    stop += 1;
+    index = 0;
+    it = lst.begin();
+}
 
+void PmergeMe::sort_with_list() const
+{
+    bool even_or_odd = is_even(_args.size());
+
+    /* step 1 algorithm */
+    t_lst_int lst = vector_to_lst();
+    log_list(lst, "step 1 (comparison)");
+
+    /* step 2 algorithm */
+    {
+        t_lst_int_it it = lst.begin();
+        int          end = *(--lst.end());
+        int          index = 0;
+        int          stop = 1;
+
+        while (*it != end)
+        {
+            if (index == stop)
+            {
+                do_step_2(lst, it, end, stop, index);
+            }
+            ++index;
+            ++it;
+        }
+        if (even_or_odd == EVEN)
+        {
+            do_step_2(lst, it, end, stop, index);
+        }
+    }
     log_list(lst, "step 2 (larger elements)");
 
     /* group elements into n / 2 pairs,
      * leave one element unpaired if necessary */
-
     /* perform n/2 comparisons, one per pair,
      * to determine the larger of the two elements in each pair */
 
@@ -188,7 +192,6 @@ void PmergeMe::sort_with_list() const
 
     /* insert at the start of S the element that was paired with
      * the first and smallest element of S */
-
     /* insert the remaining n / 2 - 1 elements of X \ S into S,
      * one at a time, with a specially chosen insertion.
      * use binary search in subsequences of S to determine the position
