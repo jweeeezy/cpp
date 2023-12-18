@@ -55,6 +55,8 @@ class PmergeMe
 
     void parse_arguments();
 
+    t_lst_int vector_to_lst() const;
+
     int       _argc;
     char **   _argv;
     t_vec_str _args;

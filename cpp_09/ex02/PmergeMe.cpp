@@ -79,11 +79,43 @@ void sort_in_pair(t_lst_int & lst, int x, int y)
     }
 }
 
+std::string bool_to_string(bool is)
+{
+    if (is == ODD)
+        return "ODD";
+    else
+        return "EVEN";
+}
+
+t_lst_int PmergeMe::vector_to_lst() const
+{
+    t_lst_int lst;
+    t_vec_str_cit it = _args.begin();
+    while (it != _args.end())
+    {
+        int x = get_parsed_int(lst, it);
+        int y = get_parsed_int(lst, it + 1);
+        sort_in_pair(lst, x, y);
+        if (it + 3 == _args.end())
+        {
+            int x = get_parsed_int(lst, it + 2);
+            lst.push_back(x);
+            break;
+        }
+        it += 2;
+    }
+    return lst;
+}
+
 void PmergeMe::sort_with_list() const
 {
     t_lst_int lst;
     bool      even_or_odd = is_even(_args.size());
-    (void)even_or_odd;
+#ifdef DEBUG
+    std::cerr << bool_to_string(even_or_odd) << "\n";
+#endif // DEBUG
+    lst = vector_to_lst();
+    log_list(lst, "step 1 (comparison)");
     {
         t_vec_str_cit it = _args.begin();
         while (it != _args.end())
