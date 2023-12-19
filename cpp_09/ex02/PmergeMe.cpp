@@ -119,31 +119,35 @@ t_lst_int PmergeMe::vector_to_lst() const
     return lst;
 }
 
-void do_step_2(
-    t_lst_int & lst, t_lst_int_it & it, int & end, int & stop, int & index)
+t_lst_int_it lst_get_iter_by_value(t_lst_int & lst, int value)
 {
-    int tmp = *it;
+    t_lst_int_it it = lst.begin();
+    while (it != lst.end() && *it != value)
+    {
+        ++it;
+    }
+    return it;
+}
 
+void lst_insert_ascending(t_lst_int & lst, t_lst_int_it & it, int value)
+{
+    while (it != lst.end() && *it < value)
+    {
+        ++it;
+    }
+    it = lst.insert(it, value);
+    /* @note might need to return correct iterator ? */
+}
+
+void do_step_2(t_lst_int & lst, t_lst_int_it & it, int const & end)
+{
 #ifdef DEBUG
-    std::cerr << "pushes back " << tmp << "\n";
+    std::cerr << "sorts " << *it << " into the sequence\n";
 #endif // DEBUG
-
-    t_lst_int_it itr = lst.begin();
-    while (itr != lst.end() && *itr != end)
-    {
-        ++itr;
-    }
-    ++itr;
-
-    while (itr != lst.end() && *itr < tmp)
-    {
-        ++itr;
-    }
-    lst.insert(itr, tmp);
-    it = lst.erase(it);
-    stop += 1;
-    index = 0;
-    it    = lst.begin();
+    t_lst_int_it itr = ++lst_get_iter_by_value(lst, end);
+    lst_insert_ascending(lst, itr, *it);
+    /* @note is using it here error prone? */
+    lst.erase(it);
 }
 
 void PmergeMe::sort_with_list() const
@@ -164,14 +168,17 @@ void PmergeMe::sort_with_list() const
         {
             if (index == stop)
             {
-                do_step_2(lst, it, end, stop, index);
+                do_step_2(lst, it, end);
+                stop += 1;
+                index = 0;
+                it = lst.begin();
             }
             ++index;
             ++it;
         }
         if (even_or_odd == EVEN)
         {
-            do_step_2(lst, it, end, stop, index);
+            do_step_2(lst, it, end);
         }
     }
     log_list(lst, "step 2 (larger elements)");
