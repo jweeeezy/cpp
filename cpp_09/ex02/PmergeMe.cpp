@@ -105,13 +105,13 @@ t_lst_int PmergeMe::vector_to_lst() const
     t_vec_str_cit it = _args.begin();
     while (it != _args.end())
     {
-        int x = get_parsed_int(lst, it);
-        int y = get_parsed_int(lst, it + 1);
-        sort_in_pair(lst, x, y);
+        int first = get_parsed_int(lst, it);
+        int second = get_parsed_int(lst, it + 1);
+        sort_in_pair(lst, first, second);
         if (it + 3 == _args.end())
         {
-            int x = get_parsed_int(lst, it + 2);
-            lst.push_back(x);
+            int last = get_parsed_int(lst, it + 2);
+            lst.push_back(last);
             break;
         }
         it += 2;
