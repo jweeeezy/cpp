@@ -128,25 +128,18 @@ void do_step_2(
     std::cerr << "pushes back " << tmp << "\n";
 #endif // DEBUG
 
+    t_lst_int_it itr = lst.begin();
+    while (itr != lst.end() && *itr != end)
     {
-        t_lst_int_it bla = lst.begin();
-        while (*bla != end)
-        {
-            ++bla;
-        }
-        {
-            t_lst_int_it cpy = bla;
-            ++cpy;
-            while (cpy != lst.end() || tmp > *cpy)
-            {
-                ++cpy;
-            }
-            lst.insert(cpy, tmp);
-            /* if first value, just push back */
-            /* if next value is bigger, insert here */
-            /* if next value is smaller, advance */
-        }
+        ++itr;
     }
+    ++itr;
+
+    while (itr != lst.end() && *itr < tmp)
+    {
+        ++itr;
+    }
+    lst.insert(itr, tmp);
     it = lst.erase(it);
     stop += 1;
     index = 0;
@@ -164,15 +157,10 @@ void PmergeMe::sort_with_list() const
     /* step 2 algorithm */
     {
         t_lst_int_it it    = lst.begin();
-        int          end   = *(--lst.end());
         int          index = 0;
         int          stop  = 1;
-
-#ifdef DEBUG
-        std::cerr << "stop value: " << end << "\n";
-#endif // DEBUG
-
-        while (*it != end)
+        int          end   = *(--lst.end());
+        while (it != lst.end() && *it != end)
         {
             if (index == stop)
             {
