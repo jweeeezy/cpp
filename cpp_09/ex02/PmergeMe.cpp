@@ -105,7 +105,7 @@ t_lst_int PmergeMe::vector_to_lst() const
     t_vec_str_cit it = _args.begin();
     while (it != _args.end())
     {
-        int first = get_parsed_int(lst, it);
+        int first  = get_parsed_int(lst, it);
         int second = get_parsed_int(lst, it + 1);
         sort_in_pair(lst, first, second);
         if (it + 3 == _args.end())
@@ -129,24 +129,24 @@ t_lst_int_it lst_get_iter_by_value(t_lst_int & lst, int value)
     return it;
 }
 
-void lst_insert_ascending(t_lst_int & lst, t_lst_int_it & it, int value)
+void lst_insert_into_sequence(t_lst_int & lst, t_lst_int_it & it, int value)
 {
     while (it != lst.end() && *it < value)
     {
         ++it;
     }
     it = lst.insert(it, value);
-    /* @note might need to return correct iterator ? */
 }
 
-void do_step_2(t_lst_int & lst, t_lst_int_it & it, int const & end)
+void lst_insert_into_sequence_and_erase(t_lst_int &  lst,
+                                        t_lst_int_it it,
+                                        t_lst_int_it end)
 {
 #ifdef DEBUG
     std::cerr << "sorts " << *it << " into the sequence\n";
 #endif // DEBUG
-    t_lst_int_it itr = ++lst_get_iter_by_value(lst, end);
-    lst_insert_ascending(lst, itr, *it);
-    /* @note is using it here error prone? */
+    t_lst_int_it itr = ++lst_get_iter_by_value(lst, *end);
+    lst_insert_into_sequence(lst, itr, *it);
     lst.erase(it);
 }
 
@@ -159,37 +159,55 @@ void PmergeMe::sort_with_list() const
     log_list(lst, "step 1 (comparison)");
 
     /* step 2 algorithm */
+    int end = *(--lst.end());
     {
         t_lst_int_it it    = lst.begin();
         int          index = 0;
         int          stop  = 1;
-        int          end   = *(--lst.end());
         while (it != lst.end() && *it != end)
         {
             if (index == stop)
             {
-                do_step_2(lst, it, end);
+                lst_insert_into_sequence_and_erase(lst,
+                                                   it,
+                                                   lst_get_iter_by_value(lst,
+                                                                         end));
                 stop += 1;
                 index = 0;
-                it = lst.begin();
+                it    = lst.begin();
             }
             ++index;
             ++it;
         }
         if (even_or_odd == EVEN)
         {
-            do_step_2(lst, it, end);
+            lst_insert_into_sequence_and_erase(lst,
+                                               it,
+                                               lst_get_iter_by_value(lst, end));
         }
     }
     log_list(lst, "step 2 (larger elements)");
 
+    /* step 3 algorithm */
+    {
+        int tmp = *lst.begin();
+        lst_insert_into_sequence_and_erase(lst,
+                                           lst_get_iter_by_value(lst, tmp),
+                                           lst_get_iter_by_value(lst, end));
+    }
+    log_list(lst, "step 3 (insertion sort)");
+
+    /* algorithm step 1 */
     /* group elements into n / 2 pairs,
      * leave one element unpaired if necessary */
     /* perform n/2 comparisons, one per pair,
      * to determine the larger of the two elements in each pair */
 
+    /* algorithm step 2 */
     /* recursively sort the n/2 larger elements from each pair,
      * creating a sorted sequence S in ascending order */
+
+    /* algorithm step 3 */
 
     /* insert at the start of S the element that was paired with
      * the first and smallest element of S */
