@@ -138,8 +138,7 @@ void lst_insert_into_sequence(t_lst_int & lst, t_lst_int_it & it, int value)
     it = lst.insert(it, value);
 }
 
-void lst_insert_into_sequence_and_erase(t_lst_int &  lst,
-                                        t_lst_int_it it,
+void lst_insert_into_sequence_and_erase(t_lst_int & lst, t_lst_int_it it,
                                         t_lst_int_it end)
 {
 #ifdef DEBUG
@@ -155,10 +154,19 @@ void PmergeMe::sort_with_list() const
     bool even_or_odd = is_even(_args.size());
 
     /* step 1 algorithm */
+    /* group elements into n / 2 pairs,
+     * leave one element unpaired if necessary */
+    /* perform n/2 comparisons, one per pair,
+     * to determine the larger of the two elements in each pair */
+
     t_lst_int lst = vector_to_lst();
     log_list(lst, "step 1 (comparison)");
 
     /* step 2 algorithm */
+    /* algorithm step 2 */
+    /* recursively sort the n/2 larger elements from each pair,
+     * creating a sorted sequence S in ascending order */
+
     int end = *(--lst.end());
     {
         t_lst_int_it it    = lst.begin();
@@ -168,10 +176,8 @@ void PmergeMe::sort_with_list() const
         {
             if (index == stop)
             {
-                lst_insert_into_sequence_and_erase(lst,
-                                                   it,
-                                                   lst_get_iter_by_value(lst,
-                                                                         end));
+                lst_insert_into_sequence_and_erase(
+                    lst, it, lst_get_iter_by_value(lst, end));
                 stop += 1;
                 index = 0;
                 it    = lst.begin();
@@ -181,40 +187,26 @@ void PmergeMe::sort_with_list() const
         }
         if (even_or_odd == EVEN)
         {
-            lst_insert_into_sequence_and_erase(lst,
-                                               it,
+            lst_insert_into_sequence_and_erase(lst, it,
                                                lst_get_iter_by_value(lst, end));
         }
     }
     log_list(lst, "step 2 (larger elements)");
 
     /* step 3 algorithm */
-    {
-        int tmp = *lst.begin();
-        lst_insert_into_sequence_and_erase(lst,
-                                           lst_get_iter_by_value(lst, tmp),
-                                           lst_get_iter_by_value(lst, end));
-    }
-    log_list(lst, "step 3 (insertion sort)");
-
-    /* algorithm step 1 */
-    /* group elements into n / 2 pairs,
-     * leave one element unpaired if necessary */
-    /* perform n/2 comparisons, one per pair,
-     * to determine the larger of the two elements in each pair */
-
-    /* algorithm step 2 */
-    /* recursively sort the n/2 larger elements from each pair,
-     * creating a sorted sequence S in ascending order */
-
-    /* algorithm step 3 */
-
     /* insert at the start of S the element that was paired with
      * the first and smallest element of S */
     /* insert the remaining n / 2 - 1 elements of X \ S into S,
      * one at a time, with a specially chosen insertion.
      * use binary search in subsequences of S to determine the position
      * at which each element should be inserted */
+
+    {
+        int tmp = *lst.begin();
+        lst_insert_into_sequence_and_erase(lst, lst_get_iter_by_value(lst, tmp),
+                                           lst_get_iter_by_value(lst, end));
+    }
+    log_list(lst, "step 3 (insertion sort)");
 }
 
 // -------------------------------------------------------------------------- //
