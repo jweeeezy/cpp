@@ -45,7 +45,7 @@ class PmergeMe
     PmergeMe & operator=(PmergeMe const & rhs);
 
     void sort_with_deque() const;
-    void sort_with_list() const;
+    void sort_with_list();
 
   private:
     void log_debug(t_str_c & message) const;
