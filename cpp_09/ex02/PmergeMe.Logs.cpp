@@ -25,6 +25,22 @@ void PmergeMe::log_debug(t_str_c & message) const
 #endif // DEBUG
 }
 
+void PmergeMe::log_vector(std::vector<int> & vec, t_str_c & name) const
+{
+    (void)vec;
+    (void)name;
+#ifdef DEBUG
+    std::cerr << YELLOW << "[" << name << "] ";
+    for (std::vector<int>::const_iterator it = vec.begin(); it != vec.end(); ++it)
+    {
+        std::cerr << *it << " ";
+    }
+    std::cerr << "\n" << RESET;
+#endif // DEBUG
+
+
+}
+
 void PmergeMe::log_vector(t_vec_str_c & vec, t_str_c & name) const
 {
     (void)vec;

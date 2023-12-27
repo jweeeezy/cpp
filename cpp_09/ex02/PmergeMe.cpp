@@ -231,29 +231,24 @@ extract_bigger_from_pair(std::list<std::pair<int, int> > const & pairs)
     return sequence;
 }
 
-void generate_next_number(std::vector<int> & vec)
+int generate_next_number(std::vector<int> & vec)
 {
-    vec.push_back(*(vec.rbegin()) + 2 * *(++vec.rbegin()));
+    int tmp = *(vec.rbegin()) + 2 * *(++vec.rbegin());
+    vec.push_back(tmp);
+    return tmp;
 }
 
-std::vector<int> generate_jacobs_numbers()
+std::vector<int> generate_jacobs_numbers(std::list<int> & pend)
 {
     std::vector<int> vec;
     vec.push_back(0);
     vec.push_back(1);
 
-    for (size_t i = 0; i != 30; ++i)
+    /* @note what happens with 3000 elements? */
+    for (int i = 0; i < static_cast<int>(pend.size());)
     {
-        generate_next_number(vec);
+        i = generate_next_number(vec);
     }
-
-#ifdef DEBUG
-    for (std::vector<int>::const_iterator it = vec.begin(); it != vec.end(); ++it)
-    {
-        std::cout << *it << " ";
-    }
-    std::cout << "\n";
-#endif
     return vec;
 }
 
@@ -281,8 +276,9 @@ void PmergeMe::sort_with_list()
     log_list(seq_bigger, "S");
     log_list(seq_smaller, "pend");
 
-    /* insertion sort into sequence */
-    std::vector<int> jacobs_no = generate_jacobs_numbers();
+    /* @note should this also be a lst? */
+    std::vector<int> jacobs_no = generate_jacobs_numbers(seq_smaller);
+    log_vector(jacobs_no, "jacobsthal");
 }
 
 // -------------------------------------------------------------------------- //

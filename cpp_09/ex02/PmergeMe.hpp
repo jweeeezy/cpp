@@ -17,6 +17,8 @@
 #include <vector> // needed for std::vector
 
 /* typedefs */
+
+/* @note should prob just add them internally in the source files */
 typedef std::string t_str;
 typedef t_str const t_str_c;
 
@@ -44,12 +46,15 @@ class PmergeMe
     ~PmergeMe();
     PmergeMe & operator=(PmergeMe const & rhs);
 
+    /* @note mb add straggler as internal var and make these const or 
+     * just copy the arguments internally so it can stay const */
     void sort_with_deque() const;
     void sort_with_list();
 
   private:
     void log_debug(t_str_c & message) const;
     void log_vector(t_vec_str_c & vec, t_str_c & name) const;
+    void log_vector(std::vector<int> & vec, t_str_c & name) const;
     void log_list(t_lst_int_c & lst, t_str_c & name) const;
     void log_deque(t_deq_int_c & deq, t_str_c & name) const;
 
