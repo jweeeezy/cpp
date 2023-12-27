@@ -215,13 +215,13 @@ std::list<int> extract_bigger_from_pair(std::list<std::pair<int, int> > const & 
 void PmergeMe::sort_with_list()
 {
     bool even_or_odd = is_even(_args.size());
-    int  tmp = 0;
+    int  straggler = 0;
     if (even_or_odd == ODD)
     {
-        tmp = get_parsed_int(--_args.end());
+        straggler= get_parsed_int(--_args.end());
         _args.pop_back();
     }
-    (void)tmp; /* insert in the end */
+    (void)straggler; /* insert in the end */
     t_lst_int lst = vector_to_lst();
     log_list(lst, "after moving");
 
