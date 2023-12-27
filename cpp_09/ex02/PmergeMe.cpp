@@ -196,6 +196,24 @@ void insert_number_into_sequence(int number, std::list<int> & sequence)
 }
 
 std::list<int>
+extract_smaller_from_pair(std::list<std::pair<int, int> > const & pairs)
+{
+    std::list<int> sequence;
+    for (std::list<std::pair<int, int> >::const_iterator it = pairs.begin();
+         it != pairs.end(); ++it)
+    {
+        int number = it->second;
+        if (sequence.empty() == true)
+        {
+            sequence.push_back(number);
+            continue;
+        }
+        insert_number_into_sequence(number, sequence);
+    }
+    return sequence;
+}
+
+std::list<int>
 extract_bigger_from_pair(std::list<std::pair<int, int> > const & pairs)
 {
     std::list<int> sequence;
@@ -241,8 +259,9 @@ std::vector<int> generate_jacobs_numbers()
 
 void PmergeMe::sort_with_list()
 {
+    /* @note bool is not needed, could just check for -1 in the end */
     bool even_or_odd = is_even(_args.size());
-    int  straggler = 0;
+    int  straggler = -1;
     if (even_or_odd == ODD)
     {
         straggler = get_parsed_int(--_args.end());
@@ -256,8 +275,11 @@ void PmergeMe::sort_with_list()
     print_pairs(pairs);
     log_list(lst, "after pairing");
 
-    std::list<int> sequence = extract_bigger_from_pair(pairs);
-    log_list(sequence, "sequence");
+    /* @note could make this in one loop */
+    std::list<int> seq_bigger = extract_bigger_from_pair(pairs);
+    std::list<int> seq_smaller = extract_smaller_from_pair(pairs);
+    log_list(seq_bigger, "S");
+    log_list(seq_smaller, "pend");
 
     /* insertion sort into sequence */
     std::vector<int> jacobs_no = generate_jacobs_numbers();
