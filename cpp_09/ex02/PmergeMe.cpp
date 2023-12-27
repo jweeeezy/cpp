@@ -9,10 +9,11 @@
 // -------------------------------------------------------------------------- //
 
 #include "PmergeMe.hpp" // needed for PmergeMe class, typedefs, std::vector
-#include <algorithm> // needed for std::find
-#include <list> // needed for std::list
-#include <stdexcept> // needed for std::invalid_argument
-#include <utility> // needed for std::pair
+#include <algorithm>    // needed for std::find
+#include <list>         // needed for std::list
+#include <stdexcept>    // needed for std::invalid_argument
+#include <utility>      // needed for std::pair
+#include <vector>       // needed for std::vector
 
 #ifdef DEBUG
 #include <iostream> // needed for std::cout, std::cerr
@@ -41,9 +42,7 @@ PmergeMe & PmergeMe::operator=(PmergeMe const & rhs)
     return *this;
 }
 
-PmergeMe::PmergeMe(int argc, char ** argv)
-    : _argc(argc)
-    , _argv(argv)
+PmergeMe::PmergeMe(int argc, char ** argv) : _argc(argc), _argv(argv)
 {
     log_debug("parsing constructor called");
     parse_arguments();
@@ -134,8 +133,8 @@ void lst_insert_into_sequence(t_lst_int & lst, t_lst_int_it & it, int value)
     it = lst.insert(it, value);
 }
 
-void lst_insert_into_sequence_and_erase(
-    t_lst_int & lst, t_lst_int_it it, t_lst_int_it end)
+void lst_insert_into_sequence_and_erase(t_lst_int & lst, t_lst_int_it it,
+                                        t_lst_int_it end)
 {
 #ifdef DEBUG
     std::cerr << "sorts " << *it << " into the sequence\n";
@@ -184,18 +183,20 @@ std::list<std::pair<int, int> > lst_to_pairs(t_lst_int_c & lst)
 
 void insert_number_into_sequence(int number, std::list<int> & sequence)
 {
-    for (std::list<int>::iterator it = sequence.begin(); it != sequence.end(); ++it)
+    for (std::list<int>::iterator it = sequence.begin(); it != sequence.end();
+         ++it)
     {
         if (*it > number)
         {
             sequence.insert(it, number);
-            return ;
+            return;
         }
     }
     sequence.push_back(number);
 }
 
-std::list<int> extract_bigger_from_pair(std::list<std::pair<int, int> > const & pairs)
+std::list<int>
+extract_bigger_from_pair(std::list<std::pair<int, int> > const & pairs)
 {
     std::list<int> sequence;
     for (std::list<std::pair<int, int> >::const_iterator it = pairs.begin();
@@ -205,11 +206,37 @@ std::list<int> extract_bigger_from_pair(std::list<std::pair<int, int> > const & 
         if (sequence.empty() == true)
         {
             sequence.push_back(number);
-            continue ;
+            continue;
         }
         insert_number_into_sequence(number, sequence);
     }
     return sequence;
+}
+
+void generate_next_number(std::vector<int> & vec)
+{
+    vec.push_back(*(vec.rbegin()) + 2 * *(++vec.rbegin()));
+}
+
+std::vector<int> generate_jacobs_numbers()
+{
+    std::vector<int> vec;
+    vec.push_back(0);
+    vec.push_back(1);
+
+    for (size_t i = 0; i != 30; ++i)
+    {
+        generate_next_number(vec);
+    }
+
+#ifdef DEBUG
+    for (std::vector<int>::const_iterator it = vec.begin(); it != vec.end(); ++it)
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << "\n";
+#endif
+    return vec;
 }
 
 void PmergeMe::sort_with_list()
@@ -218,7 +245,7 @@ void PmergeMe::sort_with_list()
     int  straggler = 0;
     if (even_or_odd == ODD)
     {
-        straggler= get_parsed_int(--_args.end());
+        straggler = get_parsed_int(--_args.end());
         _args.pop_back();
     }
     (void)straggler; /* insert in the end */
@@ -233,6 +260,7 @@ void PmergeMe::sort_with_list()
     log_list(sequence, "sequence");
 
     /* insertion sort into sequence */
+    std::vector<int> jacobs_no = generate_jacobs_numbers();
 }
 
 // -------------------------------------------------------------------------- //
