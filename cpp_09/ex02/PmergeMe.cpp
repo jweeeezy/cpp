@@ -46,13 +46,13 @@ PmergeMe::PmergeMe(int argc, char ** argv) : _argc(argc), _argv(argv)
 {
     log_debug("parsing constructor called");
     parse_arguments();
-    log_vector(_args, "arguments");
+    log_container(_args, "arguments");
 }
 
 void PmergeMe::sort_with_deque() const
 {
     std::deque<int> deq;
-    log_deque(deq, "deque");
+    log_container(deq, "deque");
 }
 
 std::string bool_to_string(bool is)
@@ -144,22 +144,10 @@ void lst_insert_into_sequence_and_erase(t_lst_int & lst, t_lst_int_it it,
     lst.erase(it);
 }
 
-void print_pairs(std::list<std::pair<int, int> > const & pairs)
+t_lst_pair_int lst_to_pairs(t_lst_int_c & lst)
 {
-    (void)pairs;
-#ifdef DEBUG
-    for (std::list<std::pair<int, int> >::const_iterator it = pairs.begin();
-         it != pairs.end(); ++it)
-    {
-        std::cout << it->first << " | " << it->second << "\n";
-    }
-#endif
-}
-
-std::list<std::pair<int, int> > lst_to_pairs(t_lst_int_c & lst)
-{
-    std::list<std::pair<int, int> > pairs;
-    t_lst_int_cit                  it = lst.begin();
+    t_lst_pair_int pairs;
+    t_lst_int_cit  it = lst.begin();
     while (it != lst.end())
     {
         int first = *it++;
@@ -181,10 +169,9 @@ std::list<std::pair<int, int> > lst_to_pairs(t_lst_int_c & lst)
     return pairs;
 }
 
-void insert_number_into_sequence(int number, std::list<int> & sequence)
+void insert_number_into_sequence(int number, t_lst_int & sequence)
 {
-    for (std::list<int>::iterator it = sequence.begin(); it != sequence.end();
-         ++it)
+    for (t_lst_int_it it = sequence.begin(); it != sequence.end(); ++it)
     {
         if (*it > number)
         {
@@ -195,12 +182,10 @@ void insert_number_into_sequence(int number, std::list<int> & sequence)
     sequence.push_back(number);
 }
 
-std::list<int>
-extract_smaller_from_pair(std::list<std::pair<int, int> > const & pairs)
+t_lst_int extract_smaller_from_pair(t_lst_pair_int_c & pairs)
 {
-    std::list<int> sequence;
-    for (std::list<std::pair<int, int> >::const_iterator it = pairs.begin();
-         it != pairs.end(); ++it)
+    t_lst_int sequence;
+    for (t_lst_pair_int_cit it = pairs.begin(); it != pairs.end(); ++it)
     {
         int number = it->second;
         if (sequence.empty() == true)
@@ -213,12 +198,10 @@ extract_smaller_from_pair(std::list<std::pair<int, int> > const & pairs)
     return sequence;
 }
 
-std::list<int>
-extract_bigger_from_pair(std::list<std::pair<int, int> > const & pairs)
+t_lst_int extract_bigger_from_pair(t_lst_pair_int_c & pairs)
 {
-    std::list<int> sequence;
-    for (std::list<std::pair<int, int> >::const_iterator it = pairs.begin();
-         it != pairs.end(); ++it)
+    t_lst_int sequence;
+    for (t_lst_pair_int_cit it = pairs.begin(); it != pairs.end(); ++it)
     {
         int number = it->first;
         if (sequence.empty() == true)
@@ -231,16 +214,16 @@ extract_bigger_from_pair(std::list<std::pair<int, int> > const & pairs)
     return sequence;
 }
 
-int generate_next_number(std::vector<int> & vec)
+int generate_next_number(t_vec_int & vec)
 {
     int tmp = *(vec.rbegin()) + 2 * *(++vec.rbegin());
     vec.push_back(tmp);
     return tmp;
 }
 
-std::vector<int> generate_jacobs_numbers(std::list<int> & pend)
+t_vec_int generate_jacobs_numbers(t_lst_int_c & pend)
 {
-    std::vector<int> vec;
+    t_vec_int vec;
     vec.push_back(0);
     vec.push_back(1);
 
@@ -264,21 +247,21 @@ void PmergeMe::sort_with_list()
     }
     (void)straggler; /* insert in the end */
     t_lst_int lst = vector_to_lst();
-    log_list(lst, "after moving");
+    log_container(lst, "after moving");
 
-    std::list<std::pair<int, int> > pairs = lst_to_pairs(lst);
-    print_pairs(pairs);
-    log_list(lst, "after pairing");
+    t_lst_pair_int pairs = lst_to_pairs(lst);
+    log_list(pairs, "lst with pairs");
+    log_container(lst, "after pairing");
 
     /* @note could make this in one loop */
-    std::list<int> seq_bigger = extract_bigger_from_pair(pairs);
-    std::list<int> seq_smaller = extract_smaller_from_pair(pairs);
-    log_list(seq_bigger, "S");
-    log_list(seq_smaller, "pend");
+    t_lst_int seq_bigger = extract_bigger_from_pair(pairs);
+    t_lst_int seq_smaller = extract_smaller_from_pair(pairs);
+    log_container(seq_bigger, "S");
+    log_container(seq_smaller, "pend");
 
     /* @note should this also be a lst? */
-    std::vector<int> jacobs_no = generate_jacobs_numbers(seq_smaller);
-    log_vector(jacobs_no, "jacobsthal");
+    t_vec_int jacobs_no = generate_jacobs_numbers(seq_smaller);
+    log_container(jacobs_no, "jacobsthal");
 }
 
 // -------------------------------------------------------------------------- //
