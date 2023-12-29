@@ -22,7 +22,8 @@
 #define EVEN true
 #define ODD  false
 
-static int bise_find_insertpoint(t_lst_int_c & container, int value)
+template <typename T>
+static void insert_with_binary_search(T & container, int value)
 {
     int low = 0;
     int high = container.size() - 1;
@@ -30,12 +31,12 @@ static int bise_find_insertpoint(t_lst_int_c & container, int value)
     {
         int mid = low + (high - low) / 2;
 
-        t_lst_int_cit it = container.begin();
+        typename T::iterator it = container.begin();
         std::advance(it, mid);
 
         if (*it == value)
         {
-            return mid;
+            container.insert(it, value);
         }
         else if (*it > value)
         {
@@ -46,7 +47,7 @@ static int bise_find_insertpoint(t_lst_int_c & container, int value)
             low = mid + 1;
         }
     }
-    return low;
+    container.insert(container.begin(), value);
 }
 
 // static t_lst_int_it lst_get_iter_by_value(t_lst_int & lst, int value)
@@ -222,11 +223,7 @@ void PmergeMe::sort_with_list()
 
     if (_straggler != -1)
     {
-        /* @note prob optimisable with iterator instead */
-        int insertpoint = bise_find_insertpoint(S, _straggler);
-        t_lst_int_it it = S.begin();
-        std::advance(it, insertpoint);
-        S.insert(it, _straggler);
+        insert_with_binary_search(S, _straggler);
         log_container(S, "S after straggler");
     }
 }
