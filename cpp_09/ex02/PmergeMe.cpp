@@ -19,8 +19,7 @@
 #include <iostream> // needed for std::cout, std::cerr
 #endif
 
-#define EVEN true
-#define ODD  false
+#define ODD 1
 
 template <typename T>
 static void insert_with_binary_search(T & container, int value)
@@ -106,7 +105,6 @@ static int get_parsed_int(t_vec_str_cit it)
     }
     return tmp;
 }
-
 static t_lst_pair_int lst_to_pairs(t_lst_int_c & lst)
 {
     t_lst_pair_int pairs;
@@ -228,6 +226,16 @@ void PmergeMe::sort_with_list()
     }
 }
 
+void PmergeMe::handle_straggler()
+{
+    _straggler = -1;
+    if (_args.size() % 2 == ODD)
+    {
+        _straggler = get_parsed_int(--_args.end());
+        _args.pop_back();
+    }
+}
+
 t_lst_int PmergeMe::vector_to_lst() const
 {
     t_lst_int     lst;
@@ -243,12 +251,6 @@ t_lst_int PmergeMe::vector_to_lst() const
         ++it;
     }
     return lst;
-}
-
-static bool is_even(size_t n)
-{
-    bool is = n % 2 == 0;
-    return is;
 }
 
 PmergeMe::PmergeMe() { log_debug("default constructor called"); }
@@ -275,16 +277,12 @@ PmergeMe & PmergeMe::operator=(PmergeMe const & rhs)
 PmergeMe::PmergeMe(int argc, char ** argv) : _argc(argc), _argv(argv)
 {
     log_debug("parsing constructor called");
-    parse_arguments();
 
+    parse_arguments();
     log_container(_args, "arguments");
-    _straggler = -1;
-    if (is_even(_args.size()) == ODD)
-    {
-        _straggler = get_parsed_int(--_args.end());
-        _args.pop_back();
-        log_straggler();
-    }
+
+    handle_straggler();
+    log_straggler();
 }
 
 // -------------------------------------------------------------------------- //

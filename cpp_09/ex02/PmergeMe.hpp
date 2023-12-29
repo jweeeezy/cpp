@@ -89,6 +89,7 @@ class PmergeMe
     }
 
     void parse_arguments();
+    void handle_straggler();
 
     t_lst_int vector_to_lst() const;
 
