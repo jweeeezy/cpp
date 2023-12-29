@@ -70,6 +70,7 @@ class PmergeMe
 
   private:
     void log_debug(t_str_c & message) const;
+    void log_straggler() const;
     void log_list(t_lst_pair_int_c & lst, t_str_c & name) const;
 
     template <typename T> void log_container(T container, t_str_c & name) const

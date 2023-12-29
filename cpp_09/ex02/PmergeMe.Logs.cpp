@@ -25,6 +25,14 @@ void PmergeMe::log_debug(t_str_c & message) const
 #endif // DEBUG
 }
 
+void PmergeMe::log_straggler() const
+{
+
+#ifdef DEBUG
+    std::cerr << YELLOW << "Straggler: " << RESET << _straggler << "\n";
+#endif
+}
+
 void PmergeMe::log_list(t_lst_pair_int_c & pairs, t_str_c & name) const
 {
     (void)pairs;

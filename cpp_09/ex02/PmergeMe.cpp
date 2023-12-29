@@ -22,6 +22,33 @@
 #define EVEN true
 #define ODD  false
 
+static int bise_find_insertpoint(t_lst_int_c & container, int value)
+{
+    int low = 0;
+    int high = container.size() - 1;
+    while (low <= high)
+    {
+        int mid = low + (high - low) / 2;
+
+        t_lst_int_cit it = container.begin();
+        std::advance(it, mid);
+
+        if (*it == value)
+        {
+            return mid;
+        }
+        else if (*it > value)
+        {
+            high = mid - 1;
+        }
+        else
+        {
+            low = mid + 1;
+        }
+    }
+    return low;
+}
+
 // static t_lst_int_it lst_get_iter_by_value(t_lst_int & lst, int value)
 //{
 //     t_lst_int_it it = lst.begin();
@@ -177,7 +204,6 @@ void PmergeMe::sort_with_deque() const
 
 void PmergeMe::sort_with_list()
 {
-
     t_lst_int lst = vector_to_lst();
     log_container(lst, "after moving");
 
@@ -193,6 +219,16 @@ void PmergeMe::sort_with_list()
 
     t_lst_int jacobs_no = generate_jacobs_numbers(pend);
     log_container(jacobs_no, "jacobsthal");
+
+    if (_straggler != -1)
+    {
+        /* @note prob optimisable with iterator instead */
+        int insertpoint = bise_find_insertpoint(S, _straggler);
+        t_lst_int_it it = S.begin();
+        std::advance(it, insertpoint);
+        S.insert(it, _straggler);
+        log_container(S, "S after straggler");
+    }
 }
 
 t_lst_int PmergeMe::vector_to_lst() const
@@ -250,6 +286,7 @@ PmergeMe::PmergeMe(int argc, char ** argv) : _argc(argc), _argv(argv)
     {
         _straggler = get_parsed_int(--_args.end());
         _args.pop_back();
+        log_straggler();
     }
 }
 
