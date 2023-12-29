@@ -156,7 +156,7 @@ void PmergeMe::sort_with_deque() const
     log_container(deq, "deque");
 }
 
-void PmergeMe::sort_with_list()
+void PmergeMe::sort_with_list() const
 {
     t_lst_int lst = vector_to_lst();
     log_container(lst, "after moving");

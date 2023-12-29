@@ -44,9 +44,9 @@ typedef t_lst_int::iterator       t_lst_int_it;
 typedef t_lst_int::const_iterator t_lst_int_cit;
 
 typedef std::list<std::pair<int, int> > t_lst_pair_int;
-typedef t_lst_pair_int const           t_lst_pair_int_c;
-typedef t_lst_pair_int::iterator       t_lst_pair_int_it;
-typedef t_lst_pair_int::const_iterator t_lst_pair_int_cit;
+typedef t_lst_pair_int const            t_lst_pair_int_c;
+typedef t_lst_pair_int::iterator        t_lst_pair_int_it;
+typedef t_lst_pair_int::const_iterator  t_lst_pair_int_cit;
 
 typedef std::deque<int>           t_deq_int;
 typedef t_deq_int const           t_deq_int_c;
@@ -63,16 +63,15 @@ class PmergeMe
     ~PmergeMe();
     PmergeMe & operator=(PmergeMe const & rhs);
 
-    /* @note mb add straggler as internal var and make these const or
-     * just copy the arguments internally so it can stay const */
     void sort_with_deque() const;
-    void sort_with_list();
+    void sort_with_list() const;
 
   private:
     void log_debug(t_str_c & message) const;
     void log_straggler() const;
     void log_list(t_lst_pair_int_c & lst, t_str_c & name) const;
 
+    /* @note does this have to be in the ,hpp file ? */
     template <typename T> void log_container(T container, t_str_c & name) const
     {
         (void)container;
@@ -98,8 +97,6 @@ class PmergeMe
     t_vec_str _args;
     int       _straggler;
 };
-
-//std::ostream & operator<<(std::ostream & os, std::pair<int, int> const & pair);
 
 #endif // PMERGEME
 
