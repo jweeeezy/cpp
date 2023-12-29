@@ -94,6 +94,7 @@ class PmergeMe
     int       _argc;
     char **   _argv;
     t_vec_str _args;
+    int       _straggler;
 };
 
 //std::ostream & operator<<(std::ostream & os, std::pair<int, int> const & pair);
