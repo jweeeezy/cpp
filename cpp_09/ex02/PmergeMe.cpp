@@ -19,6 +19,7 @@
 #include <iostream> // needed for std::cout, std::cerr
 #endif
 
+#define EVEN 0
 #define ODD 1
 
 template <typename T>
