@@ -50,53 +50,6 @@ static void insert_with_binary_search(T & container, int value)
     container.insert(container.begin(), value);
 }
 
-// static t_lst_int_it lst_get_iter_by_value(t_lst_int & lst, int value)
-//{
-//     t_lst_int_it it = lst.begin();
-//     while (it != lst.end() && *it != value)
-//     {
-//         ++it;
-//     }
-//     return it;
-// }
-
-// static void sort_in_pair(t_lst_int & lst, int x, int y)
-//{
-//     /* @note not sure if correct order */
-//     if (x < y)
-//     {
-//         lst.push_back(x);
-//         lst.push_back(y);
-//     }
-//     else
-//     {
-//         lst.push_back(y);
-//         lst.push_back(x);
-//     }
-// }
-
-// static void lst_insert_into_sequence(t_lst_int & lst, t_lst_int_it & it, int
-// value)
-//{
-//     while (it != lst.end() && *it < value)
-//     {
-//         ++it;
-//     }
-//     it = lst.insert(it, value);
-// }
-
-// static void lst_insert_into_sequence_and_erase(t_lst_int & lst, t_lst_int_it
-// it,
-//                                         t_lst_int_it end)
-//{
-// #ifdef DEBUG
-//     std::cerr << "sorts " << *it << " into the sequence\n";
-// #endif // DEBUG
-//     t_lst_int_it itr = ++lst_get_iter_by_value(lst, *end);
-//     lst_insert_into_sequence(lst, itr, *it);
-//     lst.erase(it);
-// }
-
 static int get_parsed_int(t_vec_str_cit it)
 {
     int tmp = std::atoi(it->c_str());
@@ -106,6 +59,7 @@ static int get_parsed_int(t_vec_str_cit it)
     }
     return tmp;
 }
+
 static t_lst_pair_int lst_to_pairs(t_lst_int_c & lst)
 {
     t_lst_pair_int pairs;
@@ -237,6 +191,7 @@ void PmergeMe::handle_straggler()
     }
 }
 
+/*@note should prob be a template */
 t_lst_int PmergeMe::vector_to_lst() const
 {
     t_lst_int     lst;
@@ -256,6 +211,7 @@ t_lst_int PmergeMe::vector_to_lst() const
 
 PmergeMe::PmergeMe() { log_debug("default constructor called"); }
 PmergeMe::~PmergeMe() { log_debug("destructor called"); }
+
 PmergeMe::PmergeMe(PmergeMe const & src)
 {
     log_debug("copy constructor called");

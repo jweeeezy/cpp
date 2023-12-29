@@ -12,7 +12,7 @@
 #include <cstdlib>      // needed for std::atoi
 #include <stdexcept>    // needed for std::invalid_argument
 
-bool is_positive_number(t_str_c & input)
+static bool is_positive_number(t_str_c & input)
 {
     size_t pos = input.find_first_not_of("0123456789+");
     if (pos != t_str::npos || std::atoi(input.c_str()) <= 0)
@@ -22,7 +22,7 @@ bool is_positive_number(t_str_c & input)
     return true;
 }
 
-t_vec_str_c str_split_by(t_str_c & str, t_str_c & delimiter)
+static t_vec_str_c str_split_by(t_str_c & str, t_str_c & delimiter)
 {
     t_vec_str vec;
     t_str     tmp(str);
@@ -46,7 +46,7 @@ t_vec_str_c str_split_by(t_str_c & str, t_str_c & delimiter)
     return vec;
 }
 
-t_vec_str_c split_quotated_strings(int argc, char ** argv)
+static t_vec_str_c split_quotated_strings(int argc, char ** argv)
 {
     t_vec_str vec;
     for (int i = 1; i <= argc; ++i)
