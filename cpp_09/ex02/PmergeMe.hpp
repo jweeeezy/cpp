@@ -44,9 +44,9 @@ typedef t_lst_int::iterator       t_lst_int_it;
 typedef t_lst_int::const_iterator t_lst_int_cit;
 
 typedef std::list<std::pair<int, int> > t_lst_pair_int;
-typedef t_lst_pair_int const            t_lst_pair_int_c;
-typedef t_lst_pair_int::iterator        t_lst_pair_int_it;
-typedef t_lst_pair_int::const_iterator  t_lst_pair_int_cit;
+typedef t_lst_pair_int const           t_lst_pair_int_c;
+typedef t_lst_pair_int::iterator       t_lst_pair_int_it;
+typedef t_lst_pair_int::const_iterator t_lst_pair_int_cit;
 
 typedef std::deque<int>           t_deq_int;
 typedef t_deq_int const           t_deq_int_c;
@@ -87,10 +87,28 @@ class PmergeMe
 #endif
     }
 
+    template <typename T> T vector_to_container() const
+    {
+        T             container;
+        t_vec_str_cit it = _args.begin();
+
+        while (it != _args.end())
+        {
+            int tmp = get_parsed_int(it);
+            if (std::find(container.begin(), container.end(), tmp) !=
+                container.end())
+            {
+                throw std::invalid_argument("no duplicates allowed!");
+            }
+            container.push_back(tmp);
+            ++it;
+        }
+        return container;
+    }
+
+    int  get_parsed_int(t_vec_str_cit it) const;
     void parse_arguments();
     void handle_straggler();
-
-    t_lst_int vector_to_lst() const;
 
     int       _argc;
     char **   _argv;

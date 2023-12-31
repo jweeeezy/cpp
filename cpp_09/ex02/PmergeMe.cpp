@@ -50,7 +50,7 @@ static void insert_with_binary_search(T & container, int value)
     container.insert(container.begin(), value);
 }
 
-static int get_parsed_int(t_vec_str_cit it)
+int PmergeMe::get_parsed_int(t_vec_str_cit it) const
 {
     int tmp = std::atoi(it->c_str());
     if (tmp < 1)
@@ -152,7 +152,7 @@ void PmergeMe::sort_with_list() const
 {
     struct s_data d;
 
-    d.lst = vector_to_lst();
+    d.lst = vector_to_container<t_lst_int>();
     log_container(d.lst, "after moving");
 
     d.pairs = lst_to_pairs(d.lst);
@@ -181,24 +181,6 @@ void PmergeMe::handle_straggler()
         _straggler = get_parsed_int(--_args.end());
         _args.pop_back();
     }
-}
-
-/*@note should prob be a template */
-t_lst_int PmergeMe::vector_to_lst() const
-{
-    t_lst_int     lst;
-    t_vec_str_cit it = _args.begin();
-    while (it != _args.end())
-    {
-        int tmp = get_parsed_int(it);
-        if (std::find(lst.begin(), lst.end(), tmp) != lst.end())
-        {
-            throw std::invalid_argument("no duplicates allowed!");
-        }
-        lst.push_back(tmp);
-        ++it;
-    }
-    return lst;
 }
 
 PmergeMe::PmergeMe() { log_debug("default constructor called"); }
