@@ -60,10 +60,9 @@ int PmergeMe::get_parsed_int(t_vec_str_cit it) const
     return tmp;
 }
 
-static t_lst_pair_int lst_to_pairs(t_lst_int_c & lst)
+static t_lst_pair_int lst_to_pairs(t_lst_int_c & lst, t_lst_pair_int & pairs)
 {
-    t_lst_pair_int pairs;
-    t_lst_int_cit  it = lst.begin();
+    t_lst_int_cit it = lst.begin();
     while (it != lst.end())
     {
         int first = *it++;
@@ -119,9 +118,8 @@ static int generate_next_number(t_lst_int & lst)
     return tmp;
 }
 
-static t_lst_int generate_jacobs_numbers(t_lst_int_c & pend)
+static t_lst_int generate_jacobs_numbers(t_lst_int_c & pend, t_lst_int & lst)
 {
-    t_lst_int lst;
     lst.push_back(0);
     lst.push_back(1);
 
@@ -152,10 +150,11 @@ void PmergeMe::sort_with_list() const
 {
     struct s_data d;
 
-    d.lst = vector_to_container<t_lst_int>();
+    vector_to_container(d.lst);
     log_container(d.lst, "after moving");
 
-    d.pairs = lst_to_pairs(d.lst);
+    /* @note make template */
+    lst_to_pairs(d.lst, d.pairs);
     log_list(d.pairs, "lst with pairs");
     log_container(d.lst, "after pairing");
 
@@ -163,9 +162,10 @@ void PmergeMe::sort_with_list() const
     log_container(d.S, "S");
     log_container(d.pend, "pend");
 
-    d.jacobs_no = generate_jacobs_numbers(d.pend);
+    generate_jacobs_numbers(d.pend, d.jacobs_no);
     log_container(d.jacobs_no, "jacobsthal");
 
+    /* @note next step algorithm */
     if (_straggler != -1)
     {
         insert_with_binary_search(d.S, _straggler);

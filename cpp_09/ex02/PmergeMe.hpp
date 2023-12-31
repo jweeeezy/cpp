@@ -71,7 +71,9 @@ class PmergeMe
     void log_straggler() const;
     void log_list(t_lst_pair_int_c & lst, t_str_c & name) const;
 
-    /* @note does this have to be in the ,hpp file ? */
+    /* @note could just make separate .hpp file for the template functions so
+     * they dont pollute the class */
+
     template <typename T> void log_container(T container, t_str_c & name) const
     {
         (void)container;
@@ -87,9 +89,8 @@ class PmergeMe
 #endif
     }
 
-    template <typename T> T vector_to_container() const
+    template <typename T> T vector_to_container(T & container) const
     {
-        T             container;
         t_vec_str_cit it = _args.begin();
 
         while (it != _args.end())
