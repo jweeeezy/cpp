@@ -20,7 +20,7 @@
 #endif
 
 #define EVEN 0
-#define ODD 1
+#define ODD  1
 
 template <typename T>
 static void insert_with_binary_search(T & container, int value)
@@ -97,37 +97,19 @@ static void insert_number_into_sequence(int number, t_lst_int & sequence)
     }
     sequence.push_back(number);
 }
-
-static t_lst_int extract_smaller_from_pair(t_lst_pair_int_c & pairs)
+static void extract_S_and_pend(t_lst_pair_int_c & pairs, t_lst_int & S,
+                               t_lst_int & pend)
 {
-    t_lst_int sequence;
     for (t_lst_pair_int_cit it = pairs.begin(); it != pairs.end(); ++it)
     {
-        int number = it->second;
-        if (sequence.empty() == true)
+        pend.push_back(it->second);
+        if (S.empty() == true)
         {
-            sequence.push_back(number);
+            S.push_back(it->first);
             continue;
         }
-        insert_number_into_sequence(number, sequence);
+        insert_number_into_sequence(it->first, S);
     }
-    return sequence;
-}
-
-static t_lst_int extract_bigger_from_pair(t_lst_pair_int_c & pairs)
-{
-    t_lst_int sequence;
-    for (t_lst_pair_int_cit it = pairs.begin(); it != pairs.end(); ++it)
-    {
-        int number = it->first;
-        if (sequence.empty() == true)
-        {
-            sequence.push_back(number);
-            continue;
-        }
-        insert_number_into_sequence(number, sequence);
-    }
-    return sequence;
 }
 
 static int generate_next_number(t_lst_int & lst)
@@ -156,28 +138,38 @@ void PmergeMe::sort_with_deque() const
     log_container(deq, "deque");
 }
 
+/* @note template */
+struct s_data
+{
+    t_lst_int      lst;
+    t_lst_pair_int pairs;
+    t_lst_int      S;
+    t_lst_int      pend;
+    t_lst_int      jacobs_no;
+};
+
 void PmergeMe::sort_with_list() const
 {
-    t_lst_int lst = vector_to_lst();
-    log_container(lst, "after moving");
+    struct s_data d;
 
-    t_lst_pair_int pairs = lst_to_pairs(lst);
-    log_list(pairs, "lst with pairs");
-    log_container(lst, "after pairing");
+    d.lst = vector_to_lst();
+    log_container(d.lst, "after moving");
 
-    /* @note could make this in one loop */
-    t_lst_int S = extract_bigger_from_pair(pairs);
-    t_lst_int pend = extract_smaller_from_pair(pairs);
-    log_container(S, "S");
-    log_container(pend, "pend");
+    d.pairs = lst_to_pairs(d.lst);
+    log_list(d.pairs, "lst with pairs");
+    log_container(d.lst, "after pairing");
 
-    t_lst_int jacobs_no = generate_jacobs_numbers(pend);
-    log_container(jacobs_no, "jacobsthal");
+    extract_S_and_pend(d.pairs, d.S, d.pend);
+    log_container(d.S, "S");
+    log_container(d.pend, "pend");
+
+    d.jacobs_no = generate_jacobs_numbers(d.pend);
+    log_container(d.jacobs_no, "jacobsthal");
 
     if (_straggler != -1)
     {
-        insert_with_binary_search(S, _straggler);
-        log_container(S, "S after straggler");
+        insert_with_binary_search(d.S, _straggler);
+        log_container(d.S, "S after straggler");
     }
 }
 
