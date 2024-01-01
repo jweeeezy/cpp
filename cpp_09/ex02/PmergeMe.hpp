@@ -107,6 +107,31 @@ class PmergeMe
         return container;
     }
 
+    template <typename T1, typename T2>
+    T2 lst_to_pairs(T1 & lst, T2 & pairs) const
+    {
+        typename T1::const_iterator it = lst.begin();
+        while (it != lst.end())
+        {
+            int first = *it++;
+            int second = *it++;
+
+            std::pair<int, int> pair;
+            if (first < second)
+            {
+                pair.first = second;
+                pair.second = first;
+            }
+            else
+            {
+                pair.first = first;
+                pair.second = second;
+            }
+            pairs.push_back(pair);
+        }
+        return pairs;
+    }
+
     int  get_parsed_int(t_vec_str_cit it) const;
     void parse_arguments();
     void handle_straggler();

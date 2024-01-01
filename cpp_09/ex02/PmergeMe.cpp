@@ -9,7 +9,6 @@
 // -------------------------------------------------------------------------- //
 
 #include "PmergeMe.hpp" // needed for PmergeMe class, typedefs, std::vector
-#include <algorithm>    // needed for std::find
 #include <list>         // needed for std::list
 #include <stdexcept>    // needed for std::invalid_argument
 #include <utility>      // needed for std::pair
@@ -60,29 +59,29 @@ int PmergeMe::get_parsed_int(t_vec_str_cit it) const
     return tmp;
 }
 
-static t_lst_pair_int lst_to_pairs(t_lst_int_c & lst, t_lst_pair_int & pairs)
-{
-    t_lst_int_cit it = lst.begin();
-    while (it != lst.end())
-    {
-        int first = *it++;
-        int second = *it++;
-
-        std::pair<int, int> pair;
-        if (first < second)
-        {
-            pair.first = second;
-            pair.second = first;
-        }
-        else
-        {
-            pair.first = first;
-            pair.second = second;
-        }
-        pairs.push_back(pair);
-    }
-    return pairs;
-}
+// static t_lst_pair_int lst_to_pairs(t_lst_int_c & lst, t_lst_pair_int & pairs)
+//{
+//     t_lst_int_cit it = lst.begin();
+//     while (it != lst.end())
+//     {
+//         int first = *it++;
+//         int second = *it++;
+//
+//         std::pair<int, int> pair;
+//         if (first < second)
+//         {
+//             pair.first = second;
+//             pair.second = first;
+//         }
+//         else
+//         {
+//             pair.first = first;
+//             pair.second = second;
+//         }
+//         pairs.push_back(pair);
+//     }
+//     return pairs;
+// }
 
 static void insert_number_into_sequence(int number, t_lst_int & sequence)
 {
@@ -136,7 +135,6 @@ void PmergeMe::sort_with_deque() const
     log_container(deq, "deque");
 }
 
-/* @note template */
 struct s_data
 {
     t_lst_int      lst;
@@ -153,15 +151,16 @@ void PmergeMe::sort_with_list() const
     vector_to_container(d.lst);
     log_container(d.lst, "after moving");
 
-    /* @note make template */
     lst_to_pairs(d.lst, d.pairs);
     log_list(d.pairs, "lst with pairs");
     log_container(d.lst, "after pairing");
 
+    /* @note make template */
     extract_S_and_pend(d.pairs, d.S, d.pend);
     log_container(d.S, "S");
     log_container(d.pend, "pend");
 
+    /* @note make template */
     generate_jacobs_numbers(d.pend, d.jacobs_no);
     log_container(d.jacobs_no, "jacobsthal");
 
