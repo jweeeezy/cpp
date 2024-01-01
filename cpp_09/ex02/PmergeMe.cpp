@@ -33,10 +33,10 @@ void PmergeMe::sort_with_list() const
 {
     struct s_data d;
 
-    vector_to_container(d.lst);
+    convert_args_to_container(d.lst);
     log_container(d.lst, "after moving");
 
-    lst_to_pairs(d.lst, d.pairs);
+    make_pairs(d.lst, d.pairs);
     log_list(d.pairs, "lst with pairs");
     log_container(d.lst, "after pairing");
 

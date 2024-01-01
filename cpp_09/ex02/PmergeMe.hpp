@@ -89,7 +89,7 @@ class PmergeMe
 #endif
     }
 
-    template <typename T> T vector_to_container(T & container) const
+    template <typename T> T convert_args_to_container(T & container) const
     {
         t_vec_str_cit it = _args.begin();
 
@@ -108,7 +108,7 @@ class PmergeMe
     }
 
     template <typename T1, typename T2>
-    void lst_to_pairs(T1 & lst, T2 & pairs) const
+    void make_pairs(T1 & lst, T2 & pairs) const
     {
         typename T1::const_iterator it = lst.begin();
         while (it != lst.end())
