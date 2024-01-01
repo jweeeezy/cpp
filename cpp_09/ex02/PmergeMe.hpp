@@ -108,7 +108,7 @@ class PmergeMe
     }
 
     template <typename T1, typename T2>
-    T2 lst_to_pairs(T1 & lst, T2 & pairs) const
+    void lst_to_pairs(T1 & lst, T2 & pairs) const
     {
         typename T1::const_iterator it = lst.begin();
         while (it != lst.end())
@@ -129,7 +129,83 @@ class PmergeMe
             }
             pairs.push_back(pair);
         }
-        return pairs;
+    }
+
+    template <typename T>
+    void insert_number_into_sequence(int number, T & sequence) const
+    {
+        for (t_lst_int_it it = sequence.begin(); it != sequence.end(); ++it)
+        {
+            if (*it > number)
+            {
+                sequence.insert(it, number);
+                return;
+            }
+        }
+        sequence.push_back(number);
+    }
+
+    template <typename T1, typename T2>
+    void extract_S_and_pend(T1 & pairs, T2 & S, T2 & pend) const
+    {
+        for (typename T1::const_iterator it = pairs.begin(); it != pairs.end();
+             ++it)
+        {
+            pend.push_back(it->second);
+            if (S.empty() == true)
+            {
+                S.push_back(it->first);
+                continue;
+            }
+            insert_number_into_sequence(it->first, S);
+        }
+    }
+
+    template <typename T> int generate_next_number(T & jacobs_no) const
+    {
+        int tmp = *(jacobs_no.rbegin()) + 2 * *(++jacobs_no.rbegin());
+        jacobs_no.push_back(tmp);
+        return (tmp);
+    }
+
+    template <typename T>
+    void generate_jacobs_numbers(T & pend, T & jacobs_no) const
+    {
+        jacobs_no.push_back(0);
+        jacobs_no.push_back(1);
+
+        for (int i = 0; i < static_cast<int>(pend.size());)
+        {
+            i = generate_next_number(jacobs_no);
+        }
+    }
+
+    template <typename T>
+    static void insert_with_binary_search(T & container, int value)
+    {
+        int low = 0;
+        int high = container.size() - 1;
+        while (low <= high)
+        {
+            int mid = low + (high - low) / 2;
+
+            typename T::iterator it = container.begin();
+            std::advance(it, mid);
+
+            if (*it == value)
+            {
+                container.insert(it, value);
+            }
+            else if (*it > value)
+            {
+                high = mid - 1;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+        container.insert(container.begin(), value);
     }
 
     int  get_parsed_int(t_vec_str_cit it) const;
