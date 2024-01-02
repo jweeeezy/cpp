@@ -9,6 +9,7 @@
 // -------------------------------------------------------------------------- //
 
 #include "PmergeMe.hpp" // needed for PmergeMe class, typedefs, std::vector
+#include <algorithm>
 #include <list>         // needed for std::list
 #include <stdexcept>    // needed for std::invalid_argument
 #include <vector>       // needed for std::vector
@@ -29,12 +30,28 @@ struct s_data
     t_lst_int      jacobs_no;
 };
 
+void insertion_sort_with_jacobs_numbers(struct s_data & d)
+{
+    size_t index = d.pend.size();
+
+    while (index > 1)
+    {
+        if (index == d.jacobs_no.back())
+        {
+            d.jacobs_no.pop_back();
+        }
+    }
+}
+
 void PmergeMe::sort_with_list() const
 {
+
     struct s_data d;
 
     convert_args_to_container(d.lst);
     log_container(d.lst, "after moving");
+
+    /* @note check if already sorted (if elements < 2) */
 
     make_pairs(d.lst, d.pairs);
     log_list(d.pairs, "lst with pairs");
@@ -47,7 +64,12 @@ void PmergeMe::sort_with_list() const
     generate_jacobs_numbers(d.pend, d.jacobs_no);
     log_container(d.jacobs_no, "jacobsthal");
 
+    /* @note make more readable i guess? */
+    d.S.insert(d.S.begin(), *d.pend.begin());
+
     /* @note next step algorithm */
+    insertion_sort_with_jacobs_numbers(d);
+    log_container(d.S, "S after jacobs insertion");
 
     if (_straggler != -1)
     {

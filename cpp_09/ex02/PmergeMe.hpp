@@ -173,7 +173,6 @@ class PmergeMe
     {
         jacobs_no.push_back(0);
         jacobs_no.push_back(1);
-
         for (int i = 0; i < static_cast<int>(pend.size());)
         {
             i = generate_next_number(jacobs_no);
@@ -185,29 +184,34 @@ class PmergeMe
     {
         int low = 0;
         int high = container.size() - 1;
+
         while (low <= high)
         {
-            int mid = low + (high - low) / 2;
-
+            int                  mid = low + (high - low) / 2;
             typename T::iterator it = container.begin();
             std::advance(it, mid);
 
-            if (*it == value)
+            if (value > *it)
             {
-                container.insert(it, value);
+                low = mid + 1;
             }
-            else if (*it > value)
+            else if (value < *it)
             {
                 high = mid - 1;
             }
             else
             {
-                low = mid + 1;
+                // Handle the case when the value is equal to *it
+                container.insert(it, value);
+                return;
             }
         }
-        container.insert(container.begin(), value);
-    }
 
+        // If the value is not found, insert it at the appropriate position
+        typename T::iterator it = container.begin();
+        std::advance(it, low);
+        container.insert(it, value);
+    }
     int  get_parsed_int(t_vec_str_cit it) const;
     void parse_arguments();
     void handle_straggler();
