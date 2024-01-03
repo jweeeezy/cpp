@@ -44,41 +44,40 @@ void PmergeMe::insertion_sort_with_jacobsthal(struct s_lists & lists) const
             --index;
         }
     }
-    log_container(sequence, "insertion sequence");
+    log_container(sequence, "insert sequence");
 }
 
-void PmergeMe::sort_with_list() const
+void PmergeMe::sort_with_list()
 {
     struct s_lists lists;
 
     convert_args_to_container(_args, lists.numbers);
-    log_container(lists.numbers, "after moving");
+    log_container(lists.numbers, "lists.numbers");
 
     /* @note check if already sorted (if elements < 2) */
 
     make_pairs(lists.numbers, lists.pairs);
-    log_list(lists.pairs, "lst with pairs");
-    log_container(lists.numbers, "after pairing");
+    log_pairs(lists.pairs, "lists.pairs");
 
     extract_S_and_pend(lists.pairs, lists.S, lists.pend);
-    log_container(lists.S, "S");
-    log_container(lists.pend, "pend");
+    log_container(lists.S, "lists.S");
+    log_container(lists.pend, "lists.pend");
 
     lists.S.insert(lists.S.begin(), get_and_pop_front(lists.pend));
-    log_container(lists.pend, "pend after removing first");
+    log_container(lists.pend, "--> removed first");
 
     generate_jacobsthal_numbers(lists.pend, lists.jacobsthal);
-    log_container(lists.jacobsthal, "jacobsthal");
+    log_container(lists.jacobsthal, "lists.jacobsthal");
 
     insertion_sort_with_jacobsthal(lists);
-    log_container(lists.S, "S after jacobs insertion");
+    log_container(lists.S, "lists.S");
 
     if (_straggler != NO_STRAGGLER)
     {
         insert_with_binary_search(lists.S, _straggler);
-        log_container(lists.S, "S after straggler");
+        log_container(lists.S, "--> with _straggler");
     }
-    /* @note print S or return S */
+    _sorted = container_to_string(lists.S);
 }
 
 // -------------------------------------------------------------------------- //

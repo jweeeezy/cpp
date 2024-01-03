@@ -24,12 +24,6 @@ static int log_exit(std::string const & message)
     return (EXIT_FAILURE);
 }
 
-static void log_measured_time(StopWatch & timer, std::string const & message)
-{
-    std::cout << message << ": " << timer.get_measured_time() << " ms"
-              << "\n";
-}
-
 int main(int argc, char ** argv)
 {
     if (argc < EXPECTED_ARGC)
@@ -38,13 +32,27 @@ int main(int argc, char ** argv)
     }
     try
     {
-        StopWatch timer_obj;
-        PmergeMe  obj(argc - 1, argv);
+        StopWatch timer_list;
+        StopWatch timer_deque;
 
-        timer_obj.start();
-        obj.sort_with_list();
-        timer_obj.stop();
-        log_measured_time(timer_obj, "Default");
+        PmergeMe pmm(argc - 1, argv);
+
+        timer_list.start();
+        pmm.sort_with_list();
+        timer_list.stop();
+
+        timer_deque.start();
+        pmm.sort_with_deque();
+        timer_deque.stop();
+
+        std::cout << "Before: " << pmm.get_unsorted_args() << "\n"
+                  << "After:  " << pmm.get_sorted_args() << "\n"
+                  << "Time to process a range of " << argc
+                  << " elements with std::list: "
+                  << timer_list.get_measured_time() << " ms\n"
+                  << "Time to process a range of " << argc
+                  << " elements with std::deque: "
+                  << timer_deque.get_measured_time() << " ms" << std::endl;
     }
     catch (std::exception const & e)
     {

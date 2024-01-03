@@ -27,18 +27,22 @@ class PmergeMe
     PmergeMe();
     ~PmergeMe();
 
+    /* locaton: PmergeMe.cpp */
+    t_str_c get_sorted_args() const;
+    t_str_c get_unsorted_args() const;
+
     /* location: PmergeMe.SortList.cpp */
-    void sort_with_list() const;
+    void sort_with_list();
 
     /* location: PmergeMe.SortDeque.cpp */
-    void sort_with_deque() const;
+    void sort_with_deque();
 
   private:
     /* location: PmergeMe.Logs.cpp */
     void log_debug(t_str_c & message) const;
     void log_straggler() const;
-    void log_list(t_lst_pair_int_c & lst, t_str_c & name) const;
-    void log_deq(t_deq_pair_int_c & deq, t_str_c & name) const;
+    void log_pairs(t_lst_pair_int_c & pairs, t_str_c & name) const;
+    void log_pairs(t_deq_pair_int_c & pairs, t_str_c & name) const;
 
     /* location: PmergeMe.Parsing.cpp */
     void parse_arguments();
@@ -54,6 +58,7 @@ class PmergeMe
     char **   _argv;
     t_vec_str _args;
     int       _straggler;
+    t_str     _sorted;
 };
 
 #endif // PMERGEME

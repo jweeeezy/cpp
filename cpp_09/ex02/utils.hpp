@@ -13,20 +13,36 @@
 
 #include "typedefs.hpp" // needed for types and typedefs
 #include <algorithm>    // needed for std::advance
+#include <sstream>      // needed for std::stringstream
 
 #ifdef DEBUG
-/* @note make Yellow light blue or something visible other than white */
-#define YELLOW "\033[033m"
-#define RESET  "\033[0m"
+#define YELLOW     "\033[033m"
+#define LIGHT_BLUE "\033[094m"
+#define RESET      "\033[0m"
 #include <iostream> // needed for std::cerr
 #endif
 
-template <typename T> void log_container(T container, t_str_c & name)
+template <typename T> t_str container_to_string(T & container)
+{
+    std::stringstream ss;
+    for (typename T::const_iterator it = container.begin();
+         it != container.end(); ++it)
+    {
+        ss << *it;
+        if (it != --container.end())
+        {
+            ss << " ";
+        }
+    }
+    return ss.str();
+}
+
+template <typename T> void log_container(T & container, t_str_c & name)
 {
     (void)container;
     (void)name;
 #ifdef DEBUG
-    std::cerr << YELLOW << name << ": " << RESET;
+    std::cerr << LIGHT_BLUE << name << ": " << RESET;
     for (typename T::const_iterator it = container.begin();
          it != container.end(); ++it)
     {
@@ -67,6 +83,37 @@ template <typename T> void generate_jacobsthal_numbers(T & pend, T & jacobsthal)
     }
 }
 
+template <typename T> void insert_with_binary_search(T & container, int value)
+{
+    int low  = 0;
+    int high = container.size() - 1;
+
+    while (low <= high)
+    {
+        int mid = low + (high - low) / 2;
+
+        typename T::iterator it = container.begin();
+        std::advance(it, mid);
+
+        if (value > *it)
+        {
+            low = mid + 1;
+        }
+        else if (value < *it)
+        {
+            high = mid - 1;
+        }
+        else
+        {
+            container.insert(it, value);
+            return;
+        }
+    }
+    typename T::iterator it = container.begin();
+    std::advance(it, low);
+    container.insert(it, value);
+}
+
 template <typename T1, typename T2>
 void extract_S_and_pend(T1 & pairs, T2 & S, T2 & pend)
 {
@@ -79,7 +126,7 @@ void extract_S_and_pend(T1 & pairs, T2 & S, T2 & pend)
             S.push_back(it->first);
             continue;
         }
-        insert_number_into_sequence(it->first, S);
+        insert_with_binary_search(S, it->first);
     }
 }
 template <typename T1, typename T2> void make_pairs(T1 & lst, T2 & pairs)
@@ -139,37 +186,6 @@ template <typename T> int access_container_by_index(T & container, int index)
     t_lst_int_it it = container.begin();
     std::advance(it, index);
     return *it;
-}
-
-template <typename T> void insert_with_binary_search(T & container, int value)
-{
-    int low  = 0;
-    int high = container.size() - 1;
-
-    while (low <= high)
-    {
-        int mid = low + (high - low) / 2;
-
-        typename T::iterator it = container.begin();
-        std::advance(it, mid);
-
-        if (value > *it)
-        {
-            low = mid + 1;
-        }
-        else if (value < *it)
-        {
-            high = mid - 1;
-        }
-        else
-        {
-            container.insert(it, value);
-            return;
-        }
-    }
-    typename T::iterator it = container.begin();
-    std::advance(it, low);
-    container.insert(it, value);
 }
 
 #endif // UTILS

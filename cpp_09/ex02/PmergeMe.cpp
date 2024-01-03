@@ -12,15 +12,36 @@
 #include "utils.hpp"    // needed for container utils
 #include <algorithm>    // needed for std::advance
 #include <list>         // needed for std::list
+#include <sstream>      // needed for std::stringstream
 #include <stdexcept>    // needed for std::invalid_argument
 #include <vector>       // needed for std::vector
+
+t_str_c PmergeMe::get_unsorted_args() const
+{
+    std::stringstream ss;
+    for (t_vec_str_cit it = _args.begin(); it != _args.end(); ++it)
+    {
+        ss << *it;
+        if (it != --_args.end())
+        {
+            ss << " ";
+        }
+    }
+    if (_straggler != NO_STRAGGLER)
+    {
+        ss << " " << _straggler;
+    }
+    return ss.str();
+}
+
+t_str_c PmergeMe::get_sorted_args() const { return _sorted; }
 
 PmergeMe::PmergeMe(int argc, char ** argv) : _argc(argc), _argv(argv)
 {
     log_debug("parsing constructor called");
 
     parse_arguments();
-    log_container(_args, "arguments");
+    log_container(_args, "_args");
 
     handle_straggler();
     log_straggler();
