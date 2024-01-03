@@ -8,14 +8,7 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "PmergeMe.hpp" // needed for PmergeMe class, typedefs, std::vector
-
-#ifdef DEBUG
-#define YELLOW "\033[033m"
-#define LIGHT_BLUE "\033[094m"
-#define RESET  "\033[0m"
-#include <iostream> // needed for std::cerr
-#endif
+#include "PmergeMe.hpp" // needed for PmergeMe class, typedefs
 
 void PmergeMe::log_debug(t_str_c & message) const
 {

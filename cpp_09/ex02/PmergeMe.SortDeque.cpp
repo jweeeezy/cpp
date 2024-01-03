@@ -8,7 +8,7 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "PmergeMe.hpp" // needed for PmergeMe class
+#include "PmergeMe.hpp" // needed for PmergeMe class, typedefs
 #include "utils.hpp"    // needed for container utils
 
 void PmergeMe::sort_with_deque()

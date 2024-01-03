@@ -8,10 +8,9 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "PmergeMe.hpp"  // needed for PmergeMe class
+#include "PmergeMe.hpp"  // needed for PmergeMe class, typedefs
 #include "StopWatch.hpp" // needed for StopWatch class
 #include "utils.hpp"     // needed for log_container
-#include <algorithm>     // needed for std::advance
 #include <cstdlib>       // needed for MACROS
 #include <iostream>      // needed for std::cerr, std::cout
 

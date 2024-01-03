@@ -11,19 +11,11 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include "typedefs.hpp" // needed for types and typedefs
+#include "typedefs.hpp" // needed for typedefs
 #include <algorithm>    // needed for std::advance
-#include <ostream>      // needed for std::ostringstream
 #include <sstream>      // needed for std::stringstream
 
-#ifdef DEBUG
-#define YELLOW     "\033[033m"
-#define LIGHT_BLUE "\033[094m"
-#define GREEN      "\033[032m"
-#define RESET      "\033[0m"
-#include <iostream> // needed for std::cerr
-#endif
-
+/* converts a container type to a std::vector<std::string> */
 template <typename T> t_vec_str container_to_vec_str(T & container)
 {
     t_vec_str vec;
@@ -38,6 +30,7 @@ template <typename T> t_vec_str container_to_vec_str(T & container)
     return vec;
 }
 
+/* outputs the content of a container (expects int) */
 template <typename T> void log_container(T & container, t_str_c & name)
 {
     (void)container;
@@ -54,6 +47,7 @@ template <typename T> void log_container(T & container, t_str_c & name)
 #endif
 }
 
+/* checks if given container is sorted (expects strings) */
 template <typename T>
 static void log_is_sorted(T & container, std::string const & name)
 {
@@ -80,13 +74,16 @@ static void log_is_sorted(T & container, std::string const & name)
 #endif
 }
 
-template <typename T> int generate_next_number(T & jacobs)
+/* helper function for generate_jacobsthal_numbers */
+template <typename T> static int generate_next_number(T & jacobs)
 {
     int tmp = *(jacobs.rbegin()) + 2 * *(++jacobs.rbegin());
     jacobs.push_back(tmp);
     return (tmp);
 }
 
+/* generates jacobsthal numbers with the help of sequence pends size as a given
+ * container type*/
 template <typename T> void generate_jacobsthal_numbers(T & pend, T & jacobsthal)
 {
     jacobsthal.push_back(0);
@@ -97,6 +94,7 @@ template <typename T> void generate_jacobsthal_numbers(T & pend, T & jacobsthal)
     }
 }
 
+/* inserts an int value into given container with binary search */
 template <typename T> void insert_with_binary_search(T & container, int value)
 {
     int low  = 0;
@@ -128,6 +126,8 @@ template <typename T> void insert_with_binary_search(T & container, int value)
     container.insert(it, value);
 }
 
+/* extracts sorted sequence S and unsorted sequence pend out of an int pairs
+ * container */
 template <typename T1, typename T2>
 void extract_S_and_pend(T1 & pairs, T2 & S, T2 & pend)
 {
@@ -144,10 +144,11 @@ void extract_S_and_pend(T1 & pairs, T2 & S, T2 & pend)
     }
 }
 
-template <typename T1, typename T2> void make_pairs(T1 & lst, T2 & pairs)
+/* makes int pairs out of the given numbers container */
+template <typename T1, typename T2> void make_pairs(T1 & numbers, T2 & pairs)
 {
-    typename T1::const_iterator it = lst.begin();
-    while (it != lst.end())
+    typename T1::const_iterator it = numbers.begin();
+    while (it != numbers.end())
     {
         int first  = *it++;
         int second = *it++;
@@ -167,6 +168,7 @@ template <typename T1, typename T2> void make_pairs(T1 & lst, T2 & pairs)
     }
 }
 
+/* converts a std::vector<std::string> to given container type */
 template <typename T>
 T convert_args_to_container(t_vec_str_c & args, T & container)
 {
@@ -189,6 +191,7 @@ T convert_args_to_container(t_vec_str_c & args, T & container)
     return container;
 }
 
+/* removes front value and returns it from given container */
 template <typename T> int get_and_pop_front(T & container)
 {
     int tmp = container.front();
@@ -196,6 +199,7 @@ template <typename T> int get_and_pop_front(T & container)
     return tmp;
 }
 
+/* access any container with an index and return the value */
 template <typename T> int access_container_by_index(T & container, int index)
 {
     t_lst_int_it it = container.begin();

@@ -8,13 +8,9 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "PmergeMe.hpp" // needed for PmergeMe class, typedefs, std::vector
+#include "PmergeMe.hpp" // needed for PmergeMe class, typedefs
 #include "utils.hpp"    // needed for container utils
-#include <algorithm>    // needed for std::advance
-#include <list>         // needed for std::list
-#include <sstream>      // needed for std::stringstream
 #include <stdexcept>    // needed for std::invalid_argument
-#include <vector>       // needed for std::vector
 
 t_vec_str_c & PmergeMe::get_unsorted_args() const { return _args; }
 

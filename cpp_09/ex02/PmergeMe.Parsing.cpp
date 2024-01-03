@@ -8,7 +8,7 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "PmergeMe.hpp" // needed for PmergeMe class, typedefs, std::vector
+#include "PmergeMe.hpp" // needed for PmergeMe class, typedefs
 #include <cstdlib>      // needed for std::atoi
 #include <stdexcept>    // needed for std::invalid_argument
 

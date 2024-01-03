@@ -13,11 +13,10 @@
 #include <string>        // needed for std::string
 
 #ifdef DEBUG
-#include <iostream> // needed for std::cerr
-#endif              // DEBUG
-
 #define YELLOW "\033[33m"
 #define RESET  "\033[0m"
+#include <iostream> // needed for std::cerr
+#endif
 
 #define CLOCKS_PER_MS CLOCKS_PER_SEC * 1000.0
 
