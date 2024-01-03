@@ -23,40 +23,33 @@
 
 struct s_data
 {
-    t_lst_int      lst;
+    t_lst_int      numbers;
     t_lst_pair_int pairs;
     t_lst_int      S;
     t_lst_int      pend;
-    t_lst_int      jacobs;
+    t_lst_int      jacobsthal;
 };
 
-int access_list_by_index(t_lst_int & lst, int index)
-{
-    t_lst_int_it it = lst.begin();
-    std::advance(it, index);
-    return *it;
-}
-
-void PmergeMe::insertion_sort_with_jacobs_numbers(struct s_data & d) const
+void PmergeMe::insertion_sort_with_jacobsthal(struct s_data & lists) const
 {
     t_lst_int sequence;
     while (1)
     {
-        int current_jacobs = d.jacobs.back();
-        d.jacobs.pop_back();
-        int next_jacobs = d.jacobs.back();
+        int current_jacobs = lists.jacobsthal.back();
+        lists.jacobsthal.pop_back();
+        int next_jacobs = lists.jacobsthal.back();
         if (next_jacobs == 0)
         {
-            int current_value = access_list_by_index(d.pend, 0);
-            insert_with_binary_search(d.S, current_value);
+            int current_value = access_container_by_index(lists.pend, 0);
+            insert_with_binary_search(lists.S, current_value);
             sequence.push_back(current_value);
             break;
         }
         int index = current_jacobs - 1;
         while (index != next_jacobs - 1)
         {
-            int current_value = access_list_by_index(d.pend, index);
-            insert_with_binary_search(d.S, current_value);
+            int current_value = access_container_by_index(lists.pend, index);
+            insert_with_binary_search(lists.S, current_value);
             sequence.push_back(current_value);
             --index;
         }
@@ -66,37 +59,36 @@ void PmergeMe::insertion_sort_with_jacobs_numbers(struct s_data & d) const
 
 void PmergeMe::sort_with_list() const
 {
-    struct s_data d;
+    struct s_data lists;
 
-    convert_args_to_container(d.lst);
-    log_container(d.lst, "after moving");
+    convert_args_to_container(lists.numbers);
+    log_container(lists.numbers, "after moving");
 
     /* @note check if already sorted (if elements < 2) */
 
-    make_pairs(d.lst, d.pairs);
-    log_list(d.pairs, "lst with pairs");
-    log_container(d.lst, "after pairing");
+    make_pairs(lists.numbers, lists.pairs);
+    log_list(lists.pairs, "lst with pairs");
+    log_container(lists.numbers, "after pairing");
 
-    extract_S_and_pend(d.pairs, d.S, d.pend);
-    log_container(d.S, "S");
-    log_container(d.pend, "pend");
+    extract_S_and_pend(lists.pairs, lists.S, lists.pend);
+    log_container(lists.S, "S");
+    log_container(lists.pend, "pend");
 
-    /* @note make more readable i guess? */
-    d.S.insert(d.S.begin(), *d.pend.begin());
-    d.pend.pop_front();
-    log_container(d.pend, "pend after removing first");
+    lists.S.insert(lists.S.begin(), get_and_pop_front(lists.pend));
+    log_container(lists.pend, "pend after removing first");
 
-    generate_jacobs_numbers(d.pend, d.jacobs);
-    log_container(d.jacobs, "jacobsthal");
+    generate_jacobsthal_numbers(lists.pend, lists.jacobsthal);
+    log_container(lists.jacobsthal, "jacobsthal");
 
-    insertion_sort_with_jacobs_numbers(d);
-    log_container(d.S, "S after jacobs insertion");
+    insertion_sort_with_jacobsthal(lists);
+    log_container(lists.S, "S after jacobs insertion");
 
     if (_straggler != -1)
     {
-        insert_with_binary_search(d.S, _straggler);
-        log_container(d.S, "S after straggler");
+        insert_with_binary_search(lists.S, _straggler);
+        log_container(lists.S, "S after straggler");
     }
+    /* @note print S or return S */
 }
 
 void PmergeMe::sort_with_deque() const

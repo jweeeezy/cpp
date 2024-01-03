@@ -11,47 +11,14 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
-#include <deque>  // needed for std::deque
-#include <list>   // needed for std::map
-#include <string> // needed for std::string
-#include <vector> // needed for std::vector
+#include "typedefs.hpp" // needed for types and typedefs
 
 #ifdef DEBUG
-#include <iostream>
+#include <iostream> // needed for std::cerr
 #endif
 
 #define YELLOW "\033[033m"
 #define RESET  "\033[0m"
-
-/* typedefs */
-/* @note should prob just add them internally in the source files */
-typedef std::string t_str;
-typedef t_str const t_str_c;
-
-typedef std::vector<t_str>        t_vec_str;
-typedef t_vec_str const           t_vec_str_c;
-typedef t_vec_str::iterator       t_vec_str_it;
-typedef t_vec_str::const_iterator t_vec_str_cit;
-
-typedef std::vector<int>          t_vec_int;
-typedef t_vec_int const           t_vec_int_c;
-typedef t_vec_int::iterator       t_vec_int_it;
-typedef t_vec_int::const_iterator t_vec_int_cit;
-
-typedef std::list<int>            t_lst_int;
-typedef t_lst_int const           t_lst_int_c;
-typedef t_lst_int::iterator       t_lst_int_it;
-typedef t_lst_int::const_iterator t_lst_int_cit;
-
-typedef std::list<std::pair<int, int> > t_lst_pair_int;
-typedef t_lst_pair_int const           t_lst_pair_int_c;
-typedef t_lst_pair_int::iterator       t_lst_pair_int_it;
-typedef t_lst_pair_int::const_iterator t_lst_pair_int_cit;
-
-typedef std::deque<int>           t_deq_int;
-typedef t_deq_int const           t_deq_int_c;
-typedef t_deq_int::iterator       t_deq_int_it;
-typedef t_deq_int::const_iterator t_deq_int_cit;
 
 class PmergeMe
 {
@@ -169,27 +136,43 @@ class PmergeMe
     }
 
     template <typename T>
-    void generate_jacobs_numbers(T & pend, T & jacobs) const
+    void generate_jacobsthal_numbers(T & pend, T & jacobsthal) const
     {
-        jacobs.push_back(0);
-        jacobs.push_back(1);
+        jacobsthal.push_back(0);
+        jacobsthal.push_back(1);
         for (int i = 0; i < static_cast<int>(pend.size());)
         {
-            i = generate_next_number(jacobs);
+            i = generate_next_number(jacobsthal);
         }
+    }
+
+    template <typename T> int get_and_pop_front(T & container) const
+    {
+        int tmp = container.front();
+        container.pop_front();
+        return tmp;
+    }
+
+    template <typename T>
+    int access_container_by_index(T & container, int index) const
+    {
+        t_lst_int_it it = container.begin();
+        std::advance(it, index);
+        return *it;
     }
 
     /* @note look at this again */
     template <typename T>
-    static void insert_with_binary_search(T & container, int value)
+    void insert_with_binary_search(T & container, int value) const
     {
         int low  = 0;
         int high = container.size() - 1;
 
         while (low <= high)
         {
-            int                  mid = low + (high - low) / 2;
-            typename T::iterator it  = container.begin();
+            int mid = low + (high - low) / 2;
+
+            typename T::iterator it = container.begin();
             std::advance(it, mid);
 
             if (value > *it)
@@ -202,13 +185,10 @@ class PmergeMe
             }
             else
             {
-                // Handle the case when the value is equal to *it
                 container.insert(it, value);
                 return;
             }
         }
-
-        // If the value is not found, insert it at the appropriate position
         typename T::iterator it = container.begin();
         std::advance(it, low);
         container.insert(it, value);
@@ -218,7 +198,7 @@ class PmergeMe
     void parse_arguments();
     void handle_straggler();
 
-    void insertion_sort_with_jacobs_numbers(struct s_data & d) const;
+    void insertion_sort_with_jacobsthal(struct s_data & d) const;
 
     int       _argc;
     char **   _argv;
