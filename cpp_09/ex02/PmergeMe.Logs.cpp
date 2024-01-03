@@ -15,7 +15,6 @@
 #endif
 
 /* @note make Yellow light blue or something visible other than white */
-
 #define YELLOW "\033[033m"
 #define RESET  "\033[0m"
 

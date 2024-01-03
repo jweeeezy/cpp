@@ -1,3 +1,13 @@
+// ========================================================================== //
+//                               42 | Heilbronn                               //
+// ========================================================================== //
+//                                                                            //
+// name:  jakob willert (jwillert)                                            //
+// mail:  jwillert@student.42heilbronn.de                                     //
+// file:  typedefs.hpp                                                        //
+//                                                                            //
+// -------------------------------------------------------------------------- //
+
 #ifndef TYPEDEFS_HPP
 #define TYPEDEFS_HPP
 
@@ -35,3 +45,5 @@ typedef t_deq_pair_int::iterator         t_deq_pair_int_it;
 typedef t_deq_pair_int::const_iterator   t_deq_pair_int_cit;
 
 #endif // TYPEDEFS_HPP
+
+// -------------------------------------------------------------------------- //

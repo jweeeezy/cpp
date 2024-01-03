@@ -74,4 +74,18 @@ void PmergeMe::parse_arguments()
     _args = vec;
 }
 
+void PmergeMe::handle_straggler()
+{
+    _straggler = NO_STRAGGLER;
+    if (_args.size() % 2 == ODD)
+    {
+        _straggler = std::atoi((--_args.end())->c_str());
+        if (_straggler < 1)
+        {
+            throw std::invalid_argument("only positive integers allowed!");
+        }
+        _args.pop_back();
+    }
+}
+
 // -------------------------------------------------------------------------- //
