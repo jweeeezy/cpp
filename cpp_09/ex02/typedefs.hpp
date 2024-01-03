@@ -11,11 +11,14 @@
 #ifndef TYPEDEFS_HPP
 #define TYPEDEFS_HPP
 
-#ifdef DEBUG
-#define YELLOW     "\033[033m"
-#define LIGHT_BLUE "\033[094m"
-#define GREEN      "\033[032m"
+#define RED        "\033[1;31m"
 #define RESET      "\033[0m"
+
+/* only needed for debugging */
+#ifdef DEBUG
+#define GREEN      "\033[032m"
+#define LIGHT_BLUE "\033[094m"
+#define YELLOW     "\033[033m"
 #include <iostream> // needed for std::cerr
 #endif
 

@@ -12,7 +12,17 @@
 #include "utils.hpp"    // needed for container utils
 #include <stdexcept>    // needed for std::invalid_argument
 
-t_vec_str_c & PmergeMe::get_unsorted_args() const { return _args; }
+t_vec_str_c PmergeMe::get_unsorted_args() const
+{
+    t_vec_str vec(_args);
+    if (_straggler != NO_STRAGGLER)
+    {
+        std::ostringstream ss;
+        ss << _straggler;
+        vec.push_back(ss.str());
+    }
+    return vec;
+}
 
 t_vec_str_c & PmergeMe::get_sorted_args() const
 {

@@ -49,12 +49,8 @@ template <typename T> void log_container(T & container, t_str_c & name)
 
 /* checks if given container is sorted (expects strings) */
 template <typename T>
-static void log_is_sorted(T & container, std::string const & name)
+bool is_sorted(T & container)
 {
-    (void)container;
-    (void)name;
-#ifdef DEBUG
-    log_container(container, "container to be checked");
     for (typename T::const_iterator it = container.begin();
          it != container.end();
          ++it)
@@ -67,10 +63,29 @@ static void log_is_sorted(T & container, std::string const & name)
         }
         if (std::atoi(it->c_str()) > std::atoi(next->c_str()))
         {
-            return;
+            return false;
         }
     }
-    std::cerr << name << GREEN << " is sorted!\n" << RESET;
+    return true;
+}
+
+/* logs if given container is sorted (expects strings) */
+template <typename T>
+void log_is_sorted(T & container, std::string const & name)
+{
+    (void)container;
+    (void)name;
+#ifdef DEBUG
+    log_container(container, "container to be checked");
+
+    if (is_sorted(container) == false)
+    {
+        std::cerr << name << RED << "is not sorted!\n" << RESET;
+    }
+    else
+    {
+        std::cerr << name << GREEN << " is sorted!\n" << RESET;
+    }
 #endif
 }
 

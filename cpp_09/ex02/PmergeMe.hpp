@@ -24,11 +24,10 @@ class PmergeMe
     PmergeMe(int argc, char ** argv);
     PmergeMe & operator=(PmergeMe const & rhs);
     PmergeMe(PmergeMe const & src);
-    PmergeMe();
     ~PmergeMe();
 
     /* locaton: PmergeMe.cpp */
-    t_vec_str_c & get_unsorted_args() const;
+    t_vec_str_c   get_unsorted_args() const;
     t_vec_str_c & get_sorted_args() const;
 
     /* location: PmergeMe.SortList.cpp */
@@ -38,6 +37,9 @@ class PmergeMe
     void sort_with_deque();
 
   private:
+    /* location: PmergeMe.cpp */
+    PmergeMe();
+
     /* location: PmergeMe.Logs.cpp */
     void log_debug(t_str_c & message) const;
     void log_straggler() const;

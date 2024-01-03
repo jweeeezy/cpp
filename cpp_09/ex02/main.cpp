@@ -14,9 +14,6 @@
 #include <cstdlib>       // needed for MACROS
 #include <iostream>      // needed for std::cerr, std::cout
 
-#define RED   "\033[1;31m"
-#define RESET "\033[0m"
-
 #define EXPECTED_ARGC 2
 
 static int log_exit(t_str_c & message)
