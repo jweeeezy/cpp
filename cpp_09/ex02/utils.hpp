@@ -13,28 +13,29 @@
 
 #include "typedefs.hpp" // needed for types and typedefs
 #include <algorithm>    // needed for std::advance
+#include <ostream>      // needed for std::ostringstream
 #include <sstream>      // needed for std::stringstream
 
 #ifdef DEBUG
 #define YELLOW     "\033[033m"
 #define LIGHT_BLUE "\033[094m"
+#define GREEN      "\033[032m"
 #define RESET      "\033[0m"
 #include <iostream> // needed for std::cerr
 #endif
 
-template <typename T> t_str container_to_string(T & container)
+template <typename T> t_vec_str container_to_vec_str(T & container)
 {
-    std::stringstream ss;
+    t_vec_str vec;
     for (typename T::const_iterator it = container.begin();
-         it != container.end(); ++it)
+         it != container.end();
+         ++it)
     {
-        ss << *it;
-        if (it != --container.end())
-        {
-            ss << " ";
-        }
+        std::ostringstream os;
+        os << *it;
+        vec.push_back(os.str());
     }
-    return ss.str();
+    return vec;
 }
 
 template <typename T> void log_container(T & container, t_str_c & name)
@@ -44,7 +45,8 @@ template <typename T> void log_container(T & container, t_str_c & name)
 #ifdef DEBUG
     std::cerr << LIGHT_BLUE << name << ": " << RESET;
     for (typename T::const_iterator it = container.begin();
-         it != container.end(); ++it)
+         it != container.end();
+         ++it)
     {
         std::cerr << *it << " ";
     }
@@ -52,18 +54,30 @@ template <typename T> void log_container(T & container, t_str_c & name)
 #endif
 }
 
-/*@note binary search instead?? */
-template <typename T> void insert_number_into_sequence(int number, T & sequence)
+template <typename T>
+static void log_is_sorted(T & container, std::string const & name)
 {
-    for (t_lst_int_it it = sequence.begin(); it != sequence.end(); ++it)
+    (void)container;
+    (void)name;
+#ifdef DEBUG
+    log_container(container, "container to be checked");
+    for (typename T::const_iterator it = container.begin();
+         it != container.end();
+         ++it)
     {
-        if (*it > number)
+        typename T::const_iterator next = it;
+        ++next;
+        if (next == container.end())
         {
-            sequence.insert(it, number);
+            break;
+        }
+        if (std::atoi(it->c_str()) > std::atoi(next->c_str()))
+        {
             return;
         }
     }
-    sequence.push_back(number);
+    std::cerr << name << GREEN << " is sorted!\n" << RESET;
+#endif
 }
 
 template <typename T> int generate_next_number(T & jacobs)
@@ -129,6 +143,7 @@ void extract_S_and_pend(T1 & pairs, T2 & S, T2 & pend)
         insert_with_binary_search(S, it->first);
     }
 }
+
 template <typename T1, typename T2> void make_pairs(T1 & lst, T2 & pairs)
 {
     typename T1::const_iterator it = lst.begin();

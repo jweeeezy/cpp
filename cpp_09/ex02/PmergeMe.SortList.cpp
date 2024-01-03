@@ -77,7 +77,7 @@ void PmergeMe::sort_with_list()
         insert_with_binary_search(lists.S, _straggler);
         log_container(lists.S, "--> with _straggler");
     }
-    _sorted = container_to_string(lists.S);
+    _sorted = container_to_vec_str(lists.S);
 }
 
 // -------------------------------------------------------------------------- //
