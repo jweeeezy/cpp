@@ -113,18 +113,18 @@ class PmergeMe
         typename T1::const_iterator it = lst.begin();
         while (it != lst.end())
         {
-            int first = *it++;
+            int first  = *it++;
             int second = *it++;
 
             std::pair<int, int> pair;
             if (first < second)
             {
-                pair.first = second;
+                pair.first  = second;
                 pair.second = first;
             }
             else
             {
-                pair.first = first;
+                pair.first  = first;
                 pair.second = second;
             }
             pairs.push_back(pair);
@@ -161,34 +161,35 @@ class PmergeMe
         }
     }
 
-    template <typename T> int generate_next_number(T & jacobs_no) const
+    template <typename T> int generate_next_number(T & jacobs) const
     {
-        int tmp = *(jacobs_no.rbegin()) + 2 * *(++jacobs_no.rbegin());
-        jacobs_no.push_back(tmp);
+        int tmp = *(jacobs.rbegin()) + 2 * *(++jacobs.rbegin());
+        jacobs.push_back(tmp);
         return (tmp);
     }
 
     template <typename T>
-    void generate_jacobs_numbers(T & pend, T & jacobs_no) const
+    void generate_jacobs_numbers(T & pend, T & jacobs) const
     {
-        jacobs_no.push_back(0);
-        jacobs_no.push_back(1);
+        jacobs.push_back(0);
+        jacobs.push_back(1);
         for (int i = 0; i < static_cast<int>(pend.size());)
         {
-            i = generate_next_number(jacobs_no);
+            i = generate_next_number(jacobs);
         }
     }
 
+    /* @note look at this again */
     template <typename T>
     static void insert_with_binary_search(T & container, int value)
     {
-        int low = 0;
+        int low  = 0;
         int high = container.size() - 1;
 
         while (low <= high)
         {
             int                  mid = low + (high - low) / 2;
-            typename T::iterator it = container.begin();
+            typename T::iterator it  = container.begin();
             std::advance(it, mid);
 
             if (value > *it)
@@ -212,9 +213,12 @@ class PmergeMe
         std::advance(it, low);
         container.insert(it, value);
     }
+
     int  get_parsed_int(t_vec_str_cit it) const;
     void parse_arguments();
     void handle_straggler();
+
+    void insertion_sort_with_jacobs_numbers(struct s_data & d) const;
 
     int       _argc;
     char **   _argv;

@@ -9,7 +9,7 @@
 // -------------------------------------------------------------------------- //
 
 #include "PmergeMe.hpp" // needed for PmergeMe class, typedefs, std::vector
-#include <algorithm>
+#include <algorithm>    // needed for std::advance
 #include <list>         // needed for std::list
 #include <stdexcept>    // needed for std::invalid_argument
 #include <vector>       // needed for std::vector
@@ -27,25 +27,45 @@ struct s_data
     t_lst_pair_int pairs;
     t_lst_int      S;
     t_lst_int      pend;
-    t_lst_int      jacobs_no;
+    t_lst_int      jacobs;
 };
 
-void insertion_sort_with_jacobs_numbers(struct s_data & d)
+int access_list_by_index(t_lst_int & lst, int index)
 {
-    size_t index = d.pend.size();
+    t_lst_int_it it = lst.begin();
+    std::advance(it, index);
+    return *it;
+}
 
-    while (index > 1)
+void PmergeMe::insertion_sort_with_jacobs_numbers(struct s_data & d) const
+{
+    t_lst_int sequence;
+    while (1)
     {
-        if (index == d.jacobs_no.back())
+        int current_jacobs = d.jacobs.back();
+        d.jacobs.pop_back();
+        int next_jacobs = d.jacobs.back();
+        if (next_jacobs == 0)
         {
-            d.jacobs_no.pop_back();
+            int current_value = access_list_by_index(d.pend, 0);
+            insert_with_binary_search(d.S, current_value);
+            sequence.push_back(current_value);
+            break;
+        }
+        int index = current_jacobs - 1;
+        while (index != next_jacobs - 1)
+        {
+            int current_value = access_list_by_index(d.pend, index);
+            insert_with_binary_search(d.S, current_value);
+            sequence.push_back(current_value);
+            --index;
         }
     }
+    log_container(sequence, "insertion sequence");
 }
 
 void PmergeMe::sort_with_list() const
 {
-
     struct s_data d;
 
     convert_args_to_container(d.lst);
@@ -61,13 +81,14 @@ void PmergeMe::sort_with_list() const
     log_container(d.S, "S");
     log_container(d.pend, "pend");
 
-    generate_jacobs_numbers(d.pend, d.jacobs_no);
-    log_container(d.jacobs_no, "jacobsthal");
-
     /* @note make more readable i guess? */
     d.S.insert(d.S.begin(), *d.pend.begin());
+    d.pend.pop_front();
+    log_container(d.pend, "pend after removing first");
 
-    /* @note next step algorithm */
+    generate_jacobs_numbers(d.pend, d.jacobs);
+    log_container(d.jacobs, "jacobsthal");
+
     insertion_sort_with_jacobs_numbers(d);
     log_container(d.S, "S after jacobs insertion");
 
@@ -120,9 +141,9 @@ PmergeMe & PmergeMe::operator=(PmergeMe const & rhs)
     log_debug("assignment operator called");
     if (this != &rhs)
     {
-        _argc = rhs._argc;
-        _argv = rhs._argv;
-        _args = rhs._args;
+        _argc      = rhs._argc;
+        _argv      = rhs._argv;
+        _args      = rhs._args;
         _straggler = rhs._straggler;
     }
     return *this;
