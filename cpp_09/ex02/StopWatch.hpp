@@ -15,7 +15,6 @@
 
 class StopWatch
 {
-
   public:
     StopWatch();
     StopWatch(StopWatch const & src);
