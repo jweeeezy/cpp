@@ -11,10 +11,18 @@
 #include "PmergeMe.hpp" // needed for PmergeMe class, typedefs
 #include "utils.hpp"    // needed for container utils
 
+struct s_deques
+{
+    t_deq_int      numbers;
+    t_deq_pair_int pairs;
+    t_deq_int      S;
+    t_deq_int      pend;
+    t_deq_int      jacobsthal;
+};
+
 void PmergeMe::sort_with_deque()
 {
-    std::deque<int> deq;
-    //    log_container(deq, "deque");
+    struct s_deques deques;
 }
 
 // -------------------------------------------------------------------------- //
