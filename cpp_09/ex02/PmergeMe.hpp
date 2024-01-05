@@ -191,19 +191,25 @@ class PmergeMe
     template <typename T> void insertion_sort_with_jacobsthal(T & lists) const
     {
         t_lst_int sequence;
+
+        /* build and insert with sequence */
         while (1)
         {
+            /* @note get and pop back ? */
             int current_jacobs = lists.jacobsthal.back();
             lists.jacobsthal.pop_back();
 
             int next_jacobs = lists.jacobsthal.back();
             if (next_jacobs == 0)
             {
+                /* @note same as below */
                 int current_value = access_container_by_index(lists.pend, 0);
                 insert_with_binary_search(lists.S, current_value);
                 sequence.push_back(current_value);
                 break;
             }
+
+            /* @note mb abstract this one away */
             int index;
             if (current_jacobs > static_cast<int>(lists.pend.size()))
             {
@@ -213,8 +219,13 @@ class PmergeMe
             {
                 index = current_jacobs - 1;
             }
+
+            /* insert until next jacobs is reached */
+            /* @note mb use for instead ? */
             while (index != next_jacobs - 1)
             {
+
+                /* @note same as above */
                 int current_value =
                     access_container_by_index(lists.pend, index);
                 insert_with_binary_search(lists.S, current_value);
@@ -247,16 +258,15 @@ class PmergeMe
         convert_args_to_container(_args, c.numbers);
         log_container(c.numbers, "d.numbers");
 
-        /* Step 1: Make Pairs! */
+        /* Step 1: Make Pairs */
         make_pairs(c.numbers, c.pairs);
         log_pairs(c.pairs, "d.pairs");
 
-        /* Step 2: Recursively pairs by larger value */
+        /* Step 2: Recursively sort pairs by larger (or left) values */
         sort_pairs_by_larger_value<T_pairs>(c.pairs.begin(), c.pairs.end());
         log_pairs(c.pairs, "d.pairs (sorted)");
 
-        /* Step 3: Extract S (larger values, sorted) and pend (smaller values)
-         */
+        /* Step 3: Extract S (sorted bigger values) and pend (smaller values) */
         extract_S_and_pend(c.pairs, c.S, c.pend);
         log_container(c.S, "d.S");
         log_container(c.pend, "d.pend");
