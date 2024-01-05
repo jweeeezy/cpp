@@ -50,12 +50,6 @@ class PmergeMe
     void parse_arguments();
     void handle_straggler();
 
-    /* location: PmergeMe.SortList.cpp */
-    void insertion_sort_with_jacobsthal(struct s_lists & d) const;
-
-    /* location: PmergeMe.SortDeque.cpp */
-    void insertion_sort_with_jacobsthal(struct s_deques & d) const;
-
     int       _argc;
     char **   _argv;
     t_vec_str _args;
