@@ -105,6 +105,52 @@ class PmergeMe
         }
     }
 
+    /* @note document! */
+    template <typename T>
+    void merge_sort(typename T::iterator first, typename T::iterator mid,
+                    typename T::iterator last) const
+    {
+        T                    merged;
+        typename T::iterator left  = first;
+        typename T::iterator right = mid;
+
+        while (left != mid && right != last)
+        {
+            if (left->first <= right->first)
+            {
+                merged.push_back(*left);
+                ++left;
+            }
+            else
+            {
+                merged.push_back(*right);
+                ++right;
+            }
+        }
+
+        merged.insert(merged.end(), left, mid);
+        merged.insert(merged.end(), right, last);
+
+        std::copy(merged.begin(), merged.end(), first);
+    }
+
+    /* @note document! */
+    template <typename T>
+    void sort_pairs_by_larger_value(typename T::iterator first,
+                                    typename T::iterator last) const
+    {
+        if (std::distance(first, last) > 1)
+        {
+            typename T::iterator mid = first;
+            std::advance(mid, std::distance(first, last) / 2);
+
+            sort_pairs_by_larger_value<T>(first, mid);
+            sort_pairs_by_larger_value<T>(mid, last);
+
+            merge_sort<T>(first, mid, last);
+        }
+    }
+
     /* extracts sorted sequence S and unsorted sequence pend out of an int pairs
      * container */
     template <typename T1, typename T2>
@@ -163,8 +209,6 @@ class PmergeMe
                 sequence.push_back(current_value);
                 break;
             }
-
-            /* NEW !! */
             int index;
             if (current_jacobs > static_cast<int>(lists.pend.size()))
             {
@@ -174,7 +218,6 @@ class PmergeMe
             {
                 index = current_jacobs - 1;
             }
-
             while (index != next_jacobs - 1)
             {
                 int current_value =

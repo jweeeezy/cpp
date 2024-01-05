@@ -32,7 +32,8 @@ t_deq_int_c PmergeMe::sort_with_deque() const
     log_pairs(deques.pairs, "deques.pairs");
 
     /* Step 2: Recursively pairs by larger value */
-    //sort_pairs_by_larger_value(deques.pairs);
+    sort_pairs_by_larger_value<t_deq_pair_int>(deques.pairs.begin(),
+                                               deques.pairs.end());
     log_pairs(deques.pairs, "deques.pairs (sorted)");
 
     /* Step 3: Extract S (larger values, sorted) and pend (smaller values) */

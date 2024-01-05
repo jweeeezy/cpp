@@ -51,9 +51,6 @@ int main(int argc, char ** argv)
 
         log_is_sorted(sorted_list, "std::list:");
 
-        /* @note implement deque fully first */
-        return (0);
-
         timer_deque.start();
         t_deq_int_c sorted_deque = FJMI.sort_with_deque();
         timer_deque.stop();

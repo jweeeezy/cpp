@@ -19,47 +19,6 @@ struct s_lists
     t_lst_int      jacobsthal;
 };
 
-void merge_sort(t_lst_pair_int_it first, t_lst_pair_int_it mid,
-                t_lst_pair_int_it last)
-{
-    t_lst_pair_int    merged;
-    t_lst_pair_int_it left  = first;
-    t_lst_pair_int_it right = mid;
-
-    while (left != mid && right != last)
-    {
-        if (left->first <= right->first)
-        {
-            merged.push_back(*left);
-            ++left;
-        }
-        else
-        {
-            merged.push_back(*right);
-            ++right;
-        }
-    }
-
-    merged.insert(merged.end(), left, mid);
-    merged.insert(merged.end(), right, last);
-
-    std::copy(merged.begin(), merged.end(), first);
-}
-
-void sort_pairs_by_larger_value(t_lst_pair_int_it first, t_lst_pair_int_it last)
-{
-    if (std::distance(first, last) > 1)
-    {
-        t_lst_pair_int_it mid = first;
-        std::advance(mid, std::distance(first, last) / 2);
-
-        sort_pairs_by_larger_value(first, mid);
-        sort_pairs_by_larger_value(mid, last);
-
-        merge_sort(first, mid, last);
-    }
-}
-
 t_lst_int_c PmergeMe::sort_with_list() const
 {
     struct s_lists lists;
@@ -73,7 +32,8 @@ t_lst_int_c PmergeMe::sort_with_list() const
     log_pairs(lists.pairs, "lists.pairs");
 
     /* Step 2: Recursively pairs by larger value */
-    sort_pairs_by_larger_value(lists.pairs.begin(), lists.pairs.end());
+    sort_pairs_by_larger_value<t_lst_pair_int>(lists.pairs.begin(),
+                                               lists.pairs.end());
     log_pairs(lists.pairs, "lists.pairs (sorted)");
 
     /* Step 3: Extract S (larger values, sorted) and pend (smaller values) */
