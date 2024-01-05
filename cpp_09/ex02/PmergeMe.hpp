@@ -28,13 +28,12 @@ class PmergeMe
 
     /* locaton: PmergeMe.cpp */
     t_vec_str_c   get_unsorted_args() const;
-    t_vec_str_c & get_sorted_args() const;
 
     /* location: PmergeMe.SortList.cpp */
-    void sort_with_list();
+    t_vec_str_c & sort_with_list();
 
     /* location: PmergeMe.SortDeque.cpp */
-    void sort_with_deque();
+    t_vec_str_c & sort_with_deque();
 
   private:
     /* location: PmergeMe.cpp */

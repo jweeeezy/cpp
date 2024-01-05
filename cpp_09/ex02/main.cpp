@@ -43,23 +43,23 @@ int main(int argc, char ** argv)
         StopWatch timer_list;
         StopWatch timer_deque;
 
-        PmergeMe pmm(argc - 1, argv);
+        PmergeMe FJMI(argc - 1, argv);
 
         timer_list.start();
-        pmm.sort_with_list();
+        t_vec_str_c sorted_list = FJMI.sort_with_list();
         timer_list.stop();
 
-        log_is_sorted(pmm.get_sorted_args(), "std::list:");
+        log_is_sorted(sorted_list, "std::list:");
 
         timer_deque.start();
-        pmm.sort_with_deque();
+        t_vec_str_c sorted_deque = FJMI.sort_with_deque();
         timer_deque.stop();
 
-        log_is_sorted(pmm.get_sorted_args(), "std::deq:");
+        log_is_sorted(sorted_deque, "std::deq:");
 
-        std::cout << "Before: " << vec_str_to_str(pmm.get_unsorted_args())
+        std::cout << "Before: " << vec_str_to_str(FJMI.get_unsorted_args())
                   << "\n"
-                  << "After:  " << vec_str_to_str(pmm.get_sorted_args()) << "\n"
+                  << "After:  " << vec_str_to_str(sorted_list) << "\n"
                   << "Time to process a range of " << argc
                   << " elements with std::list: "
                   << timer_list.get_measured_time() << " ms\n"

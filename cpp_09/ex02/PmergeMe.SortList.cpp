@@ -57,14 +57,13 @@ static void insertion_sort_with_jacobsthal(struct s_lists & lists)
     log_container(sequence, "insert sequence");
 }
 
-void PmergeMe::sort_with_list()
+t_vec_str_c & PmergeMe::sort_with_list()
 {
     struct s_lists lists;
 
     convert_args_to_container(_args, lists.numbers);
     log_container(lists.numbers, "lists.numbers");
 
-    /* @note check if already sorted (if elements < 2) */
 
     /* Step 1: Make Pairs! */
     make_pairs(lists.numbers, lists.pairs);
@@ -98,6 +97,7 @@ void PmergeMe::sort_with_list()
         log_container(lists.S, "--> with _straggler");
     }
     _sorted = container_to_vec_str(lists.S);
+    return _sorted;
 }
 
 // -------------------------------------------------------------------------- //
