@@ -12,6 +12,7 @@
 #define PMERGEME_HPP
 
 #include "typedefs.hpp" // needed for types and typedefs
+#include "utils.hpp"    // needed for template util functions
 
 class PmergeMe
 {
@@ -123,7 +124,7 @@ class PmergeMe
     }
 
     /* helper function for generate_jacobsthal_numbers */
-    template <typename T> static int generate_next_number(T & jacobs)
+    template <typename T> int generate_next_number(T & jacobs) const
     {
         int tmp = *(jacobs.rbegin()) + 2 * *(++jacobs.rbegin());
         jacobs.push_back(tmp);
@@ -141,6 +142,49 @@ class PmergeMe
         {
             i = generate_next_number(jacobsthal);
         }
+    }
+
+    /* generates a sequence of indexes with the help of the previously generated
+     * jacosbthal numbers in what order the numbers from pend should be inserted
+     * into S */
+    template <typename T> void insertion_sort_with_jacobsthal(T & lists) const
+    {
+        t_lst_int sequence;
+        while (1)
+        {
+            int current_jacobs = lists.jacobsthal.back();
+            lists.jacobsthal.pop_back();
+
+            int next_jacobs = lists.jacobsthal.back();
+            if (next_jacobs == 0)
+            {
+                int current_value = access_container_by_index(lists.pend, 0);
+                insert_with_binary_search(lists.S, current_value);
+                sequence.push_back(current_value);
+                break;
+            }
+
+            /* NEW !! */
+            int index;
+            if (current_jacobs > static_cast<int>(lists.pend.size()))
+            {
+                index = static_cast<int>(lists.pend.size() - 1);
+            }
+            else
+            {
+                index = current_jacobs - 1;
+            }
+
+            while (index != next_jacobs - 1)
+            {
+                int current_value =
+                    access_container_by_index(lists.pend, index);
+                insert_with_binary_search(lists.S, current_value);
+                sequence.push_back(current_value);
+                --index;
+            }
+        }
+        log_container(sequence, "insert sequence");
     }
 };
 

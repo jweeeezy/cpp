@@ -72,8 +72,6 @@ void log_is_sorted(T & container, std::string const & name)
     (void)container;
     (void)name;
 #ifdef DEBUG
-    log_container(container, "container to be checked");
-
     if (is_sorted(container) == false)
     {
         std::cerr << name << RED << "is not sorted!\n" << RESET;

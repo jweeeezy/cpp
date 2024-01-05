@@ -30,33 +30,6 @@ static void sort_pairs_by_larger_value(t_deq_pair_int & pairs)
     std::sort(pairs.begin(), pairs.end(), compare_first_value);
 }
 
-static void insertion_sort_with_jacobsthal(struct s_deques & deques)
-{
-    t_deq_int sequence;
-    while (1)
-    {
-        int current_jacobs = deques.jacobsthal.back();
-        deques.jacobsthal.pop_back();
-        int next_jacobs = deques.jacobsthal.back();
-        if (next_jacobs == 0)
-        {
-            int current_value = access_container_by_index(deques.pend, 0);
-            insert_with_binary_search(deques.S, current_value);
-            sequence.push_back(current_value);
-            break;
-        }
-        int index = current_jacobs - 1;
-        while (index != next_jacobs - 1)
-        {
-            int current_value = access_container_by_index(deques.pend, index);
-            insert_with_binary_search(deques.S, current_value);
-            sequence.push_back(current_value);
-            --index;
-        }
-    }
-    log_container(sequence, "insert sequence");
-}
-
 t_deq_int_c PmergeMe::sort_with_deque() const
 {
     struct s_deques deques;

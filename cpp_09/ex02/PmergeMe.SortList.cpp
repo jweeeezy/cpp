@@ -27,34 +27,7 @@ static bool compare_first_value(t_pair_c & lhs, t_pair_c & rhs)
 
 static void sort_pairs_by_larger_value(t_lst_pair_int & pairs)
 {
-    pairs.sort(compare_first_value);
-}
-
-static void insertion_sort_with_jacobsthal(struct s_lists & lists)
-{
-    t_lst_int sequence;
-    while (1)
-    {
-        int current_jacobs = lists.jacobsthal.back();
-        lists.jacobsthal.pop_back();
-        int next_jacobs = lists.jacobsthal.back();
-        if (next_jacobs == 0)
-        {
-            int current_value = access_container_by_index(lists.pend, 0);
-            insert_with_binary_search(lists.S, current_value);
-            sequence.push_back(current_value);
-            break;
-        }
-        int index = current_jacobs - 1;
-        while (index != next_jacobs - 1)
-        {
-            int current_value = access_container_by_index(lists.pend, index);
-            insert_with_binary_search(lists.S, current_value);
-            sequence.push_back(current_value);
-            --index;
-        }
-    }
-    log_container(sequence, "insert sequence");
+   pairs.sort(compare_first_value);
 }
 
 t_lst_int_c PmergeMe::sort_with_list() const
