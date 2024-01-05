@@ -20,8 +20,7 @@ template <typename T> t_vec_str container_to_vec_str(T & container)
 {
     t_vec_str vec;
     for (typename T::const_iterator it = container.begin();
-         it != container.end();
-         ++it)
+         it != container.end(); ++it)
     {
         std::ostringstream os;
         os << *it;
@@ -38,8 +37,7 @@ template <typename T> void log_container(T & container, t_str_c & name)
 #ifdef DEBUG
     std::cerr << LIGHT_BLUE << name << ": " << RESET;
     for (typename T::const_iterator it = container.begin();
-         it != container.end();
-         ++it)
+         it != container.end(); ++it)
     {
         std::cerr << *it << " ";
     }
@@ -48,12 +46,10 @@ template <typename T> void log_container(T & container, t_str_c & name)
 }
 
 /* checks if given container is sorted (expects strings) */
-template <typename T>
-bool is_sorted(T & container)
+template <typename T> bool is_sorted(T & container)
 {
     for (typename T::const_iterator it = container.begin();
-         it != container.end();
-         ++it)
+         it != container.end(); ++it)
     {
         typename T::const_iterator next = it;
         ++next;
@@ -155,7 +151,7 @@ void extract_S_and_pend(T1 & pairs, T2 & S, T2 & pend)
             S.push_back(it->first);
             continue;
         }
-        insert_with_binary_search(S, it->first);
+        S.push_back(it->first);
     }
 }
 
