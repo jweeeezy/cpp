@@ -19,16 +19,6 @@ struct s_deques
     t_deq_int      jacobsthal;
 };
 
-static bool compare_first_value(t_pair_c & lhs, t_pair_c & rhs)
-{
-    return lhs.first < rhs.first;
-}
-
-static void sort_pairs_by_larger_value(t_deq_pair_int & pairs)
-{
-    std::sort(pairs.begin(), pairs.end(), compare_first_value);
-}
-
 t_deq_int_c PmergeMe::sort_with_deque() const
 {
     struct s_deques deques;
@@ -41,8 +31,8 @@ t_deq_int_c PmergeMe::sort_with_deque() const
     make_pairs(deques.numbers, deques.pairs);
     log_pairs(deques.pairs, "deques.pairs");
 
-    /* Step 2: Sort Pairs by larger Value */
-    sort_pairs_by_larger_value(deques.pairs);
+    /* Step 2: Recursively pairs by larger value */
+    //sort_pairs_by_larger_value(deques.pairs);
     log_pairs(deques.pairs, "deques.pairs (sorted)");
 
     /* Step 3: Extract S (larger values, sorted) and pend (smaller values) */

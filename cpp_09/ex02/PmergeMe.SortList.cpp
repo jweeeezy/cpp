@@ -8,7 +8,7 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-#include "PmergeMe.hpp" // needed for PmergeMe class, typedefs
+#include "PmergeMe.hpp" // needed for PmergeMe class, typedefs, algorithm
 
 struct s_lists
 {
@@ -19,14 +19,45 @@ struct s_lists
     t_lst_int      jacobsthal;
 };
 
-static bool compare_first_value(t_pair_c & lhs, t_pair_c & rhs)
+void merge_sort(t_lst_pair_int_it first, t_lst_pair_int_it mid,
+                t_lst_pair_int_it last)
 {
-    return lhs.first < rhs.first;
+    t_lst_pair_int    merged;
+    t_lst_pair_int_it left  = first;
+    t_lst_pair_int_it right = mid;
+
+    while (left != mid && right != last)
+    {
+        if (left->first <= right->first)
+        {
+            merged.push_back(*left);
+            ++left;
+        }
+        else
+        {
+            merged.push_back(*right);
+            ++right;
+        }
+    }
+
+    merged.insert(merged.end(), left, mid);
+    merged.insert(merged.end(), right, last);
+
+    std::copy(merged.begin(), merged.end(), first);
 }
 
-static void sort_pairs_by_larger_value(t_lst_pair_int & pairs)
+void sort_pairs_by_larger_value(t_lst_pair_int_it first, t_lst_pair_int_it last)
 {
-   pairs.sort(compare_first_value);
+    if (std::distance(first, last) > 1)
+    {
+        t_lst_pair_int_it mid = first;
+        std::advance(mid, std::distance(first, last) / 2);
+
+        sort_pairs_by_larger_value(first, mid);
+        sort_pairs_by_larger_value(mid, last);
+
+        merge_sort(first, mid, last);
+    }
 }
 
 t_lst_int_c PmergeMe::sort_with_list() const
@@ -41,8 +72,8 @@ t_lst_int_c PmergeMe::sort_with_list() const
     make_pairs(lists.numbers, lists.pairs);
     log_pairs(lists.pairs, "lists.pairs");
 
-    /* Step 2: Sort Pairs by larger Value */
-    sort_pairs_by_larger_value(lists.pairs);
+    /* Step 2: Recursively pairs by larger value */
+    sort_pairs_by_larger_value(lists.pairs.begin(), lists.pairs.end());
     log_pairs(lists.pairs, "lists.pairs (sorted)");
 
     /* Step 3: Extract S (larger values, sorted) and pend (smaller values) */
