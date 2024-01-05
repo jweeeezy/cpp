@@ -20,10 +20,11 @@ struct s_deques
     t_deq_int      jacobsthal;
 };
 
-t_vec_str_c & PmergeMe::sort_with_deque()
+t_deq_int_c PmergeMe::sort_with_deque() const
 {
     struct s_deques deques;
-    return _sorted;
+    t_deq_int_c deq;
+    return deq;
 }
 
 // -------------------------------------------------------------------------- //

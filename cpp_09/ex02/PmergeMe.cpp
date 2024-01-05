@@ -24,15 +24,6 @@ t_vec_str_c PmergeMe::get_unsorted_args() const
     return vec;
 }
 
-t_vec_str_c & PmergeMe::get_sorted_args() const
-{
-    if (_sorted.empty() == true)
-    {
-        throw std::runtime_error("PmergeMe: not sorted yet!\n");
-    }
-    return _sorted;
-}
-
 PmergeMe::PmergeMe(int argc, char ** argv) : _argc(argc), _argv(argv)
 {
     log_debug("parsing constructor called");

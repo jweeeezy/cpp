@@ -45,7 +45,7 @@ template <typename T> void log_container(T & container, t_str_c & name)
 #endif
 }
 
-/* checks if given container is sorted (expects strings) */
+/* checks if given container is sorted (expects ints) */
 template <typename T> bool is_sorted(T & container)
 {
     for (typename T::const_iterator it = container.begin();
@@ -57,7 +57,7 @@ template <typename T> bool is_sorted(T & container)
         {
             break;
         }
-        if (std::atoi(it->c_str()) > std::atoi(next->c_str()))
+        if (*it > *next)
         {
             return false;
         }

@@ -57,13 +57,13 @@ static void insertion_sort_with_jacobsthal(struct s_lists & lists)
     log_container(sequence, "insert sequence");
 }
 
-t_vec_str_c & PmergeMe::sort_with_list()
+t_lst_int_c PmergeMe::sort_with_list() const
 {
     struct s_lists lists;
 
+    /* Step 0: Convert from std::vector to requested container */
     convert_args_to_container(_args, lists.numbers);
     log_container(lists.numbers, "lists.numbers");
-
 
     /* Step 1: Make Pairs! */
     make_pairs(lists.numbers, lists.pairs);
@@ -96,8 +96,7 @@ t_vec_str_c & PmergeMe::sort_with_list()
         insert_with_binary_search(lists.S, _straggler);
         log_container(lists.S, "--> with _straggler");
     }
-    _sorted = container_to_vec_str(lists.S);
-    return _sorted;
+    return lists.S;
 }
 
 // -------------------------------------------------------------------------- //

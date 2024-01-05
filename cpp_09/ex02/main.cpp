@@ -22,10 +22,11 @@ static int log_exit(t_str_c & message)
     return (EXIT_FAILURE);
 }
 
-static t_str_c vec_str_to_str(t_vec_str_c & vec)
+template <typename T>
+static t_str_c container_to_str(T & vec)
 {
     std::stringstream ss;
-    for (t_vec_str_cit it = vec.begin(); it != vec.end(); ++it)
+    for (typename T::const_iterator it = vec.begin(); it != vec.end(); ++it)
     {
         ss << *it << " ";
     }
@@ -46,20 +47,20 @@ int main(int argc, char ** argv)
         PmergeMe FJMI(argc - 1, argv);
 
         timer_list.start();
-        t_vec_str_c sorted_list = FJMI.sort_with_list();
+        t_lst_int_c sorted_list = FJMI.sort_with_list();
         timer_list.stop();
 
         log_is_sorted(sorted_list, "std::list:");
 
         timer_deque.start();
-        t_vec_str_c sorted_deque = FJMI.sort_with_deque();
+        t_deq_int_c sorted_deque = FJMI.sort_with_deque();
         timer_deque.stop();
 
         log_is_sorted(sorted_deque, "std::deq:");
 
-        std::cout << "Before: " << vec_str_to_str(FJMI.get_unsorted_args())
+        std::cout << "Before: " << container_to_str(FJMI.get_unsorted_args())
                   << "\n"
-                  << "After:  " << vec_str_to_str(sorted_list) << "\n"
+                  << "After:  " << container_to_str(sorted_list) << "\n"
                   << "Time to process a range of " << argc
                   << " elements with std::list: "
                   << timer_list.get_measured_time() << " ms\n"
