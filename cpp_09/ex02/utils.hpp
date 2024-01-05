@@ -23,7 +23,8 @@ template <typename T> void log_container(T & container, t_str_c & name)
 #ifdef DEBUG
     std::cerr << LIGHT_BLUE << name << ": " << RESET;
     for (typename T::const_iterator it = container.begin();
-         it != container.end(); ++it)
+         it != container.end();
+         ++it)
     {
         std::cerr << *it << " ";
     }
@@ -31,25 +32,25 @@ template <typename T> void log_container(T & container, t_str_c & name)
 #endif
 }
 
-/* converts a container type to a std::vector<std::string> */
-template <typename T> t_vec_str container_to_vec_str(T & container)
+/* converts a given container to a string (expects container holding strings) */
+template <typename T> t_str_c container_to_str(T & container)
 {
-    t_vec_str vec;
+    std::stringstream ss;
     for (typename T::const_iterator it = container.begin();
-         it != container.end(); ++it)
+         it != container.end();
+         ++it)
     {
-        std::ostringstream os;
-        os << *it;
-        vec.push_back(os.str());
+        ss << *it << " ";
     }
-    return vec;
+    return ss.str();
 }
 
 /* checks if given container is sorted (expects ints) */
 template <typename T> bool is_sorted(T & container)
 {
     for (typename T::const_iterator it = container.begin();
-         it != container.end(); ++it)
+         it != container.end();
+         ++it)
     {
         typename T::const_iterator next = it;
         ++next;

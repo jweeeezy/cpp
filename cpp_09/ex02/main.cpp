@@ -22,16 +22,6 @@ static int log_exit(t_str_c & message)
     return (EXIT_FAILURE);
 }
 
-template <typename T> static t_str_c container_to_str(T & vec)
-{
-    std::stringstream ss;
-    for (typename T::const_iterator it = vec.begin(); it != vec.end(); ++it)
-    {
-        ss << *it << " ";
-    }
-    return ss.str();
-}
-
 int main(int argc, char ** argv)
 {
     if (argc < EXPECTED_ARGC)

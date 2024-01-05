@@ -26,20 +26,14 @@ class PmergeMe
     PmergeMe & operator=(PmergeMe const & rhs);
     PmergeMe(PmergeMe const & src);
     ~PmergeMe();
+    PmergeMe();
 
-    /* locaton: PmergeMe.cpp */
     t_vec_str_c get_unsorted_args() const;
 
-    /* location: PmergeMe.SortList.cpp */
     t_lst_int_c sort_with_list() const;
-
-    /* location: PmergeMe.SortDeque.cpp */
     t_deq_int_c sort_with_deque() const;
 
   private:
-    /* location: PmergeMe.cpp */
-    PmergeMe();
-
     /* location: PmergeMe.Logs.cpp */
     void log_debug(t_str_c & message) const;
     void log_straggler() const;
@@ -107,7 +101,8 @@ class PmergeMe
 
     /* @note document! */
     template <typename T>
-    void merge_sort(typename T::iterator first, typename T::iterator mid,
+    void merge_sort(typename T::iterator first,
+                    typename T::iterator mid,
                     typename T::iterator last) const
     {
         T                    merged;
@@ -228,6 +223,63 @@ class PmergeMe
             }
         }
         log_container(sequence, "insert sequence");
+    }
+
+    /* template generic struct to hold the data for the merge_insertion_sort */
+    template <typename T_base, typename T_pairs> struct s_sort_data
+    {
+        T_base  numbers;
+        T_pairs pairs;
+        T_base  S;
+        T_base  pend;
+        T_base  jacobsthal;
+    };
+
+    /* template function for the merge insertion sort. expects a data struct
+     * containing a containers type int (numbers, S, pend, jacobsthal) aswell as
+     * a container pairs containing std::pair<int, int> */
+    template <typename T_containers, typename T_base, typename T_pairs>
+    T_base merge_insertion_sort() const
+    {
+        T_containers c;
+
+        /* Step 0: Convert from std::vector to requested container */
+        convert_args_to_container(_args, c.numbers);
+        log_container(c.numbers, "d.numbers");
+
+        /* Step 1: Make Pairs! */
+        make_pairs(c.numbers, c.pairs);
+        log_pairs(c.pairs, "d.pairs");
+
+        /* Step 2: Recursively pairs by larger value */
+        sort_pairs_by_larger_value<T_pairs>(c.pairs.begin(), c.pairs.end());
+        log_pairs(c.pairs, "d.pairs (sorted)");
+
+        /* Step 3: Extract S (larger values, sorted) and pend (smaller values)
+         */
+        extract_S_and_pend(c.pairs, c.S, c.pend);
+        log_container(c.S, "d.S");
+        log_container(c.pend, "d.pend");
+
+        /* Step 4: Insert first element of pend */
+        c.S.insert(c.S.begin(), get_and_pop_front(c.pend));
+        log_container(c.pend, "--> removed first");
+
+        /* Step 5: Generate jacobsthal sequence with the help of pend.size() */
+        generate_jacobsthal_numbers(c.pend, c.jacobsthal);
+        log_container(c.jacobsthal, "d.jacobsthal");
+
+        /* Step 6: Use jacosbthal sequence to index the insertion order */
+        insertion_sort_with_jacobsthal(c);
+        log_container(c.S, "d.S");
+
+        /* Step 7: If there is a straggler, insert it with binary search */
+        if (_straggler != NO_STRAGGLER)
+        {
+            insert_with_binary_search(c.S, _straggler);
+            log_container(c.S, "--> with _straggler");
+        }
+        return c.S;
     }
 };
 

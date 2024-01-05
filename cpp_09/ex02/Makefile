@@ -2,8 +2,9 @@
 
 NAME      = pmergeme
 SRC_FILES = main.cpp \
-            PmergeMe.cpp PmergeMe.Parsing.cpp PmergeMe.Logs.cpp \
-            PmergeMe.SortList.cpp PmergeMe.SortDeque.cpp \
+            PmergeMe.cpp \
+            PmergeMe.Logs.cpp \
+            PmergeMe.Parsing.cpp \
             StopWatch.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
 CC        = c++
