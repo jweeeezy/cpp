@@ -66,8 +66,7 @@ template <typename T> bool is_sorted(T & container)
 }
 
 /* logs if given container is sorted (expects strings) */
-template <typename T>
-void log_is_sorted(T & container, std::string const & name)
+template <typename T> void log_is_sorted(T & container, t_str_c & name)
 {
     (void)container;
     (void)name;

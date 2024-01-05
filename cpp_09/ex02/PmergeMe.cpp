@@ -9,8 +9,6 @@
 // -------------------------------------------------------------------------- //
 
 #include "PmergeMe.hpp" // needed for PmergeMe class, typedefs
-#include "utils.hpp"    // needed for container utils
-#include <stdexcept>    // needed for std::invalid_argument
 
 t_vec_str_c PmergeMe::get_unsorted_args() const
 {

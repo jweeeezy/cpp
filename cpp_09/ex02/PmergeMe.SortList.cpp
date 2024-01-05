@@ -9,7 +9,6 @@
 // -------------------------------------------------------------------------- //
 
 #include "PmergeMe.hpp" // needed for PmergeMe class, typedefs
-#include "utils.hpp"    // needed for container utils
 
 struct s_lists
 {
