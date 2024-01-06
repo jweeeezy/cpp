@@ -64,6 +64,10 @@ t_vec_str_c PmergeMe::get_unsorted_args() const
  * the given parameters */
 t_lst_int_c PmergeMe::sort_with_list() const
 {
+    if (_args.size() < 1)
+    {
+        return t_lst_int(_straggler);
+    }
     return merge_insertion_sort<s_sort_data<t_lst_int, t_lst_pair_int>,
                                 t_lst_int, t_lst_pair_int>();
 }
@@ -72,6 +76,10 @@ t_lst_int_c PmergeMe::sort_with_list() const
  * sort the given parameters */
 t_deq_int_c PmergeMe::sort_with_deque() const
 {
+    if (_args.size() < 1)
+    {
+        return t_deq_int(_straggler);
+    }
     return merge_insertion_sort<s_sort_data<t_deq_int, t_deq_pair_int>,
                                 t_deq_int, t_deq_pair_int>();
 }
