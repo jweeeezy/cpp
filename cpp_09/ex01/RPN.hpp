@@ -39,18 +39,15 @@ class RPN
     };
 
   private:
-    static void log_debug(t_str_c & message);
-
-    static bool is_char_of(char c, t_str_c & set);
-    static bool check_valid_chars(t_str_c & str);
-    static bool check_valid_spacing(t_str_c & str);
-
+    static bool    check_valid_chars(t_str_c & str);
+    static bool    check_valid_spacing(t_str_c & str);
+    static int     get_operator(char c);
+    static int     get_and_remove_top(std::stack<int> & s);
+    static bool    is_char_of(char c, t_str_c & set);
     static t_str_c itostr(int number);
+    static void    log_debug(t_str_c & message);
+    static int     next_operation(int no_right, int no_left, int oper);
     static t_str_c parse_arguments(char const * arg);
-
-    static int get_operator(char c);
-    static int get_and_remove_top(std::stack<int> & s);
-    static int next_operation(int no_right, int no_left, int oper);
 
   private:
     RPN();
