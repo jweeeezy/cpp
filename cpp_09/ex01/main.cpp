@@ -32,7 +32,7 @@ int main(int argc, char ** argv)
     try
     {
         int result = RPN::calculate(argv[1]);
-        std::cout << result;
+        std::cout << result << "\n";
     }
     catch (std::exception & e)
     {

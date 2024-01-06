@@ -11,6 +11,10 @@
 #include "RPN.hpp" // needed for RPN class
 #include <sstream> // needed for std::stringstream
 
+#ifdef DEBUG
+#include <iostream> // needed for std::cerr
+#endif
+
 /* unused constructors */
 RPN::RPN() {}
 RPN::RPN(const RPN & src) { (void)src; }
@@ -43,11 +47,12 @@ int RPN::calculate(char const * arg)
         }
         else if (is_char_of(*it, OPERATORS))
         {
-            if (pile.size() != 2)
-            {
-                throw std::runtime_error("illegal notation at position " +
-                                         itostr(it - input.begin()) + "!");
-            }
+            /* @note apparently not needed ! */
+            //if (pile.size() != 2)
+            //{
+            //    throw std::runtime_error("illegal notation at position " +
+            //                             itostr(it - input.begin()) + "!");
+            //}
             result = next_operation(get_and_remove_top(pile),
                                     get_and_remove_top(pile),
                                     get_operator(*it));
@@ -63,7 +68,7 @@ void RPN::log_debug(t_str_c & message)
 {
     (void)message;
 #ifdef DEBUG
-    std::cout << YELLOW << message << RESET << "\n";
+    std::cerr << YELLOW << message << RESET << "\n";
 #endif // DEBUG
 }
 
