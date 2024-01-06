@@ -38,8 +38,7 @@ template <typename T> void log_pairs(T const & pairs, t_str_c & name)
     (void)name;
 #ifdef DEBUG
     std::cerr << LIGHT_BLUE << name << ": " << RESET;
-    for (typename T::const_iterator it = pairs.begin();
-         it != pairs.end(); ++it)
+    for (typename T::const_iterator it = pairs.begin(); it != pairs.end(); ++it)
     {
         std::cerr << "[" << it->first << "|" << it->second << "] ";
     }
@@ -153,6 +152,7 @@ int access_container_by_index(T const & container, int index)
     return *it;
 }
 
+/* insert a value (get by index) from a container and track it into sequence */
 template <typename T_c, typename T_base>
 void insert_and_track_by_index(T_c & c, T_base & sequence, int index)
 {
@@ -161,6 +161,8 @@ void insert_and_track_by_index(T_c & c, T_base & sequence, int index)
     sequence.push_back(current_value);
 }
 
+/* if the given jacobsthal number is bigger than container(pend).size() advance
+ * the index accordingly */
 template <typename T>
 int advance_index_if_out_of_bounds(T const & pend, int current_jacobs)
 {
