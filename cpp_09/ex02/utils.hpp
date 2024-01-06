@@ -58,13 +58,32 @@ template <typename T> t_str_c container_to_str(T const & container)
     return ss.str();
 }
 
+/* takes two iterators and tests if the container is sorted */
+template <typename T> bool is_sorted(T first, T last)
+{
+    if (first == last)
+    {
+        return true;
+    }
+    T next = first;
+    while (++next != last)
+    {
+        if (*next < *first)
+        {
+            return false;
+        }
+        ++first;
+    }
+    return true;
+}
+
 /* logs if given container is sorted (expects strings) */
 template <typename T> void log_is_sorted(T const & container, t_str_c & name)
 {
     (void)container;
     (void)name;
 #ifdef DEBUG
-    if (std::is_sorted(container.begin(), container.end()) == false)
+    if (is_sorted(container.begin(), container.end()) == false)
     {
         std::cerr << name << RED << "is not sorted!\n" << RESET;
     }
