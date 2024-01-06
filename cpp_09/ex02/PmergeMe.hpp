@@ -34,11 +34,9 @@ class PmergeMe
     t_deq_int_c sort_with_deque() const;
 
   private:
-    /* location: PmergeMe.Logs.cpp */
+    /* location: PmergeMe.cpp */
     void log_debug(t_str_c & message) const;
     void log_straggler() const;
-    void log_pairs(t_lst_pair_int_c & pairs, t_str_c & name) const;
-    void log_pairs(t_deq_pair_int_c & pairs, t_str_c & name) const;
 
     /* location: PmergeMe.Parsing.cpp */
     void parse_arguments();
@@ -50,7 +48,7 @@ class PmergeMe
     int       _straggler;
 
   private:
-    /* template functions for the FJMI */
+    /* template functions for the FJMI (Ford-Johnson-Merge-Inserton) */
 
     /* converts a std::vector<std::string> to given container type */
     template <typename T>
@@ -76,7 +74,7 @@ class PmergeMe
 
     /* makes int pairs out of the given numbers container */
     template <typename T1, typename T2>
-    void make_pairs(T1 & numbers, T2 & pairs) const
+    void make_pairs(T1 const & numbers, T2 & pairs) const
     {
         typename T1::const_iterator it = numbers.begin();
         while (it != numbers.end())
@@ -150,7 +148,7 @@ class PmergeMe
     /* extracts sorted sequence S and unsorted sequence pend out of an int pairs
      * container */
     template <typename T1, typename T2>
-    void extract_S_and_pend(T1 & pairs, T2 & S, T2 & pend) const
+    void extract_S_and_pend(T1 const & pairs, T2 & S, T2 & pend) const
     {
         for (typename T1::const_iterator it = pairs.begin(); it != pairs.end();
              ++it)
@@ -166,17 +164,17 @@ class PmergeMe
     }
 
     /* helper function for generate_jacobsthal_numbers */
-    template <typename T> int generate_next_number(T & jacobs) const
+    template <typename T> int generate_next_number(T & jacobsthal) const
     {
-        int tmp = *(jacobs.rbegin()) + 2 * *(++jacobs.rbegin());
-        jacobs.push_back(tmp);
+        int tmp = *(jacobsthal.rbegin()) + 2 * *(++jacobsthal.rbegin());
+        jacobsthal.push_back(tmp);
         return (tmp);
     }
 
     /* generates jacobsthal numbers with the help of sequence pends size as a
      * given container type*/
     template <typename T>
-    void generate_jacobsthal_numbers(T & pend, T & jacobsthal) const
+    void generate_jacobsthal_numbers(T const & pend, T & jacobsthal) const
     {
         jacobsthal.push_back(0);
         jacobsthal.push_back(1);
@@ -189,49 +187,22 @@ class PmergeMe
     /* generates a sequence of indexes with the help of the previously generated
      * jacosbthal numbers in what order the numbers from pend should be inserted
      * into S */
-    template <typename T> void insertion_sort_with_jacobsthal(T & lists) const
+    template <typename T> void insertion_sort_with_jacobsthal(T & c) const
     {
-        t_lst_int sequence;
-
-        /* build and insert with sequence */
+        t_lst_int sequence; /* for debugging purposes */
         while (1)
         {
-            /* @note get and pop back ? */
-            int current_jacobs = lists.jacobsthal.back();
-            lists.jacobsthal.pop_back();
-
-            int next_jacobs = lists.jacobsthal.back();
+            int current_jacobs = get_and_pop_back(c.jacobsthal);
+            int next_jacobs    = c.jacobsthal.back();
             if (next_jacobs == 0)
             {
-                /* @note same as below */
-                int current_value = access_container_by_index(lists.pend, 0);
-                insert_with_binary_search(lists.S, current_value);
-                sequence.push_back(current_value);
+                insert_and_track_by_index(c, sequence, 0);
                 break;
             }
-
-            /* @note mb abstract this one away */
-            int index;
-            if (current_jacobs > static_cast<int>(lists.pend.size()))
+            int index = advance_index_if_out_of_bounds(c.pend, current_jacobs);
+            for (; index != next_jacobs - 1; --index)
             {
-                index = static_cast<int>(lists.pend.size() - 1);
-            }
-            else
-            {
-                index = current_jacobs - 1;
-            }
-
-            /* insert until next jacobs is reached */
-            /* @note mb use for instead ? */
-            while (index != next_jacobs - 1)
-            {
-
-                /* @note same as above */
-                int current_value =
-                    access_container_by_index(lists.pend, index);
-                insert_with_binary_search(lists.S, current_value);
-                sequence.push_back(current_value);
-                --index;
+                insert_and_track_by_index(c, sequence, index);
             }
         }
         log_container(sequence, "insert sequence");

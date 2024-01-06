@@ -47,6 +47,7 @@ int main(int argc, char ** argv)
 
         log_is_sorted(sorted_deque, "std::deq:");
 
+        /* @note argc is not correct ! */
         std::cout << "Before: " << container_to_str(FJMI.get_unsorted_args())
                   << "\n"
                   << "After:  " << container_to_str(sorted_list) << "\n"

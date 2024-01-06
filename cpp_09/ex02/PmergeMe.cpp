@@ -10,6 +10,8 @@
 
 #include "PmergeMe.hpp" // needed for PmergeMe class, typedefs, algorithm
 
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> constructor  */
+
 PmergeMe::PmergeMe(int argc, char ** argv) : _argc(argc), _argv(argv)
 {
     log_debug("parsing constructor called");
@@ -43,6 +45,9 @@ PmergeMe::PmergeMe(PmergeMe const & src)
 PmergeMe::~PmergeMe() { log_debug("destructor called"); }
 PmergeMe::PmergeMe() { log_debug("default constructor called"); }
 
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> public member functions */
+
+/* returns unsorted arguments (including the straggler, if there is one) */
 t_vec_str_c PmergeMe::get_unsorted_args() const
 {
     t_vec_str vec(_args);
@@ -60,8 +65,7 @@ t_vec_str_c PmergeMe::get_unsorted_args() const
 t_lst_int_c PmergeMe::sort_with_list() const
 {
     return merge_insertion_sort<s_sort_data<t_lst_int, t_lst_pair_int>,
-                                t_lst_int,
-                                t_lst_pair_int>();
+                                t_lst_int, t_lst_pair_int>();
 }
 
 /* uses a struct with std::deque<int> and std::deque<std::pair<int, int> > to
@@ -69,8 +73,26 @@ t_lst_int_c PmergeMe::sort_with_list() const
 t_deq_int_c PmergeMe::sort_with_deque() const
 {
     return merge_insertion_sort<s_sort_data<t_deq_int, t_deq_pair_int>,
-                                t_deq_int,
-                                t_deq_pair_int>();
+                                t_deq_int, t_deq_pair_int>();
+}
+
+/* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> private member functions */
+
+/* used for debug logging  purposes */
+void PmergeMe::log_debug(t_str_c & message) const
+{
+    (void)message;
+#ifdef DEBUG
+    std::cerr << YELLOW << "PmergeMe: " << message << RESET << "\n";
+#endif // DEBUG
+}
+
+/* used for debug logging  purposes */
+void PmergeMe::log_straggler() const
+{
+#ifdef DEBUG
+    std::cerr << LIGHT_BLUE << "_straggler: " << RESET << _straggler << "\n";
+#endif
 }
 
 // -------------------------------------------------------------------------- //

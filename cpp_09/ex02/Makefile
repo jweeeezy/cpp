@@ -3,7 +3,6 @@
 NAME      = pmergeme
 SRC_FILES = main.cpp \
             PmergeMe.cpp \
-            PmergeMe.Logs.cpp \
             PmergeMe.Parsing.cpp \
             StopWatch.cpp
 OBJ_FILES = $(SRC_FILES:.cpp=.o)
