@@ -99,10 +99,10 @@ class PmergeMe
         }
     }
 
-    /* @note document! */
+    /* compares pairs (left/first value) and merges them in ascending order into
+     * the old container */
     template <typename T>
-    void merge_sort(typename T::iterator first,
-                    typename T::iterator mid,
+    void merge_sort(typename T::iterator first, typename T::iterator mid,
                     typename T::iterator last) const
     {
         T                    merged;
@@ -129,7 +129,8 @@ class PmergeMe
         std::copy(merged.begin(), merged.end(), first);
     }
 
-    /* @note document! */
+    /* recursive function that splits the container recursively splits the
+     * container in half and uses merge_sort to sort the pairs */
     template <typename T>
     void sort_pairs_by_larger_value(typename T::iterator first,
                                     typename T::iterator last) const
