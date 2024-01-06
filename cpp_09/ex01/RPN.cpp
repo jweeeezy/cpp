@@ -47,42 +47,20 @@ int RPN::calculate(char const * arg)
         }
         else if (is_char_of(*it, OPERATORS))
         {
-            /* @note apparently not needed ! */
-            //if (pile.size() != 2)
-            //{
-            //    throw std::runtime_error("illegal notation at position " +
-            //                             itostr(it - input.begin()) + "!");
-            //}
             result = next_operation(get_and_remove_top(pile),
                                     get_and_remove_top(pile),
                                     get_operator(*it));
             pile.push(result);
         }
     }
+    if (pile.size() >= 2)
+    {
+        throw std::runtime_error("invalid operation!");
+    }
     return result;
 }
 
 /* <~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~> private static member functions */
-
-void RPN::log_debug(t_str_c & message)
-{
-    (void)message;
-#ifdef DEBUG
-    std::cerr << YELLOW << message << RESET << "\n";
-#endif // DEBUG
-}
-
-bool RPN::is_char_of(char c, t_str_c & set)
-{
-    for (t_str_cit it = set.begin(); it != set.end(); ++it)
-    {
-        if (*it == c)
-        {
-            return true;
-        }
-    }
-    return false;
-}
 
 bool RPN::check_valid_chars(t_str_c & str)
 {
@@ -106,31 +84,6 @@ bool RPN::check_valid_spacing(t_str_c & str)
         }
     }
     return true;
-}
-
-RPN::t_str_c RPN::itostr(int number)
-{
-    std::stringstream ss;
-    ss << number;
-    return ss.str();
-}
-
-RPN::t_str_c RPN::parse_arguments(char const * arg)
-{
-    t_str_c & tmp = arg;
-    if (tmp.empty() == true)
-    {
-        throw std::invalid_argument("empty string!");
-    }
-    if (check_valid_chars(tmp) == false)
-    {
-        throw std::invalid_argument("invalid character!");
-    }
-    if (check_valid_spacing(tmp) == false)
-    {
-        throw std::invalid_argument("invalid spacing!");
-    }
-    return tmp;
 }
 
 int RPN::get_operator(char c)
@@ -161,9 +114,35 @@ int RPN::get_and_remove_top(std::stack<int> & pile)
     return tmp;
 }
 
-int RPN::next_operation(int no_right, int no_left, int expression)
+bool RPN::is_char_of(char c, t_str_c & set)
 {
-    /* hint: no_right gets passed first because its the first no on the stack */
+    for (t_str_cit it = set.begin(); it != set.end(); ++it)
+    {
+        if (*it == c)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+RPN::t_str_c RPN::itostr(int number)
+{
+    std::stringstream ss;
+    ss << number;
+    return ss.str();
+}
+
+void RPN::log_debug(t_str_c & message)
+{
+    (void)message;
+#ifdef DEBUG
+    std::cerr << YELLOW << message << RESET << "\n";
+#endif // DEBUG
+}
+
+int RPN::next_operation(int no_left, int no_right, int expression)
+{
     switch (expression)
     {
         case MULTIPLICATE:
@@ -192,6 +171,24 @@ int RPN::next_operation(int no_right, int no_left, int expression)
             throw std::runtime_error("default case in switch statement");
     }
     return no_left;
+}
+
+RPN::t_str_c RPN::parse_arguments(char const * arg)
+{
+    t_str_c & tmp = arg;
+    if (tmp.empty() == true)
+    {
+        throw std::invalid_argument("empty string!");
+    }
+    if (check_valid_chars(tmp) == false)
+    {
+        throw std::invalid_argument("invalid character!");
+    }
+    if (check_valid_spacing(tmp) == false)
+    {
+        throw std::invalid_argument("invalid spacing!");
+    }
+    return tmp;
 }
 
 // -------------------------------------------------------------------------- //
