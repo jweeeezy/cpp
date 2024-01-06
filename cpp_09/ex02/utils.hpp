@@ -137,6 +137,10 @@ template <typename T_c, typename T_base>
 void insert_and_track_by_index(T_c & c, T_base & sequence, int index)
 {
     int current_value = access_container_by_index(c.pend, index);
+    if (current_value == 0)
+    {
+        return ;
+    }
     insert_with_binary_search(c.S, current_value);
     sequence.push_back(current_value);
 }
