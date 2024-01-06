@@ -49,7 +49,7 @@ int main(int argc, char ** argv)
 
         std::cout << "Before: " << container_to_str(FJMI.get_unsorted_args())
                   << "\n"
-                  << "After:  " << container_to_str(sorted_list) << "\n"
+                  << "After:  " << container_to_str(sorted_deque) << "\n"
                   << "Time to process a range of " << sorted_list.size()
                   << " elements with std::list: "
                   << timer_list.get_measured_time() << " ms\n"

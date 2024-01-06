@@ -66,7 +66,7 @@ t_lst_int_c PmergeMe::sort_with_list() const
 {
     if (_args.size() < 1)
     {
-        return t_lst_int(_straggler);
+        return create_with_value<t_lst_int>(_straggler);
     }
     return merge_insertion_sort<s_sort_data<t_lst_int, t_lst_pair_int>,
                                 t_lst_int, t_lst_pair_int>();
@@ -78,7 +78,7 @@ t_deq_int_c PmergeMe::sort_with_deque() const
 {
     if (_args.size() < 1)
     {
-        return t_deq_int(_straggler);
+        return create_with_value<t_deq_int>(_straggler);
     }
     return merge_insertion_sort<s_sort_data<t_deq_int, t_deq_pair_int>,
                                 t_deq_int, t_deq_pair_int>();

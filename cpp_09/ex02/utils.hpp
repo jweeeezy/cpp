@@ -178,6 +178,14 @@ int advance_index_if_out_of_bounds(T const & pend, int current_jacobs)
     return index;
 }
 
+/* creates a container with the given value (expects int) */
+template <typename T> T create_with_value(int value)
+{
+    T obj;
+    obj.push_back(value);
+    return obj;
+}
+
 #endif // UTILS
 
 // -------------------------------------------------------------------------- //
