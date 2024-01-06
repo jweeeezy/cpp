@@ -70,6 +70,11 @@ class PmergeMe
             container.push_back(tmp);
             ++it;
         }
+        if (std::find(container.begin(), container.end(), _straggler) !=
+            container.end())
+        {
+            throw std::invalid_argument("no duplicates allowed!");
+        }
     }
 
     /* makes int pairs out of the given numbers container */
@@ -228,20 +233,20 @@ class PmergeMe
 
         /* Step 0: Convert from std::vector to requested container */
         convert_args_to_container(_args, c.numbers);
-        log_container(c.numbers, "d.numbers");
+        log_container(c.numbers, "c.numbers");
 
         /* Step 1: Make Pairs */
         make_pairs(c.numbers, c.pairs);
-        log_pairs(c.pairs, "d.pairs");
+        log_pairs(c.pairs, "c.pairs");
 
         /* Step 2: Recursively sort pairs by larger (or left) values */
         sort_pairs_by_larger_value<T_pairs>(c.pairs.begin(), c.pairs.end());
-        log_pairs(c.pairs, "d.pairs (sorted)");
+        log_pairs(c.pairs, "c.pairs (sorted)");
 
         /* Step 3: Extract S (sorted bigger values) and pend (smaller values) */
         extract_S_and_pend(c.pairs, c.S, c.pend);
-        log_container(c.S, "d.S");
-        log_container(c.pend, "d.pend");
+        log_container(c.S, "c.S");
+        log_container(c.pend, "c.pend");
 
         /* Step 4: Insert first element of pend */
         c.S.insert(c.S.begin(), get_and_pop_front(c.pend));
@@ -249,11 +254,11 @@ class PmergeMe
 
         /* Step 5: Generate jacobsthal sequence with the help of pend.size() */
         generate_jacobsthal_numbers(c.pend, c.jacobsthal);
-        log_container(c.jacobsthal, "d.jacobsthal");
+        log_container(c.jacobsthal, "c.jacobsthal");
 
         /* Step 6: Use jacosbthal sequence to index the insertion order */
         insertion_sort_with_jacobsthal(c);
-        log_container(c.S, "d.S");
+        log_container(c.S, "c.S");
 
         /* Step 7: If there is a straggler, insert it with binary search */
         if (_straggler != NO_STRAGGLER)
